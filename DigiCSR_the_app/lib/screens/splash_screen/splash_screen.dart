@@ -1,6 +1,6 @@
 import 'package:digicsr/screens/login/login_screen.dart';
+import 'package:digicsr/screens/login/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -50,10 +50,10 @@ class _SplashScreenState extends State<SplashScreen> {
       // backgroundColor: Color(0xFFE1E8ED),  //greyish white
       // backgroundColor: Color(0xFFAAB8C2), //grey
       
-      animationDuration: Duration(milliseconds: 1800),
-      splashTransition: SplashTransition.fadeTransition,
+      animationDuration: Duration(milliseconds: 1300),
+      splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.leftToRight,
-      duration: 2600,
+      duration: 2500,
     )));
   }
 }
