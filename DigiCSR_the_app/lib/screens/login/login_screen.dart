@@ -1,3 +1,4 @@
+import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/login/user.dart';
 import 'package:flutter/material.dart';
 
@@ -94,7 +95,10 @@ class _Login_ScreenState extends State<Login_Screen> {
                   children: [
                     Expanded(child: Container()),
                     ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        auth = 'login',
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserSelection()))
+                      },
                       onHover:(value) => {
                         
                       },
@@ -106,6 +110,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                     ),
                     ElevatedButton(
                       onPressed: () => {
+                        auth = 'signup',
                         Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/screens/login/user.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -41,11 +40,11 @@ class _SplashScreenState extends State<SplashScreen> {
         shadowColor: Colors.black87,
         color: Colors.transparent,
         child: Image.asset(
-          'app_icon/digicsr_app_icon.png',
+          'assets/app_icon/digicsr_app_icon.png',
           fit: BoxFit.contain,
         ),
       ),
-      splashIconSize: 150,
+      splashIconSize: 120,
       backgroundColor: Color(0xFF1DA1F2), //blue
       // backgroundColor: Color(0xFFE1E8ED),  //greyish white
       // backgroundColor: Color(0xFFAAB8C2), //grey

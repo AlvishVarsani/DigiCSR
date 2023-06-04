@@ -8,3 +8,4 @@ Color darkgrey = Color(0xFF657786);
 String user = '';
 
 String btn = 'Send OTP';
+String auth = '';

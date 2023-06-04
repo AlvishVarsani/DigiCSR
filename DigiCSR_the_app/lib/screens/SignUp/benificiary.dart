@@ -6,7 +6,6 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
-
 import '../../constants/constants.dart';
 
 class BenificiarySignUp extends StatefulWidget {
@@ -31,7 +30,8 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
 
   void save() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/Beneficiary/signup'),
+      var res = await http.post(
+          Uri.parse('http://localhost:4000/Beneficiary/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -51,7 +51,8 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
 
   void sendOTP() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/Beneficiary/signup'),
+      var res = await http.post(
+          Uri.parse('http://localhost:4000/Beneficiary/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -61,7 +62,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
             'mobile_number': benificiary.mobile_no,
             'addhar_number': benificiary.addhar_no
           });
-          print(res.body);
+      print(res.body);
       otpverify = true;
     } catch (e) {
       print(e);
@@ -78,7 +79,8 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
             'name': benificiary.name,
             'email': benificiary.benificiary_email,
             'mobile_number': benificiary.mobile_no,
-            'addhar_number': benificiary.addhar_no
+            'addhar_number': benificiary.addhar_no,
+            'otp': otp
           });
       otpverify = true;
       btn = 'SignUP';
@@ -118,7 +120,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                 elevation: 30,
                 child: Container(
                   width: double.maxFinite,
-                  height: 300,
+                  height: MediaQuery.of(context).size.height * 0.45,
                   decoration: BoxDecoration(
                       color: darkgrey,
                       borderRadius: BorderRadius.only(
@@ -129,8 +131,8 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
             ],
           ),
           Positioned(
-            left: MediaQuery.of(context).size.width * 0.09,
-            top:  MediaQuery.of(context).size.width * 0.05,
+            left: MediaQuery.of(context).size.width * 0.03,
+            top: MediaQuery.of(context).size.height * 0.1,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(18)),
@@ -142,8 +144,8 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
               ),
               elevation: 30,
               child: Container(
-                height: 600,
-                width: 400,
+                height: MediaQuery.of(context).size.height * 0.80,
+                width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   children: [
                     Container(
@@ -159,244 +161,301 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(
-                          top: 5, left: 8, right: 8),
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
+                      child: Row(
                         children: [
+                          Expanded(child: Container()),
                           Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Email',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 17,
-                                    color: darkgrey),
-                              )),
-                          TextFormField(
-                            controller: TextEditingController(text: benificiary.benificiary_email),
-                            onChanged: (value) {
-                              benificiary.benificiary_email = value;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter email';
-                              } else if (RegExp(
-                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                  .hasMatch(value)) {
-                                return null;
-                              } else {
-                                return 'Enter valid email';
-                              }
-                            },
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(8),
-                              // label: Text(
-                              //   'Email',
-                              //   style: TextStyle(
-                              //       color: darkgrey,
-                              //       fontFamily: 'Montserrat',
-                              //       fontWeight: FontWeight.w800),
-                              // ),
-                              hintText: 'ex. digicsr@gmail.com',
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
+                            // margin: const EdgeInsets.only(top: 5, left: 8, right: 8),
+                            // padding: const EdgeInsets.all(4.0),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Email',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 17,
+                                          color: darkgrey),
+                                    )),
+                                TextFormField(
+                                  style: TextStyle(fontFamily: 'Montserrat'),
+                                  controller: TextEditingController(
+                                      text: benificiary.benificiary_email),
+                                  onChanged: (value) {
+                                    benificiary.benificiary_email = value;
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter email';
+                                    } else if (RegExp(
+                                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                        .hasMatch(value)) {
+                                      return null;
+                                    } else {
+                                      return 'Enter valid email';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    // label: Text(
+                                    //   'Email',
+                                    //   style: TextStyle(
+                                    //       color: darkgrey,
+                                    //       fontFamily: 'Montserrat',
+                                    //       fontWeight: FontWeight.w800),
+                                    // ),
+                                    hintText: 'ex. digicsr@gmail.com',
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          Expanded(child: Container()),
                         ],
                       ),
                     ),
-
                     Container(
-                      margin: const EdgeInsets.only(
-                          left: 8, right: 8, top: 5),
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
+                      child: Row(
                         children: [
+                          Expanded(child: Container()),
                           Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Name',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 17,
-                                    color: darkgrey),
-                              )),
-                          TextFormField(
-                            controller: TextEditingController(text: benificiary.mobile_no),
-                            onChanged: (value) {
-                              benificiary.mobile_no = value;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter name';
-                              } else {
-                                return 'Invalid name';
-                              }
-                            },
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(8),
-                              // label: Text(
-                              //   'CSR',
-                              //   style: TextStyle(
-                              //       color: darkgrey,
-                              //       fontFamily: 'Montserrat',
-                              //       fontWeight: FontWeight.w800),
-                              // ),
-                              hintText: 'ex. Yashu',
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
+                            // margin: const EdgeInsets.only(left: 8, right: 8, top: 5),
+                            // padding: const EdgeInsets.all(4.0),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Name',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 17,
+                                          color: darkgrey),
+                                    )),
+                                TextFormField(
+                                  style: TextStyle(fontFamily: 'Montserrat'),
+                                  controller: TextEditingController(
+                                      text: benificiary.mobile_no),
+                                  onChanged: (value) {
+                                    benificiary.mobile_no = value;
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter name';
+                                    } else {
+                                      return 'Invalid name';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    // label: Text(
+                                    //   'CSR',
+                                    //   style: TextStyle(
+                                    //       color: darkgrey,
+                                    //       fontFamily: 'Montserrat',
+                                    //       fontWeight: FontWeight.w800),
+                                    // ),
+                                    hintText: 'ex. Yashu',
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          Expanded(child: Container()),
                         ],
                       ),
                     ),
-
                     Container(
-                      margin: const EdgeInsets.only(
-                          left: 8, right: 8, top: 5),
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
+                      child: Row(
                         children: [
+                          Expanded(child: Container()),
                           Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Mobile Number',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 17,
-                                    color: darkgrey),
-                              )),
-                          TextFormField(
-                            controller: TextEditingController(text: benificiary.mobile_no),
-                            onChanged: (value) {
-                              benificiary.mobile_no = value;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter mobile number';
-                              } else {
-                                return 'Invalid mobile number';
-                              }
-                            },
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(8),
-                              // label: Text(
-                              //   'CSR',
-                              //   style: TextStyle(
-                              //       color: darkgrey,
-                              //       fontFamily: 'Montserrat',
-                              //       fontWeight: FontWeight.w800),
-                              // ),
-                              hintText: 'ex. 942-7245-632',
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
+                            // margin: const EdgeInsets.only(left: 8, right: 8, top: 5),
+                            // padding: const EdgeInsets.all(4.0),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Mobile Number',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 17,
+                                          color: darkgrey),
+                                    )),
+                                TextFormField(
+                                  style: TextStyle(fontFamily: 'Montserrat'),
+                                  controller: TextEditingController(
+                                      text: benificiary.mobile_no),
+                                  onChanged: (value) {
+                                    benificiary.mobile_no = value;
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter mobile number';
+                                    } else {
+                                      return 'Invalid mobile number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    // label: Text(
+                                    //   'CSR',
+                                    //   style: TextStyle(
+                                    //       color: darkgrey,
+                                    //       fontFamily: 'Montserrat',
+                                    //       fontWeight: FontWeight.w800),
+                                    // ),
+                                    hintText: 'ex. 942-7245-632',
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          Expanded(child: Container()),
                         ],
                       ),
                     ),
-
                     Container(
-                      margin: const EdgeInsets.only(
-                          left: 8, right: 8, top: 5),
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
+                      child: Row(
                         children: [
+                          Expanded(child: Container()),
                           Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Addhar Number',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 17,
-                                    color: darkgrey),
-                              )),
-                          TextFormField(
-                            controller: TextEditingController(text: benificiary.addhar_no),
-                            onChanged: (value) {
-                              benificiary.addhar_no = value;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter addhar number';
-                              } else {
-                                return 'Invalid addhar number';
-                              }
-                            },
-                            decoration: InputDecoration(
-                              // label: Text(
-                              //   'CSR',
-                              //   style: TextStyle(
-                              //       color: darkgrey,
-                              //       fontFamily: 'Montserrat',
-                              //       fontWeight: FontWeight.w800),
-                              // ),
-                              hintText: 'ex. 1234-5678-9012',
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: grey)),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.red)),
+                            // margin: const EdgeInsets.only(left: 8, right: 8, top: 5),
+                            // padding: const EdgeInsets.all(4.0),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Addhar Number',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 17,
+                                          color: darkgrey),
+                                    )),
+                                TextFormField(
+                                  style: TextStyle(fontFamily: 'Montserrat'),
+                                  controller: TextEditingController(
+                                      text: benificiary.addhar_no),
+                                  onChanged: (value) {
+                                    benificiary.addhar_no = value;
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter addhar number';
+                                    } else {
+                                      return 'Invalid addhar number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    // label: Text(
+                                    //   'CSR',
+                                    //   style: TextStyle(
+                                    //       color: darkgrey,
+                                    //       fontFamily: 'Montserrat',
+                                    //       fontWeight: FontWeight.w800),
+                                    // ),
+                                    hintText: 'ex. 1234-5678-9012',
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: grey)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          Expanded(child: Container()),
                         ],
                       ),
                     ),
-
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.6,
+                          bottom: MediaQuery.paddingOf(context).top * 0.3),
                       child: OTPTextField(
-                        width: 400,
+                        width: MediaQuery.of(context).size.width * 0.8,
                         controller: otpcontroller,
                         length: 6,
-                        contentPadding: EdgeInsets.all(10.0),
+                        contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
                         onCompleted: (value) => {setState(verifyOTP)},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
-                        spaceBetween: 15, fieldWidth: 40,
+                        style:
+                            TextStyle(fontFamily: 'Montserrat', fontSize: 20),
+                        spaceBetween: 10, fieldWidth: 35,
                         textFieldAlignment: MainAxisAlignment.center,
                         fieldStyle: FieldStyle.box,
                         otpFieldStyle: OtpFieldStyle(
@@ -439,13 +498,15 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                     ),
                     Expanded(
                       child: Container(
-                        // margin: EdgeInsets.only(top: 30),
+                        margin: EdgeInsets.only(bottom: 10),
                         alignment: Alignment.center,
                         child: TextButton(
                             style: ButtonStyle(
                                 elevation: MaterialStatePropertyAll(20),
                                 padding: MaterialStatePropertyAll(
-                                    EdgeInsets.all(15)),
+                                    EdgeInsets.all(
+                                        MediaQuery.paddingOf(context).top *
+                                            0.3)),
                                 backgroundColor:
                                     MaterialStatePropertyAll(darkgrey),
                                 shape: MaterialStatePropertyAll<
@@ -464,11 +525,13 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                               //         MaterialPageRoute(
                               //             builder: (context) =>
                               //                 Login_Screen()));
-
-                              if(!otpverify){
+                              if (!otpverify) {
                                 sendOTP();
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Container()));
                               }
                             },
                             child: Text(
