@@ -2,7 +2,8 @@ import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/SignUp/benificiary.dart';
 import 'package:digicsr/screens/SignUp/company.dart';
 import 'package:digicsr/screens/SignUp/ngo.dart';
-import 'package:digicsr/users/companyuser.dart';
+
+
 import 'package:flutter/material.dart';
 
 class UserSelection extends StatelessWidget {

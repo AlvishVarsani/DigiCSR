@@ -49,7 +49,7 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void sendOTP() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/company/signup'),
+      var res = await http.post(Uri.parse('http://192.168.101.58:4000/company/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },

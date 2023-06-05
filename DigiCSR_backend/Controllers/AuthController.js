@@ -4,6 +4,7 @@ const speakeasy = require("speakeasy");
 const nodemailer = require("nodemailer");
 const CRN = require("../Models/CRN");
 const jwt = require("jsonwebtoken");
+
 console.log(process.env.DBURL);
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

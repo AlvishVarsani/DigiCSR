@@ -1,5 +1,4 @@
 import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/screens/login/user.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -16,6 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 70), () {
       // Get.to(()=>ButtonToLoginAs());
       Navigator.pushNamed(context, '/auth');
+      
     });
   }
 

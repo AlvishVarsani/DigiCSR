@@ -30,7 +30,7 @@ class _NGOSignUp extends State<NGOSignUp> {
 
   void save() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
+      var res = await http.post(Uri.parse('http://192.168.101.58:4000/ngo/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
