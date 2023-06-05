@@ -1,13 +1,17 @@
-import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/users/ngouser.dart';
+import 'dart:convert';
+
+import 'package:digicsr/screens/login/companylogin.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-
 import '../../constants/constants.dart';
 import '../../users/companyuser.dart';
+
+// final storage = new FlutterSecureStorage();
+
 
 class CompanySignUp extends StatefulWidget {
   @override
@@ -29,27 +33,9 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-  void save() async {
-    try {
-      var res = await http.post(Uri.parse('http://localhost:4000/company/signup'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'cin': company.cin,
-            'email': company.company_email
-          });
-      otpsent = true;
-    } on Exception catch (e) {
-      print(e);
-    }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Container()));
-  }
-
   void sendOTP() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/company/signup'),
+      var resSend = await http.post(Uri.parse('http://localhost:4000/company/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -57,16 +43,16 @@ class _CompanySignUp extends State<CompanySignUp> {
             'cin': company.cin,
             'email': company.company_email
           });
-          print(res.body);
+          print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
     }
   }
 
-  void verifyOTP() {
+  void verifyOTP() async{
     try {
-      var res = http.post(Uri.parse('http://localhost:4000/company/verify'),
+       var res = await http.post(Uri.parse('http://localhost:4000/company/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -75,13 +61,17 @@ class _CompanySignUp extends State<CompanySignUp> {
             'email': company.company_email,
             'otp': otp
           });
-      otpverify = true;
-      btn = 'SignUP';
+          otpverify = true;
+          btn = 'SignUP';
+          print(res.body);
+          await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
+      
     } on Exception catch (e) {
       // TODO
       print(e);
     }
   }
+
 
   @override
   void setState(VoidCallback fn) {
@@ -298,7 +288,9 @@ class _CompanySignUp extends State<CompanySignUp> {
                         length: 6,
                         contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState(verifyOTP)},
+                        onCompleted: (value) => {
+                          otp = value,
+                          setState((){verifyOTP();})},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
                         style: TextStyle(fontFamily: 'Montserrat',fontSize: 20),
@@ -373,7 +365,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                               if(!otpverify){
                                 sendOTP();
                               }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CompanyLogin()));
                               }
                             },
                             child: Text(

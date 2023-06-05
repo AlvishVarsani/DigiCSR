@@ -1,20 +1,9 @@
 require("dotenv").config({ path: "../.env" });
 const Company = require("../Models/Company");
 const speakeasy = require("speakeasy");
-const nodemailer = require("nodemailer");
 const CRN = require("../Models/CRN");
 const jwt = require("jsonwebtoken");
-console.log(process.env.DBURL);
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.MAILER,
-    pass: process.env.EMAILPASS,
-  },
-});
+const sendMail = require("../Services/mailService");
 
 exports.CompanySignup = async (req, res) => {
   try {
@@ -48,25 +37,38 @@ exports.CompanySignup = async (req, res) => {
       digits: 6,
     });
 
-    const mailOptions = {
-      from: process.env.MAILER,
-      to: email,
-      subject: "OTP VERIFICATION",
-      text: "Your One time password is : " + otp,
-    };
+    // const mailOptions = {
+    //   from: process.env.MAILER,
+    //   to: email,
+    //   subject: "OTP VERIFICATION",
+    //   text: "Your One time password is : " + otp,
+    // };
 
-    transporter.sendMail(mailOptions, (e, info) => {
-      if (e) {
-        res.status(400).send({
-          success: false,
-          message: "Error Sending mail.",
-        });
-      } else {
-        res.status(200).send({ success: true, message: "OTP sent" });
-      }
-    });
+    // transporter.sendMail(mailOptions, (e, info) => {
+    //   if (e) {
+    //     res.status(400).send({
+    //       success: false,
+    //       message: "Error Sending mail.",
+    //     });
+    //   } else {
+    //     res.status(200).send({ success: true, message: "OTP sent" });
+    //   }
+    // });
+
+
+    try {
+      const mailRes = await sendMail(email, 'OTP verification', 'Your One-time password is: ' + otp);
+      console.log('Email response:', mailRes);
+      res.status(200).send({ success: true, message: 'OTP sent' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ success: false, message: 'Error sending Mail' });
+    }
+
+
   } catch (error) {
-    res.status(400).send({
+    console.log(error);
+    res.status(500).send({
       success: false,
       message: "Error creating company.",
     });
@@ -130,23 +132,33 @@ exports.CompanyLogin = async (req, res) => {
       digits: 6,
     });
 
-    const mailOptions = {
-      from: process.env.MAILER,
-      to: email,
-      subject: "OTP VERIFICATION",
-      text: "Your One time password is : " + otp,
-    };
+    // const mailOptions = {
+    //   from: process.env.MAILER,
+    //   to: email,
+    //   subject: "OTP VERIFICATION",
+    //   text: "Your One time password is : " + otp,
+    // };
 
-    transporter.sendMail(mailOptions, (e, info) => {
-      if (e) {
-        res.status(400).send({
-          success: false,
-          message: "Error Sending mail.",
-        });
-      } else {
-        res.status(200).send({ success: true, message: "OTP sent" });
-      }
-    });
+    // transporter.sendMail(mailOptions, (e, info) => {
+    //   if (e) {
+    //     res.status(400).send({
+    //       success: false,
+    //       message: "Error Sending mail.",
+    //     });
+    //   } else {
+    //     res.status(200).send({ success: true, message: "OTP sent" });
+    //   }
+    // });
+
+    try {
+      const mailRes = await sendMail(email, 'OTP verification', 'Your One-time password is: ' + otp);
+      console.log('Email response:', mailRes);
+      res.status(200).send({ success: true, message: 'OTP sent' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ success: false, message: 'Error sending Mail' });
+    }
+
   } catch (error) {
     res.status(400).send({
       success: false,
