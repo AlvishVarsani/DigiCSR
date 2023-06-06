@@ -52,7 +52,7 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void verifyOTP() async{
     try {
-       var res = await http.post(Uri.parse('http://localhost:4000/company/verify'),
+        res = await http.post(Uri.parse('http://localhost:4000/company/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -64,7 +64,7 @@ class _CompanySignUp extends State<CompanySignUp> {
           otpverify = true;
           btn = 'SignUP';
           print(res.body);
-          await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
+          await storage.write(key: company.cin, value: jsonDecode(res.body)['result']);
       
     } on Exception catch (e) {
       // TODO

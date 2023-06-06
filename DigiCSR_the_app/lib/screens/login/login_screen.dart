@@ -1,7 +1,6 @@
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/screens/company/rfp.dart';
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/login/user.dart';
-import 'package:digicsr/screens/ngo/rfprequests.dart';
 import 'package:flutter/material.dart';
 
 class Login_Screen extends StatefulWidget {
@@ -99,7 +98,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                     ElevatedButton(
                       onPressed: () => {
                         auth = 'login',
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserSelection()))
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()))
                       },
                       onHover:(value) => {
                         

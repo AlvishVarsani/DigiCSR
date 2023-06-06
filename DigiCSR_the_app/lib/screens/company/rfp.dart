@@ -1,6 +1,7 @@
-import 'dart:html';
 
 import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/widgets/appbar.dart';
+import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 
 class RFP extends StatefulWidget {
@@ -13,36 +14,7 @@ class _RFPState extends State<RFP> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          'RFP',
-          style:
-              TextStyle(color: black, fontFamily: 'Montserrat', fontSize: 30),
-        ),
-        actions: [
-          TextButton.icon(
-              onPressed: () {},
-              label: Text(
-                'Notification',
-                style: TextStyle(
-                    color: black, fontFamily: 'Montserrat', fontSize: 17),
-              ),
-              icon: Icon(
-                Icons.notifications,
-                color: black,
-              )),
-          Container(
-            // color: Colors.white,
-            padding: EdgeInsets.all(10),
-            child: CircleAvatar(
-              backgroundImage:
-                  AssetImage('assets/app_icon/digicsr_app_icon.png'),
-              backgroundColor: Colors.black,
-              radius: 25,
-            ),
-          )
-        ],
-      ),
+      appBar: CustomAppBar(context),
       body: SafeArea(
           child: Column(
         children: [
@@ -229,6 +201,7 @@ class _RFPState extends State<RFP> {
               ))
         ],
       )),
+      bottomNavigationBar: CustomBottomNavBar(pages),
     );
   }
 }
