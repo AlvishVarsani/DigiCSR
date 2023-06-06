@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
@@ -28,42 +30,25 @@ class _NGOLogin extends State<NGOLogin> {
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-  void save() async {
-    try {
-      var res = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'email': ngo.email
-          });
-      otpsent = true;
-    } on Exception catch (e) {
-      print(e);
-    }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Login_Screen()));
-  }
-
   void sendOTP() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
+      var resSend = await http.post(Uri.parse('http://localhost:4000/NGO/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
             'email': ngo.email
           });
-          print(res.body);
+          print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
     }
   }
 
-  void verifyOTP() {
+  void verifyOTP() async{
     try {
-      var res = http.post(Uri.parse('http://localhost:4000/ngo/verify'),
+       res = await http.post(Uri.parse('http://localhost:4000/NGO/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -73,6 +58,7 @@ class _NGOLogin extends State<NGOLogin> {
           });
       otpverify = true;
       btn = 'Sign in';
+      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);

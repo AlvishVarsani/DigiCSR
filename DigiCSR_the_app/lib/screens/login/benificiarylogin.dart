@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/benificiaryuser.dart';
 import 'package:flutter/material.dart';
@@ -28,44 +30,27 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-  void save() async {
-    try {
-      var res = await http.post(
-          Uri.parse('http://localhost:4000/Beneficiary/signup'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'email': benificiary.benificiary_email,
-          });
-      otpsent = true;
-    } on Exception catch (e) {
-      print(e);
-    }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Login_Screen()));
-  }
 
   void sendOTP() async {
     try {
-      var res = await http.post(
-          Uri.parse('http://localhost:4000/Beneficiary/signup'),
+      var resSend = await http.post(
+          Uri.parse('http://localhost:4000/Beneficiary/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
             'email': benificiary.benificiary_email,
           });
-      print(res.body);
+      print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
     }
   }
 
-  void verifyOTP() {
+  void verifyOTP() async{
     try {
-      var res = http.post(Uri.parse('http://localhost:4000/Beneficiary/verify'),
+      res = await http.post(Uri.parse('http://localhost:4000/Beneficiary/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -75,6 +60,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
           });
       otpverify = true;
       btn = 'Sign in';
+      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -91,6 +77,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Container(

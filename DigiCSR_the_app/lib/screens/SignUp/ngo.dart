@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
 import '../../constants/constants.dart';
+
 
 class NGOSignUp extends StatefulWidget {
   @override
@@ -28,27 +31,9 @@ class _NGOSignUp extends State<NGOSignUp> {
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-  void save() async {
-    try {
-      var res = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'csr': ngo.csr,
-            'email': ngo.email
-          });
-      otpsent = true;
-    } on Exception catch (e) {
-      print(e);
-    }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Login_Screen()));
-  }
-
   void sendOTP() async {
     try {
-      var res = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
+      var resSend = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -56,16 +41,16 @@ class _NGOSignUp extends State<NGOSignUp> {
             'csr': ngo.csr,
             'email': ngo.email
           });
-          print(res.body);
+          print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
     }
   }
 
-  void verifyOTP() {
+  void verifyOTP() async {
     try {
-      var res = http.post(Uri.parse('http://localhost:4000/ngo/verify'),
+       res = await http.post(Uri.parse('http://localhost:4000/ngo/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -76,6 +61,7 @@ class _NGOSignUp extends State<NGOSignUp> {
           });
       otpverify = true;
       btn = 'SignUP';
+      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);

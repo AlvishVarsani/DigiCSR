@@ -100,6 +100,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Container(

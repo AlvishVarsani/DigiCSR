@@ -2,10 +2,10 @@
   "name": "digicsr-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "App.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon App.js"
+    "start": "nodemon App.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,8 @@
     "nodemailer": "^6.9.2",
     "nodemon": "^2.0.22",
     "speakeasy": "^2.0.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0"
   }
 }

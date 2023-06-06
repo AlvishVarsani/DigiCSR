@@ -95,7 +95,7 @@ exports.AddCompanyProfile = async (req, res) => {
 
     let updatedFields = {
       company_name,
-      "company.profile.summary" : summary,
+      "profile.summary" : summary,
       "profile.location.city": city,
       "profile.location.state": state,
       "profile.location.pincode": pincode,
