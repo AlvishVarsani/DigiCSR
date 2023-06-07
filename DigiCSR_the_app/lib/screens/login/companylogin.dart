@@ -32,26 +32,25 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-
   void sendOTP() async {
     try {
-      var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
+      var resSend = await http.post(Uri.parse(ipInfo + '/company/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
             'email': company.company_email
           });
-          print(resSend.body);
+      print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
     }
   }
 
-  void verifyOTP() async{
+  void verifyOTP() async {
     try {
-       res = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
+      res = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -61,9 +60,11 @@ class _CompanyLogin extends State<CompanyLogin> {
           });
       otpverify = true;
       btn = 'Sign in';
-      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
+      debugPrint(res.body['success']);
+      await storage.write(
+          key: jsonDecode(res.body)['success'],
+          value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
-      // TODO
       print(e);
     }
   }
@@ -89,7 +90,8 @@ class _CompanyLogin extends State<CompanyLogin> {
           Column(
             children: [
               Expanded(child: Container()),
-              Card(clipBehavior: Clip.antiAlias,
+              Card(
+                clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.all(0),
                 color: darkgrey,
                 shape: RoundedRectangleBorder(
@@ -129,7 +131,8 @@ class _CompanyLogin extends State<CompanyLogin> {
                   children: [
                     Container(
                       // padding: const EdgeInsets.all(15.0),
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.3),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.3),
                       child: Text(
                         'Sign in as $user',
                         style: TextStyle(
@@ -140,7 +143,8 @@ class _CompanyLogin extends State<CompanyLogin> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.2),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
                       child: Row(
                         children: [
                           Expanded(child: Container()),
@@ -151,7 +155,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                             child: Column(
                               children: [
                                 Container(
-                                    margin: EdgeInsets.fromLTRB(5,8,5,5),
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       'Email',
@@ -161,7 +165,8 @@ class _CompanyLogin extends State<CompanyLogin> {
                                           color: darkgrey),
                                     )),
                                 TextFormField(
-                                  controller: TextEditingController(text: company.company_email),
+                                  controller: TextEditingController(
+                                      text: company.company_email),
                                   onChanged: (value) {
                                     company.company_email = value;
                                   },
@@ -178,7 +183,8 @@ class _CompanyLogin extends State<CompanyLogin> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                                    contentPadding: EdgeInsets.only(
+                                        top: 15, bottom: 15, left: 10),
                                     // label: Text(
                                     //   'Email',
                                     //   style: TextStyle(
@@ -195,10 +201,12 @@ class _CompanyLogin extends State<CompanyLogin> {
                                         borderSide: BorderSide(color: grey)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
                                     focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
                                   ),
                                 ),
                               ],
@@ -208,9 +216,10 @@ class _CompanyLogin extends State<CompanyLogin> {
                         ],
                       ),
                     ),
-                    
                     Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.6,bottom: MediaQuery.paddingOf(context).top * 0.3),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.6,
+                          bottom: MediaQuery.paddingOf(context).top * 0.3),
                       child: OTPTextField(
                         width: MediaQuery.of(context).size.width * 0.8,
                         controller: otpcontroller,
@@ -220,7 +229,8 @@ class _CompanyLogin extends State<CompanyLogin> {
                         onCompleted: (value) => {setState(verifyOTP)},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
-                        style: TextStyle(fontFamily: 'Montserrat',fontSize: 20),
+                        style:
+                            TextStyle(fontFamily: 'Montserrat', fontSize: 20),
                         spaceBetween: 10, fieldWidth: 35,
                         textFieldAlignment: MainAxisAlignment.center,
                         fieldStyle: FieldStyle.box,
@@ -232,7 +242,9 @@ class _CompanyLogin extends State<CompanyLogin> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).top * 0.4,top: MediaQuery.paddingOf(context).top * 0.2),
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.paddingOf(context).top * 0.4,
+                          top: MediaQuery.paddingOf(context).top * 0.2),
                       child: Row(
                         children: [
                           Checkbox(
@@ -270,7 +282,9 @@ class _CompanyLogin extends State<CompanyLogin> {
                             style: ButtonStyle(
                                 elevation: MaterialStatePropertyAll(20),
                                 padding: MaterialStatePropertyAll(
-                                    EdgeInsets.all(MediaQuery.paddingOf(context).top * 0.3)),
+                                    EdgeInsets.all(
+                                        MediaQuery.paddingOf(context).top *
+                                            0.3)),
                                 backgroundColor:
                                     MaterialStatePropertyAll(darkgrey),
                                 shape: MaterialStatePropertyAll<
@@ -289,10 +303,13 @@ class _CompanyLogin extends State<CompanyLogin> {
                               //         MaterialPageRoute(
                               //             builder: (context) =>
                               //                 Login_Screen()));
-                              if(!otpverify){
+                              if (!otpverify) {
                                 sendOTP();
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RFP()));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RFP()));
                               }
                             },
                             child: Text(
