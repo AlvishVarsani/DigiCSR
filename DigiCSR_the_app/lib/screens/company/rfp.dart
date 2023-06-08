@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
+=======
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
+>>>>>>> refs/remotes/origin/main
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/services/rfp_services.dart';

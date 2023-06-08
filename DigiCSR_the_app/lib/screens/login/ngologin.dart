@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+<<<<<<< HEAD
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
+=======
+
+>>>>>>> refs/remotes/origin/main
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +36,7 @@ class _NGOLogin extends State<NGOLogin> {
 
   void sendOTP() async {
     try {
-      var resSend = await http.post(Uri.parse('http://localhost:4000/NGO/login'),
+      var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/NGO/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },

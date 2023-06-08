@@ -48,9 +48,16 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
 <<<<<<< HEAD
+<<<<<<< HEAD
         minSdkVersion "18"
 =======
         minSdkVersion 18
+>>>>>>> refs/remotes/origin/main
+=======
+        minSdkVersion '18'
+=======
+        minSdkVersion 18
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
 >>>>>>> refs/remotes/origin/main
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

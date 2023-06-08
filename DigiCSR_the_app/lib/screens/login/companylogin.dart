@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
-import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/users/ngouser.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
@@ -38,6 +37,7 @@ class _CompanyLogin extends State<CompanyLogin> {
   void sendOTP() async {
     // final dio = Dio();
     try {
+<<<<<<< HEAD
       // var resSend = await dio.post('http://192.168.114.94:4000/company/login',
       //   data: {
       //     'email': company.company_email
@@ -48,6 +48,13 @@ class _CompanyLogin extends State<CompanyLogin> {
       // );
       // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/login'),
       var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
+=======
+<<<<<<< HEAD
+      var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/login'),
+=======
+      var resSend = await http.post(Uri.parse(ipInfo + '/company/login'),
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
+>>>>>>> refs/remotes/origin/main
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -63,8 +70,16 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   void verifyOTP() async{
     try {
+<<<<<<< HEAD
       //  res = await http.post(Uri.parse('http://192.168.114.94:4000/company/login/verify'),
        var ress = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
+=======
+<<<<<<< HEAD
+       res = await http.post(Uri.parse('http:// 192.168.101.58:4000/company/login/verify'),
+=======
+      res = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
+>>>>>>> refs/remotes/origin/main
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
