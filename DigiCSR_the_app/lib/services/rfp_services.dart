@@ -14,12 +14,10 @@ void addRFP(String key,Map<String,String> body) async {
   },
   body: body
   );
-  
-
   if (response.statusCode == 200) {
     print(response.body);
   } else {
-    throw Exception('Failed to load RFP data');
+    throw Exception('Failed to put RFP data');
   }
 }
 
@@ -34,9 +32,16 @@ Future<List<Rfp>> fetchAllRfp() async {
   }
 }
 
-Future<List<Rfp>> fetchCompanyRfp(String id) async {
+Future<List<Rfp>> fetchCompanyRfp(String key) async {
+  final token = await storage.read(key: key);
   final response =
-      await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
+      // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
+      await http.get(Uri.parse(ipInfo + "/company/rfp"),
+      headers: {
+        'Context-Type': 'application/json;charSet=UTF-8',
+        'authorization': token!
+      }
+      );
 
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);

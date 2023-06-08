@@ -1,4 +1,5 @@
 import 'package:digicsr/screens/Homescreen/drawer.dart';
+import 'package:digicsr/screens/Homescreen/notification.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,9 @@ PreferredSize CustomAppBar(context){
         ),
         actions: [
           TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsScreen()));
+              },
               label: Text(
                 'Notification',
                 style: TextStyle(

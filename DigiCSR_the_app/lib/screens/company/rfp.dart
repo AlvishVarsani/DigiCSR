@@ -1,13 +1,11 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/company/raise_rfp.dart';
+import 'package:digicsr/screens/company/rfpreqlist.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
 
-import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/RFPModel.dart';
-import 'package:digicsr/services/rfp_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RFP extends StatefulWidget {
   @override
@@ -19,13 +17,6 @@ class _RFPState extends State<RFP> {
 
   // Rfp rfp = Rfp(title: 'Children\'s Day' , amount: 2000, sectors: ['Healthcare','education'], states: ['Gujarat','Delhi'], timeline: '20', company: 'reliance');
 
-Map<String,String> rfpbody = {
-  'title': 'Children\'s Day',
-  'amount': '2000',
-  'timeline': '20',
-  'sectors': ['Healthcare','education'].toString(),
-  'states': ['Gujarat','Delhi'].toString(),
-};
 
   @override
   void initState(){
@@ -34,6 +25,8 @@ Map<String,String> rfpbody = {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(context),
@@ -51,9 +44,11 @@ Map<String,String> rfpbody = {
                               fontFamily: 'Montserrat',
                               fontSize: 25)),
                       style: ButtonStyle(
-                          padding: MaterialStatePropertyAll(
-                              EdgeInsets.fromLTRB(10, 20, 10, 20)),
+                          // padding: MaterialStatePropertyAll(
+                          //     EdgeInsets.only(top: h*)),
                           alignment: Alignment.center,
+                          minimumSize: MaterialStatePropertyAll(Size(w*0.5,h*0.05)),
+                          maximumSize: MaterialStatePropertyAll(Size(w*0.5, h*0.07)),
                           // elevation: MaterialStatePropertyAll(20),
                           shape:
                               MaterialStatePropertyAll<RoundedRectangleBorder>(
@@ -71,8 +66,10 @@ Map<String,String> rfpbody = {
                               fontFamily: 'Montserrat',
                               fontSize: 25)),
                       style: ButtonStyle(
-                          padding: MaterialStatePropertyAll(
-                              EdgeInsets.fromLTRB(10, 20, 10, 20)),
+                          // padding: MaterialStatePropertyAll(
+                          //     EdgeInsets.fromLTRB(10, 20, 10, 20)),
+                          minimumSize: MaterialStatePropertyAll(Size(w*0.5,h*0.05)),
+                          maximumSize: MaterialStatePropertyAll(Size(w*0.5, h*0.07)),
                           alignment: Alignment.center,
                           // elevation: MaterialStatePropertyAll(20),
                           shape:
@@ -85,129 +82,7 @@ Map<String,String> rfpbody = {
             ],
           ),
           Expanded(
-            child: ListView(
-              children: [
-                // Scrollable(viewportBuilder: )
-                Card(
-                  elevation: 20,
-                  margin: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: black, width: 1.2, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.all(Radius.circular(17))),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                            child: Text('Title: Children\'s Day'),
-                          ),
-                          Container(
-                              padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                              child: Text('Amount: 800000')),
-                          Container(
-                              padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                              child: Text('Timeline: 20 months'))
-                        ]),
-                  ),
-                ),
-                Card(
-                  elevation: 20,
-                  margin: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: black, width: 1.2, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.all(Radius.circular(17))),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Text('Title: Children\'s Day'),
-                      ),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Amount: 800000')),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Timeline: 20 months'))
-                    ]),
-                  ),
-                ),
-                Card(
-                  elevation: 20,
-                  margin: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: black, width: 1.2, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.all(Radius.circular(17))),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Text('Title: Children\'s Day'),
-                      ),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Amount: 800000')),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Timeline: 20 months'))
-                    ]),
-                  ),
-                ),
-                Card(
-                  elevation: 20,
-                  margin: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: black, width: 1.2, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.all(Radius.circular(17))),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Text('Title: Children\'s Day'),
-                      ),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Amount: 800000')),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Timeline: 20 months'))
-                    ]),
-                  ),
-                ),
-
-                Card(
-                  elevation: 20,
-                  margin: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: black, width: 1.2, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.all(Radius.circular(17))),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Text('Title: Environment Day'),
-                      ),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Amount: 500000')),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: Text('Timeline: 18 months'))
-                    ]),
-                  ),
-                ),
-              ],
-            ),
+            child: RFPReqList(),
           ),
           TextButton(
               style: ButtonStyle(

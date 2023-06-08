@@ -150,7 +150,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                 ),
                 elevation: 40,
                 child: Container(
-                  height: h * 0.60,
+                  height: h * 0.52,
                   width: w * 0.9,
                   child: Column(
                     children: [
@@ -237,7 +237,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                       ),
                       
                       Container(
-                        padding: EdgeInsets.only(top: h * 0.04,bottom: h * 0.04),
+                        padding: EdgeInsets.only(top: h * 0.04,bottom: h * 0.02),
                         child: OTPTextField(
                           width: MediaQuery.of(context).size.width * 0.8,
                           controller: otpcontroller,
@@ -262,7 +262,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: w * 0.04,top: h * 0.02),
+                        padding: EdgeInsets.only(left: w * 0.04,top: h * 0.015),
                         child: Row(
                           children: [
                             Checkbox(
@@ -300,7 +300,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                               style: ButtonStyle(
                                   elevation: MaterialStatePropertyAll(20),
                                   padding: MaterialStatePropertyAll(
-                                      EdgeInsets.all(h * 0.03)),
+                                      EdgeInsets.all(h * 0.018)),
                                   backgroundColor:
                                       MaterialStatePropertyAll(darkgrey),
                                   shape: MaterialStatePropertyAll<
@@ -320,12 +320,12 @@ class _CompanyLogin extends State<CompanyLogin> {
                                 //         MaterialPageRoute(
                                 //             builder: (context) =>
                                 //                 Login_Screen()));
-                                // if(!otpverify){
-                                //   sendOTP();
-                                // }else{
-                                //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
-                                // }
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                                if(!otpverify){
+                                  sendOTP();
+                                }else{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
+                                }
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                               },
                               child: Text(
                                 btn,

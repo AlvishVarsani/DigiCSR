@@ -1,6 +1,9 @@
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
+import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/constants.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});
@@ -38,7 +41,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
               title: Text("Edit Profile"),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
-                
               },
             ),
             ListTile(
@@ -74,8 +76,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
              ListTile(
               leading: Icon(Icons.logout),
               title: Text("Log Out"),
-              onTap: () {
-                
+              onTap: () async {
+                await storage.delete(key: company.company_email!);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
               },
             )
           ],

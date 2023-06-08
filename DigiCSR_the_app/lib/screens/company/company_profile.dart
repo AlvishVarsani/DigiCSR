@@ -1,5 +1,3 @@
-import 'package:csc_picker/csc_picker.dart';
-import 'package:digicsr/users/companyuser.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -79,8 +77,6 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
 
    
   ];
-
-  final CompanyUser company = CompanyUser();
 
   @override
   Widget build(BuildContext context) {
