@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
-=======
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/services/rfp_services.dart';
->>>>>>> refs/remotes/origin/main
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

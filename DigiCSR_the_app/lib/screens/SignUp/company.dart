@@ -34,12 +34,7 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void sendOTP() async {
     try {
-<<<<<<< HEAD
-      // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/signup'),
-      var resSend = await http.post(Uri.parse('http://localhost:4000/company/signup'),
-=======
       var resSend = await http.post(Uri.parse(ipInfo + '/company/signup'),
->>>>>>> refs/remotes/origin/main
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -56,12 +51,7 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void verifyOTP() async {
     try {
-<<<<<<< HEAD
-        // res = await http.post(Uri.parse('http://192.168.114.94:4000/company/verify'),
-        res = await http.post(Uri.parse('http://localhost:4000/company/verify'),
-=======
       var res = await http.post(Uri.parse(ipInfo + '/company/verify'),
->>>>>>> refs/remotes/origin/main
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -70,20 +60,12 @@ class _CompanySignUp extends State<CompanySignUp> {
             'email': company.company_email,
             'otp': otp
           });
-<<<<<<< HEAD
-          otpverify = true;
-          btn = 'SignUP';
-          print(res.body);
-          await storage.write(key: company.company_email!, value: jsonDecode(res.body)['result']);
-      
-=======
       otpverify = true;
       btn = 'SignUP';
       print(res.body);
       await storage.write(
           key: jsonDecode(res.body)['success'],
           value: jsonDecode(res.body)['result']);
->>>>>>> refs/remotes/origin/main
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -403,16 +385,11 @@ class _CompanySignUp extends State<CompanySignUp> {
                               //                 Login_Screen()));
                               if (!otpverify) {
                                 sendOTP();
-<<<<<<< HEAD
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
-=======
-                              } else {
+                              } {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => CompanyLogin()));
->>>>>>> refs/remotes/origin/main
                               }
                             },
                             child: Text(

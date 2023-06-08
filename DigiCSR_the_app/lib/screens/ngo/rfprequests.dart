@@ -1,16 +1,13 @@
-<<<<<<< HEAD
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
 import '../../widgets/appbar.dart';
-=======
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
 import '../../services/rfp_services.dart';
->>>>>>> refs/remotes/origin/main
 
 class RFPreq extends StatefulWidget {
   @override
