@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Rfp {
   final String title;
   final int amount;
@@ -25,4 +27,5 @@ class Rfp {
       company: json['company_name'],
     );
   }
+
 }

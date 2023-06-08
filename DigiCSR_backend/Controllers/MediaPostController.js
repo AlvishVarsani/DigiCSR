@@ -3,58 +3,64 @@ const MediaPost = require("../Models/MediaPost");
 //Create New Media Post
 
 exports.GetPostById = async (req, res) => {
-
   const postId = req.params.id;
 
   try {
-
     const post = await MediaPost.findById(postId);
 
     if (!post) {
-      return res.status(404).json({ success: false, message: "Post not found !!" })
+      return res
+        .status(404)
+        .json({ success: false, message: "Post not found !!" });
     }
 
     res.status(200).json({ success: true, postData: post });
-
   } catch (err) {
     console.error(err);
     return res
       .status(500)
       .json({ success: false, message: "Internal server error." });
   }
-}
+};
 
 exports.GetPosts = async (req, res) => {
+  const authorId = req.user._id;
 
-  const authorId = "647adc51282c59958e8cd069";
+  console.log(req.userType);
 
   try {
-
     const posts = await MediaPost.find({ author: authorId });
 
-    if (!post) {
-      return res.status(404).json({ success: false, message: "No posts found !!" })
+    if (!posts) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No posts found !!" });
     }
 
-    res.status(200).json({ success: true, postsData: posts });
-
+    return res.status(200).json({ success: true, postsData: posts });
   } catch (err) {
     console.error(err);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error." });
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
-}
+};
 
 exports.CreatePost = async (req, res) => {
   try {
-    const { title, content, author, mediaUrl } = req.body;
+
+    if (req.userType !== "ngo") {
+      return res
+        .status(401)
+        .send({ success: false, message: "Not Authorized." });
+    }
+
+    const user = req.user;
+
+    const { title, content } = req.body;
 
     const newMediaPost = new MediaPost({
       title,
       content,
-      author,
-      mediaUrl,
+      author: user._id
     });
 
     const createdMediaPost = await newMediaPost.save();
@@ -125,3 +131,14 @@ exports.DeletePost = async (req, res) => {
       .json({ success: false, message: "Internal server error." });
   }
 };
+
+exports.uploadFile = (req, res) => {
+
+  if (!req.fileUrl) {
+    return res.status(400).json({ success: false, message: 'No file uploaded in route' });
+  }
+
+  const fileUrl = req.fileUrl;
+  return res.status(200).json({ success: true, message: 'File uploaded successfully', url: fileUrl });
+
+}

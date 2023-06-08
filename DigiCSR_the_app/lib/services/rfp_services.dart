@@ -5,6 +5,24 @@ import 'package:http/http.dart' as http;
 import '../constants/constants.dart';
 import '../models/RFPModel.dart';
 
+void addRFP(String key,Map<String,String> body) async {
+  final token = await storage.read(key: key);
+  final response = await http.post(Uri.parse(ipInfo + "/add-rfp"),
+  headers: {
+    'Context-Type': 'application/json;charSet=UTF-8',
+    'authorization': token!
+  },
+  body: body
+  );
+  
+
+  if (response.statusCode == 200) {
+    print(response.body);
+  } else {
+    throw Exception('Failed to load RFP data');
+  }
+}
+
 Future<List<Rfp>> fetchAllRfp() async {
   final response = await http.get(Uri.parse(ipInfo + "/rfps"));
 

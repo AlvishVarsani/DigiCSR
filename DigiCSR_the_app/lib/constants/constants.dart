@@ -39,4 +39,4 @@ List<Widget> ngonav = [
   RFPreq(),
   ProfileScreenForNGO()
 ];
-String ipInfo = "http://192.168.1.3:4000";
+String ipInfo = "http://localhost:4000";

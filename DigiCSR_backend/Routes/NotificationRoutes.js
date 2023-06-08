@@ -3,11 +3,12 @@ const {
   updateReadStatus,
   deleteNotification,
 } = require("../Controllers/NotificationControllers");
+const AuthMiddleware = require("../Middlewares/AuthMiddleware");
 
 const NotificationRoutes = (app) => {
-  app.get("/ngo/notifications/:id", GetNgoNotification);
-  app.post("/ngo/notifications/updatestatus", updateReadStatus);
-  app.delete("/ngo/notifications/delete", deleteNotification);
+  app.get("/notifications", AuthMiddleware, GetNgoNotification);
+  app.post("/notifications/updatestatus", AuthMiddleware, updateReadStatus);
+  app.delete("/notifications/delete", AuthMiddleware, deleteNotification);
 };
 
 module.exports = NotificationRoutes;

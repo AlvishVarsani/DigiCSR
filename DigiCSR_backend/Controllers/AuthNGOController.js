@@ -1,8 +1,8 @@
 require("dotenv").config({ path: "../.env" });
 const NGO = require("../Models/NGO");
-const speakeasy = require("speakeasy");
 const CRN = require("../Models/CRN");
-const jwt = require("jsonwebtoken");
+const genToken = require("../Services/jwtTokenService")
+const { sendOTP, verifyOTP } = require("../Services/otpService");
 
 exports.NGOSignup = async (req, res) => {
   try {
@@ -31,38 +31,15 @@ exports.NGOSignup = async (req, res) => {
       });
     }
 
-    const otp = speakeasy.totp({
-      secret: email + process.env.OTPSEC,
-      digits: 6,
-    });
-
-    // const mailOptions = {
-    //   from: process.env.MAILER,
-    //   to: email,
-    //   subject: "OTP VERIFICATION",
-    //   text: "Your One time password is : " + otp,
-    // };
-
-    // transporter.sendMail(mailOptions, (err, info) => {
-    //   if (err) {
-    //     res.status(400).send({
-    //       success: false,
-    //       message: "Error Sending mail.",
-    //     });
-    //   } else {
-    //     res.status(200).send({ success: true, message: "OTP has sent to your mail" });
-    //   }
-    // });
-
     try {
-      const mailRes = await sendMail(email, 'OTP verification', 'Your One-time password is: ' + otp);
-      console.log('Email response:', mailRes);
-      res.status(200).send({ success: true, message: 'OTP sent' });
+      await sendOTP(email);
+      res.status(200).send({ success: true, message: "OTP sent" });
     } catch (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ success: false, message: 'Error sending Mail' });
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Error sending OTP !!!" });
     }
-
   } catch (error) {
     res.status(400).send({
       success: false,
@@ -75,12 +52,7 @@ exports.VerifyNGO = async (req, res) => {
   try {
     const { csr, email, otp } = req.body;
 
-    const is_verified = speakeasy.totp.verify({
-      secret: email + process.env.OTPSEC,
-      token: otp,
-      window: 2,
-      encoding: "ascii",
-    });
+    const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
       const exist = await NGO.findOne({
@@ -93,12 +65,17 @@ exports.VerifyNGO = async (req, res) => {
           message: "NGO with this CSR, name or email already exists.",
         });
       }
-      const newNGO = await new NGO({ csr, email });
+      const newNGO = new NGO({ csr, email });
       await newNGO.save();
-      const authToken = jwt.sign(
-        { _id: newNGO._id, csr: newNGO.csr },
-        process.env.JWT_SEC
-      );
+
+      const payload = {
+        _id: newNGO._id,
+        email: newNGO.email,
+        type: "NGO",
+      };
+
+      const authToken = genTocken(payload);
+
       res.status(200).send({ success: true, result: authToken });
     } else res.status(400).send({ success: false, message: "Wrong OTP" });
   } catch (error) {
@@ -123,39 +100,15 @@ exports.NGOLogin = async (req, res) => {
       });
     }
 
-    const otp = speakeasy.totp({
-      secret: email + process.env.OTPSEC,
-      digits: 6,
-    });
-
-    // const mailOptions = {
-    //   from: process.env.MAILER,
-    //   to: email,
-    //   subject: "OTP VERIFICATION",
-    //   text: "Your One time password is : " + otp,
-    // };
-
-    // transporter.sendMail(mailOptions, (e, info) => {
-    //   if (e) {
-    //     res.status(400).send({
-    //       success: false,
-    //       message: "Error Sending mail.",
-    //     });
-    //   } else {
-    //     res.status(200).send({ success: true, message: "OTP sent" });
-    //   }
-    // });
-
-
     try {
-      const mailRes = await sendMail(email, 'OTP verification', 'Your One-time password is: ' + otp);
-      console.log('Email response:', mailRes);
-      res.status(200).send({ success: true, message: 'OTP sent' });
+      await sendOTP(email);
+      res.status(200).send({ success: true, message: "OTP sent" });
     } catch (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ success: false, message: 'Error sending Mail' });
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Error sending OTP !!!" });
     }
-
   } catch (error) {
     res.status(400).send({
       success: false,
@@ -168,29 +121,28 @@ exports.NGOLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
-    const is_verified = speakeasy.totp.verify({
-      secret: email + process.env.OTPSEC,
-      token: otp,
-      window: 2,
-      encoding: "ascii",
-    });
+    const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
-      const exist = await NGO.findOne({
+      const ngo = await NGO.findOne({
         $or: [{ email: email }],
       });
 
-      if (!exist) {
+      if (!ngo) {
         return res.status(400).send({
           success: false,
           message: "NGO with this email not exists.",
         });
       }
 
-      const authToken = jwt.sign(
-        { _id: exist._id, email: exist.email },
-        process.env.JWT_SEC
-      );
+      const payload = {
+        _id: ngo._id,
+        email: ngo.email,
+        type: "NGO",
+      };
+
+      const authToken = genToken(payload);
+
       res.status(200).send({ success: true, result: authToken });
     } else res.status(400).send({ success: false, message: "Wrong OTP" });
   } catch (error) {

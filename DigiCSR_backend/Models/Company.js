@@ -15,8 +15,7 @@ const CompanySchema = mongoose.Schema({
     unique: true,
   },
   profile: {
-
-    summary : {
+    summary: {
       type: String,
     },
 
@@ -43,6 +42,9 @@ const CompanySchema = mongoose.Schema({
       },
     },
     registration_certificate: {
+      type: Buffer,
+    },
+    company_logo: {
       type: Buffer,
     },
     tax_comp: [{ type: String }],

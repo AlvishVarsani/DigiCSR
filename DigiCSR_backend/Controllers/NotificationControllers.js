@@ -1,11 +1,9 @@
 const Notification = require("../Models/Notification");
 exports.GetNgoNotification = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.user._id;
     if (!id) {
-      return res
-        .status(400)
-        .send({ success: false, message: "Invalid ID parameter" });
+      return res.status(400).send({ success: false, message: "Invalid ID" });
     }
 
     const notifications = await Notification.find(
@@ -42,7 +40,8 @@ exports.GetNgoNotification = async (req, res) => {
 
 exports.updateReadStatus = async (req, res) => {
   try {
-    const { notificationID, recipientID } = req.body;
+    const notificationID = req.body.notificationID;
+    const recipientID = req.user._id;
     const notification = await Notification.findOneAndUpdate(
       {
         _id: notificationID,
@@ -74,7 +73,8 @@ exports.updateReadStatus = async (req, res) => {
 
 exports.deleteNotification = async (req, res) => {
   try {
-    const { notificationID, recipientID } = req.body;
+    const notificationID = req.body.notificationID;
+    const recipientID = req.user._id;
 
     const notification = await Notification.findOneAndUpdate(
       {

@@ -16,8 +16,18 @@ class RFP extends StatefulWidget {
 class _RFPState extends State<RFP> {
   late Future<List<Rfp>> futureList;
 
+  // Rfp rfp = Rfp(title: 'Children\'s Day' , amount: 2000, sectors: ['Healthcare','education'], states: ['Gujarat','Delhi'], timeline: '20', company: 'reliance');
+
+Map<String,String> rfpbody = {
+  'title': 'Children\'s Day',
+  'amount': '2000',
+  'timeline': '20',
+  'sectors': ['Healthcare','education'].toString(),
+  'states': ['Gujarat','Delhi'].toString(),
+};
+
   @override
-  void initState() async {
+  void initState(){
     super.initState();
   }
 
@@ -206,7 +216,9 @@ class _RFPState extends State<RFP> {
                     MediaQuery.of(context).size.height * 0.08)),
                 backgroundColor: MaterialStatePropertyAll(blue),
               ),
-              onPressed: () {},
+              onPressed: () {
+                addRFP('yashuranparia136@gmail.com', rfpbody);
+              },
               child: Text(
                 'Raise RFP',
                 style: TextStyle(

@@ -76,136 +76,140 @@ class _RFPreqState extends State<RFPreq> {
               ],
             ),
             Expanded(
-              child: FutureBuilder(
-                future: futureRfpList,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 20,
-                          margin: EdgeInsets.all(15),
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: black,
-                                  width: 1.2,
-                                  style: BorderStyle.solid),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(17))),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                                    child: Text(
-                                        'Company: ${snapshot.data![index].company}'),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          padding:
-                                              EdgeInsets.fromLTRB(10, 8, 10, 8),
-                                          child: Text(
-                                              'Amount: ${snapshot.data![index].amount}')),
-                                      Container(
-                                          padding:
-                                              EdgeInsets.fromLTRB(10, 8, 10, 8),
-                                          child: Text(
-                                              'Timeline: ${snapshot.data![index].timeline}')),
-                                    ],
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(8),
-                                    child: Row(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: FutureBuilder(
+                  future: futureRfpList,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 20,
+                            margin: EdgeInsets.all(15),
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: black,
+                                    width: 1.2,
+                                    style: BorderStyle.solid),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(17))),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                                      child: Text(
+                                          'Company: ${snapshot.data![index].company}'),
+                                    ),
+                                    Row(
                                       children: [
-                                        Expanded(child: Container()),
-                                        TextButton.icon(
-                                            style: ButtonStyle(
-                                                maximumSize:
-                                                    MaterialStatePropertyAll(
-                                                        Size(
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                0.3,
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.08)),
-                                                padding:
-                                                    MaterialStatePropertyAll(
-                                                        EdgeInsets.all(8)),
-                                                backgroundColor:
-                                                    MaterialStatePropertyAll(
-                                                        Colors.green)),
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              Icons.done,
-                                              color: black,
-                                            ),
-                                            label: Text(
-                                              'Accept',
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: 20),
-                                            )),
-                                        Expanded(child: Container()),
-                                        TextButton.icon(
-                                            style: ButtonStyle(
-                                                maximumSize:
-                                                    MaterialStatePropertyAll(
-                                                        Size(
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                0.3,
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.08)),
-                                                padding:
-                                                    MaterialStatePropertyAll(
-                                                        EdgeInsets.all(8)),
-                                                backgroundColor:
-                                                    MaterialStatePropertyAll(
-                                                        Colors.red)),
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              Icons.close,
-                                              color: black,
-                                            ),
-                                            label: Text(
-                                              'Reject',
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: 20),
-                                            )),
-                                        Expanded(child: Container()),
+                                        Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(10, 8, 10, 8),
+                                            child: Text(
+                                                'Amount: ${snapshot.data![index].amount}')),
+                                        Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(10, 8, 10, 8),
+                                            child: Text(
+                                                'Timeline: ${snapshot.data![index].timeline}')),
                                       ],
                                     ),
-                                  )
-                                ]),
-                          ),
-                        );
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-
-                  return const CircularProgressIndicator();
-                },
+                                    Container(
+                                      margin: EdgeInsets.all(8),
+                                      child: Row(
+                                        children: [
+                                          Expanded(child: Container()),
+                                          TextButton.icon(
+                                              style: ButtonStyle(
+                                                  maximumSize:
+                                                      MaterialStatePropertyAll(
+                                                          Size(
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.3,
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.08)),
+                                                  padding:
+                                                      MaterialStatePropertyAll(
+                                                          EdgeInsets.all(8)),
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                          Colors.green)),
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.done,
+                                                color: black,
+                                              ),
+                                              label: Text(
+                                                'Accept',
+                                                style: TextStyle(
+                                                    color: black,
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 20),
+                                              )),
+                                          Expanded(child: Container()),
+                                          TextButton.icon(
+                                              style: ButtonStyle(
+                                                  maximumSize:
+                                                      MaterialStatePropertyAll(
+                                                          Size(
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.3,
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.08)),
+                                                  padding:
+                                                      MaterialStatePropertyAll(
+                                                          EdgeInsets.all(8)),
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                          Colors.red)),
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.close,
+                                                color: black,
+                                              ),
+                                              label: Text(
+                                                'Reject',
+                                                style: TextStyle(
+                                                    color: black,
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 20),
+                                              )),
+                                          Expanded(child: Container()),
+                                        ],
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+              
+                    return const CircularProgressIndicator();
+                  },
+                ),
               ),
             )
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar((user == 'NGO')?ngonav:companynav),
+      bottomNavigationBar:
+          CustomBottomNavBar((user == 'NGO') ? ngonav : companynav),
     );
   }
 }

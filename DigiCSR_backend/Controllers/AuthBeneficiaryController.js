@@ -1,7 +1,8 @@
 require("dotenv").config({ path: "../.env" });
 const Beneficiary = require('../Models/Beneficiary');
-const speakeasy = require("speakeasy");
 const jwt = require("jsonwebtoken");
+const { sendOTP, verifyOTP } = require("../Services/otpService");
+const genToken = require("../Services/jwtTokenService")
 
 exports.BeneficiarySignup = async (req, res) => {
   try {
@@ -18,37 +19,12 @@ exports.BeneficiarySignup = async (req, res) => {
       });
     }
 
-    const otp = speakeasy.totp({
-      secret: email + process.env.OTPSEC,
-      digits: 6,
-    });
-
-    // const mailOptions = {
-    //   from: process.env.MAILER,
-    //   to: email,
-    //   subject: "OTP VERIFICATION",
-    //   text: "Your One time password is : " + otp,
-    // };
-
-    // transporter.sendMail(mailOptions, (err, info) => {
-    //   if (err) {
-    //     res.status(400).send({
-    //       success: false,
-    //       message: "Error Sending mail.",
-    //     });
-    //   } else {
-    //     res.status(200).send({ success: true, message: "OTP has sent to your mail" });
-    //   }
-    // });
-
-
     try {
-      const mailRes = await sendMail(email, 'OTP verification', 'Your One-time password is: ' + otp);
-      console.log('Email response:', mailRes);
+      await sendOTP(email);
       res.status(200).send({ success: true, message: 'OTP sent' });
     } catch (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ success: false, message: 'Error sending Mail' });
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Error sending OTP !!!' });
     }
 
   } catch (err) {
@@ -63,12 +39,7 @@ exports.VerifyBeneficiary = async (req, res) => {
   try {
     const { name, email, mobile_no, aadhar_no, otp } = req.body;
 
-    const is_verified = speakeasy.totp.verify({
-      secret: email + process.env.OTPSEC,
-      token: otp,
-      window: 2,
-      encoding: "ascii",
-    });
+    const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
       const exist = await Beneficiary.findOne({
@@ -82,12 +53,17 @@ exports.VerifyBeneficiary = async (req, res) => {
         });
       }
 
-      newBeneficiary = await new Beneficiary({ name, email, mobile_no, aadhar_no });
+      const newBeneficiary = await new Beneficiary({ name, email, mobile_no, aadhar_no });
       await newBeneficiary.save();
-      const authToken = jwt.sign(
-        { _id: newBeneficiary._id, email: newBeneficiary.email },
-        process.env.JWT_SEC
-      );
+
+      const payload = {
+        _id: newBeneficiary._id,
+        email: newBeneficiary.email,
+        type: "Beneficiary"
+      }
+
+      const authToken = genToken(payload);
+
       res.status(200).send({ success: true, result: authToken });
     } else {
       res.status(400).send({ success: false, message: "Wrong OTP" });
@@ -113,37 +89,14 @@ exports.BeneficiaryLogin = async (req, res) => {
         message: "Email address is not registered",
       });
     }
-    const otp = speakeasy.totp({
-      secret: email + process.env.OTPSEC,
-      digits: 6,
-    });
-
-    // const mailOptions = {
-    //   from: process.env.MAILER,
-    //   to: email,
-    //   subject: "OTP VERIFICATION",
-    //   text: "Your One time password is : " + otp,
-    // };
-
-    // transporter.sendMail(mailOptions, (e, info) => {
-    //   if (e) {
-    //     res.status(400).send({
-    //       success: false,
-    //       message: "Error Sending mail.",
-    //     });
-    //   } else {
-    //     res.status(200).send({ success: true, message: "OTP sent" });
-    //   }
-    // });
 
 
     try {
-      const mailRes = await sendMail(email, 'OTP verification', 'Your One-time password is: ' + otp);
-      console.log('Email response:', mailRes);
+      await sendOTP(email);
       res.status(200).send({ success: true, message: 'OTP sent' });
     } catch (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ success: false, message: 'Error sending Mail' });
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Error sending OTP !!!' });
     }
 
   } catch (error) {
@@ -158,29 +111,28 @@ exports.BeneficiaryLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
-    const is_verified = speakeasy.totp.verify({
-      secret: email + process.env.OTPSEC,
-      token: otp,
-      window: 2,
-      encoding: "ascii",
-    });
+    const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
-      const exist = await Beneficiary.findOne({
+      const Beneficiary = await Beneficiary.findOne({
         $or: [{ email: email }],
       });
 
-      if (!exist) {
+      if (!Beneficiary) {
         return res.status(400).send({
           success: false,
           message: "Beneficiary with this email not exists.",
         });
       }
 
-      const authToken = jwt.sign(
-        { _id: exist._id, email: exist.email },
-        process.env.JWT_SEC
-      );
+      const payload = {
+        _id: Beneficiary._id,
+        email: Beneficiary.email,
+        type: "Beneficiary"
+      }
+
+      const authToken = genToken(payload);
+
       res.status(200).send({ success: true, result: authToken });
     } else res.status(400).send({ success: false, message: "Wrong OTP" });
   } catch (err) {

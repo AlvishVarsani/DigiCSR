@@ -24,17 +24,23 @@ const upload = multer({ storage: storage });
 
 const ProfileRoutes = (app) => {
   app.get("/company/profile/:id", getCompanyProfile);
-  app.get("/company/certificate/:id" , getCertificate);
+  app.get("/company/certificate/:id", getCertificate);
   app.post(
     "/company/add-profile/:id",
-    upload.single("registration_certificate"),
+    upload.fields([
+      { name: "registration_certificate", maxCount: 1 },
+      { name: "company_logo", maxCount: 1 },
+    ]),
     AddCompanyProfile
   );
   app.get("/NGO/profile/:id", getNGOProfile);
   // app.get("/NGO/certificate/:id" , getNGOCertificate);
   app.post(
     "/NGO/add-profile/:id",
-    upload.single("NGO_certificate"),
+    upload.fields([
+      { name: "NGO_certificate", maxCount: 1 },
+      { name: "company_logo", maxCount: 1 },
+    ]),
     AddNGOProfile
   );
 };

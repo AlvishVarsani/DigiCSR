@@ -20,8 +20,7 @@ exports.getCompanyProfile = async (req, res) => {
       company_name: company.company_name,
       email: company.email,
       profile: {
-
-        summary : company.profile.summary,
+        summary: company.profile.summary,
 
         location: {
           city: company.profile.location.city,
@@ -95,7 +94,7 @@ exports.AddCompanyProfile = async (req, res) => {
 
     let updatedFields = {
       company_name,
-      "profile.summary" : summary,
+      "profile.summary": summary,
       "profile.location.city": city,
       "profile.location.state": state,
       "profile.location.pincode": pincode,
@@ -108,9 +107,17 @@ exports.AddCompanyProfile = async (req, res) => {
       "profile.sectors": sectors,
     };
 
-    if (req.file && req.file.path) {
-      const fileData = fs.readFileSync(req.file.path);
+    if (
+      req.files &&
+      req.files.registration_certificate &&
+      req.files.company_logo
+    ) {
+      const fileData = fs.readFileSync(
+        req.files.registration_certificate[0].path
+      );
       updatedFields["profile.registration_certificate"] = fileData;
+      const imageData = fs.readFileSync(req.files.company_logo[0].path);
+      updatedFields["profile.company_logo"] = imageData;
     }
 
     const company = await Company.findByIdAndUpdate(
