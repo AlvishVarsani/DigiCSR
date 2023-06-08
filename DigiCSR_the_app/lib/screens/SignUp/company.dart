@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:digicsr/screens/login/companylogin.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
@@ -34,7 +34,11 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void sendOTP() async {
     try {
+<<<<<<< HEAD
+      var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/signup'),
+=======
       var resSend = await http.post(Uri.parse(ipInfo + '/company/signup'),
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },

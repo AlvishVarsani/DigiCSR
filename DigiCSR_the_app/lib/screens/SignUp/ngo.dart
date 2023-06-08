@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

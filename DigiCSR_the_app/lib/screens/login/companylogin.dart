@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:digicsr/screens/company/rfp.dart';
-import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/users/ngouser.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
@@ -34,7 +33,11 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   void sendOTP() async {
     try {
+<<<<<<< HEAD
+      var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/login'),
+=======
       var resSend = await http.post(Uri.parse(ipInfo + '/company/login'),
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -50,7 +53,11 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   void verifyOTP() async {
     try {
+<<<<<<< HEAD
+       res = await http.post(Uri.parse('http:// 192.168.101.58:4000/company/login/verify'),
+=======
       res = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
