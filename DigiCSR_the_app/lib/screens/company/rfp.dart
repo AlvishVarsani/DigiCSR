@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-
 import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/screens/company/raise_rfp.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
-=======
-<<<<<<< HEAD
 
-
-=======
->>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
->>>>>>> refs/remotes/origin/main
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/services/rfp_services.dart';
@@ -225,7 +218,8 @@ Map<String,String> rfpbody = {
                 backgroundColor: MaterialStatePropertyAll(blue),
               ),
               onPressed: () {
-                addRFP('yashuranparia136@gmail.com', rfpbody);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RaiseRfpRequest()));
+                // addRFP('yashuranparia136@gmail.com', rfpbody);
               },
               child: Text(
                 'Raise RFP',

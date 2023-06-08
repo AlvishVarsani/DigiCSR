@@ -1,10 +1,7 @@
 import 'dart:convert';
 
-<<<<<<< HEAD
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
-=======
 
->>>>>>> refs/remotes/origin/main
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

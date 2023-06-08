@@ -1,9 +1,5 @@
 import 'package:digicsr/constants/constants.dart';
-<<<<<<< HEAD
 import 'package:digicsr/screens/company/company_profile.dart';
-=======
-
->>>>>>> refs/remotes/origin/main
 import 'package:digicsr/screens/login/user.dart';
 import 'package:flutter/material.dart';
 

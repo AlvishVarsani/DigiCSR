@@ -37,7 +37,6 @@ class _CompanyLogin extends State<CompanyLogin> {
   void sendOTP() async {
     // final dio = Dio();
     try {
-<<<<<<< HEAD
       // var resSend = await dio.post('http://192.168.114.94:4000/company/login',
       //   data: {
       //     'email': company.company_email
@@ -47,14 +46,11 @@ class _CompanyLogin extends State<CompanyLogin> {
       //   )
       // );
       // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/login'),
-      var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
-=======
-<<<<<<< HEAD
-      var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/login'),
-=======
+      // var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
+
+      // var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/login'),
       var resSend = await http.post(Uri.parse(ipInfo + '/company/login'),
->>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
->>>>>>> refs/remotes/origin/main
+
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -70,16 +66,13 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   void verifyOTP() async{
     try {
-<<<<<<< HEAD
+
       //  res = await http.post(Uri.parse('http://192.168.114.94:4000/company/login/verify'),
-       var ress = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
-=======
-<<<<<<< HEAD
-       res = await http.post(Uri.parse('http:// 192.168.101.58:4000/company/login/verify'),
-=======
-      res = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
->>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
->>>>>>> refs/remotes/origin/main
+      //  var ress = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
+
+      //  res = await http.post(Uri.parse('http:// 192.168.101.58:4000/company/login/verify'),
+
+      var ress = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -327,12 +320,12 @@ class _CompanyLogin extends State<CompanyLogin> {
                                 //         MaterialPageRoute(
                                 //             builder: (context) =>
                                 //                 Login_Screen()));
-                                if(!otpverify){
-                                  sendOTP();
-                                }else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
-                                }
-                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                                // if(!otpverify){
+                                //   sendOTP();
+                                // }else{
+                                //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
+                                // }
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                               },
                               child: Text(
                                 btn,

@@ -1,13 +1,5 @@
-<<<<<<< HEAD
 
 import 'package:flutter/cupertino.dart';
-=======
-import 'package:digicsr/screens/company/rfp.dart';
-import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/screens/ngo/rfpngo.dart';
-import 'package:digicsr/screens/ngo/rfprequests.dart';
-import 'package:digicsr/screens/splash_screen/splash_screen.dart';
->>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
 import 'package:flutter/material.dart';
 
 import 'screens/login/login_screen.dart';
@@ -33,9 +25,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/auth': (context) => Login_Screen(),
-        'rfpNgo': (context) => RFPngo(),
-        'rfpNgoRequests': (context) => RFPreq(),
-        'rfpCompanyRequests': (context) => RFP()
       },
     );
   }
