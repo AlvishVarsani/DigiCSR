@@ -59,9 +59,7 @@ class _NGOSignUp extends State<NGOSignUp> {
           });
       otpverify = true;
       btn = 'SignUP';
-      await storage.write(
-          key: jsonDecode(res.body)['success'],
-          value: jsonDecode(res.body)['result']);
+      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);

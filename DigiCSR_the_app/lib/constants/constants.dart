@@ -28,6 +28,7 @@ String user = '';
 String btn = 'Send OTP';
 String auth = '';
 
+<<<<<<< HEAD
 String appbartitle = 'Home';
 
 List<Widget> companynav = [HomeScreen(), RFP(), ProfileScreenForCompany()];
@@ -66,3 +67,10 @@ final Indianstates = [
 ];
 
 String ipInfo = "http://192.168.114.94:4000";
+=======
+String ipInfo = "http://192.168.1.3:4000";
+
+Future<String?> fetchToken() {
+  return storage.read(key: "token");
+}
+>>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2

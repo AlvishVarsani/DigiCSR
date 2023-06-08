@@ -29,12 +29,16 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   bool otpsent = false;
 
-  // TextButton btn = TextButton(onPressed: (){}, child: );
-
   void sendOTP() async {
     try {
+<<<<<<< HEAD
       var resSend = await http.post(Uri.parse(ipInfo + '/company/signup'),
           headers: <String, String>{ 
+=======
+//       var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/signup'),
+      var resSend = await http.post(Uri.parse(ipInfo + '/company/signup'),
+          headers: <String, String>{
+>>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
@@ -62,9 +66,7 @@ class _CompanySignUp extends State<CompanySignUp> {
       otpverify = true;
       btn = 'SignUP';
       print(res.body);
-      await storage.write(
-          key: jsonDecode(res.body)['success'],
-          value: jsonDecode(res.body)['result']);
+      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);

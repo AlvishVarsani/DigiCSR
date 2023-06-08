@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class Rfp {
+  final String id;
   final String title;
   final int amount;
   final List<dynamic> sectors;
@@ -9,6 +10,7 @@ class Rfp {
   final String company;
 
   const Rfp({
+    required this.id,
     required this.title,
     required this.amount,
     required this.sectors,
@@ -19,6 +21,7 @@ class Rfp {
 
   factory Rfp.fromJson(Map<String, dynamic> json) {
     return Rfp(
+      id: json['_id'],
       title: json['title'],
       amount: json['amount'],
       sectors: json['sectors'],

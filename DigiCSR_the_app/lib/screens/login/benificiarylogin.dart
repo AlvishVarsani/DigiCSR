@@ -29,7 +29,6 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-
   void sendOTP() async {
     try {
       var resSend = await http.post(
@@ -47,9 +46,10 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
     }
   }
 
-  void verifyOTP() async{
+  void verifyOTP() async {
     try {
-      res = await http.post(Uri.parse('http://localhost:4000/Beneficiary/login/verify'),
+      res = await http.post(
+          Uri.parse('http://localhost:4000/Beneficiary/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -59,7 +59,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
           });
       otpverify = true;
       btn = 'Sign in';
-      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
+      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -210,7 +210,6 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
                         ],
                       ),
                     ),
-                    
                     Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.paddingOf(context).top * 0.6,
