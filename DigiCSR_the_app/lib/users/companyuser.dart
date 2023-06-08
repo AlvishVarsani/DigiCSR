@@ -1,20 +1,22 @@
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:file_picker/file_picker.dart';
 
 class CompanyUser{
-  String cin = '';
-  String company_email = '';
-  String company_name = '';
-  NumberInputElement establishment_year = NumberInputElement();
+  String? cin;
+  String? company_email;
+  String? company_name;
+  int? establishment_year;
   String? summary;
-  String? company_country;
-  String? company_state;
-  String? company_city;
-  String cp_name = '';
-  String cp_email = '';
-  String cp_designation = '';
-  String cp_phone = '';
-  List<String> sectors = [];
+  String? pincode;
+  String? company_country = 'India';
+  String? company_state = 'Gujarat';
+  String? company_city = 'Keshod';
+  String? cp_name;
+  String? cp_email;
+  String? cp_designation;
+  String? cp_phone;
+  List<String>? sectors = [];
+  List<String>? tax_comp = [];
   FilePickerResult? registration_certificate; 
 }

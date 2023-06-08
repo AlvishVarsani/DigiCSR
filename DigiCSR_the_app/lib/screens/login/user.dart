@@ -8,17 +8,22 @@ import 'package:flutter/material.dart';
 import 'benificiarylogin.dart';
 import 'companylogin.dart';
 
+
 class UserSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
           Container(
             padding: EdgeInsets.all(0),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: h,
+            width: w,
           ),
           Card(
             margin: EdgeInsets.all(0),
@@ -32,69 +37,64 @@ class UserSelection extends StatelessWidget {
               width: double.maxFinite,
               height: MediaQuery.of(context).size.height * 0.45,
               decoration: BoxDecoration(
-                  color: darkgrey,
+                  color: primary,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(50),
                       bottomRight: Radius.circular(50))),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(top: 30),
-            child: Row(
-              children: [
-                Expanded(child: Container(
-                  height: MediaQuery.of(context).size.height * 0.14,
-                )),
-                Card(
-                  // margin: EdgeInsets.only(top: 100, bottom: 20),
-                  elevation: 15,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.14,
-                    width: MediaQuery.of(context).size.width * 0.50,
-                    padding: EdgeInsets.all(20),
-                    child: Image.asset(
-                      'assets/images/DigiCSR_Logo_Black-1.png',
-                      fit: BoxFit.contain,
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: h * 0.11),
+                child: Row(
+                  children: [
+                    Expanded(child: Container()),
+                    Card(
+                      // margin: EdgeInsets.only(top: 100, bottom: 20),
+                      elevation: 15,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: h * 0.14,
+                        width: w * 0.50,
+                        padding: EdgeInsets.only(top: h * 0.02,bottom: h * 0.02),
+                        child: Image.asset(
+                          'assets/images/DigiCSR_Logo_Black-1.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(child: Container()),
+                  ],
                 ),
-                Expanded(child: Container(
-                  height: MediaQuery.of(context).size.height * 0.14,
-                )),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 3.7),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.only(top: h * 0.04),
             child: Row(
               children: [
-                Expanded(child: Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                )),
+                Expanded(child: Container()),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                      left: MediaQuery.of(context).size.width * 0.08,
-                      right: MediaQuery.of(context).size.width * 0.08),
+                  // height: MediaQuery.of(context).size.height * 0.45,
+                  // width: MediaQuery.of(context).size.width * 0.80,
+                  // padding: EdgeInsets.only(
+                  //     top: MediaQuery.of(context).size.height * 0.03,
+                  //     left: MediaQuery.of(context).size.width * 0.08,
+                  //     right: MediaQuery.of(context).size.width * 0.08),
                   child: Text(
                     'Want to SignUp as ...',
                     style:
                         TextStyle(color: black, fontSize: 30, fontFamily: 'Lato'),
                   ),
                 ),
-                Expanded(child: Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                ))
+                Expanded(child: Container())
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top ),
+            padding: EdgeInsets.only(top: h * 0.05 ),
             child: Row(
               children: [
                 Expanded(child: Container()),
@@ -108,7 +108,7 @@ class UserSelection extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.3,
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(w * 0.05),
           
                     // margin: EdgeInsets.only(top: 150,),
                     alignment: Alignment(0, 0),
@@ -136,15 +136,17 @@ class UserSelection extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(left: 20, right: 20),
+                                    // margin: EdgeInsets.only(left: w * 0.015, right: 0.015),
                                     child: Icon(
                                       Icons.business_sharp,
                                       color: black,
                                     )),
+                                    
                                 Expanded(
+                                  flex: 2,
                                   child: Container(
                                     alignment: Alignment(0, 0),
-                                    margin: EdgeInsets.only(right: 30, left: 10),
+                                    margin: EdgeInsets.only(right: w * 0.02, left: 0.01),
                                     child: Text(
                                       'Company',
                                       style: TextStyle(
@@ -160,7 +162,7 @@ class UserSelection extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                               padding: MaterialStatePropertyAll(EdgeInsets.only(
-                                  top: 15, bottom: 15, right: 6, left: 6)),
+                                  top: h * 0.02, bottom: h * 0.02, right: w * 0.05, left: w * 0.05)),
                               shape:
                                   MaterialStatePropertyAll<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
@@ -191,7 +193,7 @@ class UserSelection extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(left: 20, right: 20),
+                                    // margin: EdgeInsets.only(left: w*0.015, right: w*0.015),
                                     child: Icon(
                                       Icons.handshake_outlined,
                                       color: black,
@@ -199,7 +201,7 @@ class UserSelection extends StatelessWidget {
                                 Expanded(
                                   child: Container(
                                     alignment: Alignment(0, 0),
-                                    margin: EdgeInsets.only(right: 30, left: 10),
+                                    margin: EdgeInsets.only(right: w*0.02, left: w*0.02),
                                     child: Text(
                                       'NGO',
                                       style: TextStyle(
@@ -217,7 +219,7 @@ class UserSelection extends StatelessWidget {
                               // minimumSize: MaterialStatePropertyAll(Size(200, 40)),
                               // maximumSize: MaterialStatePropertyAll(Size(250, 50)),
                               padding: MaterialStatePropertyAll(EdgeInsets.only(
-                                  top: 15, bottom: 15, right: 6, left: 6)),
+                                  top: h*0.02, bottom: h*0.02, right: w*0.05, left: w*0.05)),
                               shape:
                                   MaterialStatePropertyAll<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
@@ -245,7 +247,7 @@ class UserSelection extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(left: 20, right: 20),
+                                    // margin: EdgeInsets.only(left: w*0.015, right: w*0.015),
                                     child: Icon(
                                       Icons.person,
                                       color: black,
@@ -253,7 +255,7 @@ class UserSelection extends StatelessWidget {
                                 Expanded(
                                   child: Container(
                                     alignment: Alignment(0, 0),
-                                    margin: EdgeInsets.only(right: 30, left: 10),
+                                    margin: EdgeInsets.only(right: w*0.02, left: w*0.02),
                                     child: Text(
                                       'Benificiary',
                                       style: TextStyle(
@@ -271,7 +273,7 @@ class UserSelection extends StatelessWidget {
                               // minimumSize: MaterialStatePropertyAll(Size(200, 40)),
                               // maximumSize: MaterialStatePropertyAll(Size(250, 50)),
                               padding: MaterialStatePropertyAll(EdgeInsets.only(
-                                  top: 15, bottom: 15, right: 6, left: 6)),
+                                  top: h*0.02, bottom: h*0.02, right: w*0.05, left: w*0.05)),
                               shape:
                                   MaterialStatePropertyAll<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
@@ -291,6 +293,9 @@ class UserSelection extends StatelessWidget {
               ],
             ),
           ),
+            ],
+          ),
+          
         ],
       ),
     );

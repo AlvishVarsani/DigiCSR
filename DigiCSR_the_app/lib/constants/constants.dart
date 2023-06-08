@@ -1,3 +1,6 @@
+import 'package:digicsr/screens/company/company_profile.dart';
+import 'package:digicsr/screens/ngo/ngoprofile.dart';
+import 'package:digicsr/screens/ngo/rfprequests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -22,9 +25,17 @@ String user = '';
 String btn = 'Send OTP';
 String auth = '';
 
+String appbartitle = 'Home';
 
-List<Widget> pages = [
+
+List<Widget> companynav = [
   HomeScreen(),
   RFP(),
-  RFPngo()
+  ProfileScreenForCompany()
+];
+
+List<Widget> ngonav = [
+  HomeScreen(),
+  RFPreq(),
+  ProfileScreenForNGO()
 ];

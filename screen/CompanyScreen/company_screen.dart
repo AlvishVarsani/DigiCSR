@@ -14,6 +14,6 @@ class _CompanyScreenState extends State<CompanyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue,
-    );
+    );``
   }
 }

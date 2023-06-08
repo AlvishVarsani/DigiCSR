@@ -201,7 +201,7 @@ class _RFPState extends State<RFP> {
               ))
         ],
       )),
-      bottomNavigationBar: CustomBottomNavBar(pages),
+      bottomNavigationBar: CustomBottomNavBar(companynav),
     );
   }
 }

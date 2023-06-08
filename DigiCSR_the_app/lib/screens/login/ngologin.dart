@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -278,6 +279,7 @@ class _NGOLogin extends State<NGOLogin> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))))),
                             onPressed: () {
+                              user = 'NGO';
                               // (btn == 'Send OTP')
                               //     ? sendOTP()
                               //     : Navigator.push(
@@ -285,11 +287,12 @@ class _NGOLogin extends State<NGOLogin> {
                               //         MaterialPageRoute(
                               //             builder: (context) =>
                               //                 Login_Screen()));
-                              if(!otpverify){
-                                sendOTP();
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
-                              }
+                              // if(!otpverify){
+                              //   sendOTP();
+                              // }else{
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
+                              // }
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                             },
                             child: Text(
                               btn,

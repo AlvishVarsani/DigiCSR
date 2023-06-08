@@ -22,6 +22,7 @@ List<String> list = [
 
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -87,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ])),
-      bottomNavigationBar: CustomBottomNavBar(pages)
+      bottomNavigationBar: CustomBottomNavBar((user == 'NGO')?ngonav:companynav)
     );
   }
 }

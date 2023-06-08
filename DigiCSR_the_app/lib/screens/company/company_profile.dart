@@ -22,13 +22,41 @@ class ProfileScreenForCompany extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreenForCompany> {
 
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+
   void save()async{
-    var token = await storage.read(key: company.cin);
-    var res = await http.post(Uri.parse('http://localhost:4000/company/add-profile/:id'),
-      headers: {
-        'authorization': token.toString()
-      }
-    );
+    try {
+  var token = await storage.read(key: company.company_email!);
+  print(token.toString());
+  // var resp = await http.post(Uri.parse('http://192.168.114.94:4000/company/add-profile/:id'),
+  var resp = await http.post(Uri.parse('http://localhost:4000/company/add-profile/:id'),
+    headers: {
+      'Context-Type': 'application/json;charSet=UTF-8',
+      'authorization': token.toString()
+    },
+    body: {
+      'company_name': company.company_name,
+      'summary':company.summary,
+      'city': company.company_city,
+      'state': company.company_state,
+      'pincode': company.pincode,
+      'establishment_year': company.establishment_year.toString(),
+      'cp_name':company.cp_name,
+      'cp_email': company.cp_email,
+      'cp_designation':company.cp_designation,
+      'cp_phone':company.cp_phone,
+      'tax_comp': company.tax_comp,
+      'sectors': company.sectors
+    },
+  );
+  print(resp.body);
+} on Exception catch (e) {
+  print(e);
+}
   }
 
   String countryValue = '';
@@ -52,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
    
   ];
 
-  CompanyUser company = CompanyUser();
+  final CompanyUser company = CompanyUser();
 
   @override
   Widget build(BuildContext context) {
@@ -80,17 +108,26 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 ),
               ),
               TextFormFieldButton(
-                  Text1: "Company Name", Text2: "Enter Full Name Of Company",controller: company.company_name),
+                  "Company Name", Text2: "Enter Full Name Of Company",controller: company.company_name),
               SizedBox(
                 height: 10,
               ),
               TextFormFieldButton(
-                Text1: "Year Of Establishment",
+                "Year Of Establishment",
                 Text2: "yyyy",
-                controller: company.establishment_year.toString(),
+                controller: company.establishment_year,
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(4),
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+              ),
+              TextFormFieldButton(
+                "Pincode",
+                Text2: "Enter Pincode",
+                controller: company.pincode,
+                inputFormatters: [
+                  // LengthLimitingTextInputFormatter(4),
                   FilteringTextInputFormatter.digitsOnly
                 ],
               ),
@@ -98,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 height: 10,
               ),
               TextFormFieldButton(
-                Text1: "Company Summery",
+                "Company Summery",
                 Text2: 'Enter text',
                 controller: company.summary,
                 inputFormatters: [
@@ -116,26 +153,26 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               SizedBox(
                 height: 5,
               ),
-              CSCPicker(
-                onCountryChanged: (country) {
-                  company.company_country = country;
-                  setState(() {
-                    countryValue = country;
-                  });
-                },
-                onStateChanged: (state) {
-                  company.company_state = state;
-                  setState(() {
-                    stateValue = state;
-                  });
-                },
-                onCityChanged: (city) {
-                  company.company_city = city;
-                  setState(() {
-                    cityValue = city;
-                  });
-                },
-              ),
+              // CSCPicker(
+              //   onCountryChanged: (country) {
+              //     company.company_country = country;
+              //     setState(() {
+              //       countryValue = country;
+              //     });
+              //   },
+              //   onStateChanged: (state) {
+              //     company.company_state = state;
+              //     setState(() {
+              //       stateValue = state;
+              //     });
+              //   },
+              //   onCityChanged: (city) {
+              //     company.company_city = city;
+              //     setState(() {
+              //       cityValue = city;
+              //     });
+              //   },
+              // ),
               SizedBox(
                 height: 10,
               ),
@@ -152,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 ),
               ),
               TextFormFieldButton(
-                Text1: "Name",
+                "Name",
                 Text2: 'Enter Name of the communication person',
                 controller: company.cp_name
               ),
@@ -160,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 height: 10,
               ),
               TextFormFieldButton(
-                Text1: "Email",
+                "Email",
                 Text2: 'Enter email of communicatoin person',
                 controller: company.cp_email
               ),
@@ -168,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 height: 10,
               ),
               TextFormFieldButton(
-                Text1: 'Phone No.',
+                'Phone No.',
                 Text2: 'Phone Number',
                 controller: company.cp_phone,
                 keyboardType: TextInputType.number,
@@ -181,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 height: 10,
               ),
               TextFormFieldButton(
-                Text1: 'Designation of the communication person',
+                'Designation of the communication person',
                 Text2: 'Enter Designation of the communication person',
                 controller: company.cp_designation
               ),
@@ -234,14 +271,14 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
       },
     ),
     SizedBox(height: 10,),
-   Center(child: ElevatedButton(onPressed: (){}, child: Text("Save")))
-              
-
+   Center(child: ElevatedButton(onPressed: (){
+    save();
+   }, child: Text("Save")))
             ],
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(pages),
+      bottomNavigationBar: CustomBottomNavBar(companynav),
     );
   }
 }

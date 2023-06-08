@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/login/companylogin.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
@@ -35,6 +35,7 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void sendOTP() async {
     try {
+      // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/signup'),
       var resSend = await http.post(Uri.parse('http://localhost:4000/company/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
@@ -52,6 +53,7 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   void verifyOTP() async{
     try {
+        // res = await http.post(Uri.parse('http://192.168.114.94:4000/company/verify'),
         res = await http.post(Uri.parse('http://localhost:4000/company/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
@@ -64,7 +66,7 @@ class _CompanySignUp extends State<CompanySignUp> {
           otpverify = true;
           btn = 'SignUP';
           print(res.body);
-          await storage.write(key: company.cin, value: jsonDecode(res.body)['result']);
+          await storage.write(key: company.company_email!, value: jsonDecode(res.body)['result']);
       
     } on Exception catch (e) {
       // TODO
@@ -365,7 +367,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                               if(!otpverify){
                                 sendOTP();
                               }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CompanyLogin()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
                               }
                             },
                             child: Text(

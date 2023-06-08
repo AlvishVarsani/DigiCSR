@@ -1,6 +1,8 @@
+import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
+import '../../widgets/appbar.dart';
 
 class RFPreq extends StatefulWidget {
   @override
@@ -12,36 +14,7 @@ class _RFPreqState extends State<RFPreq> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'RFP',
-          style:
-              TextStyle(color: black, fontFamily: 'Montserrat', fontSize: 30),
-        ),
-        actions: [
-          TextButton.icon(
-              onPressed: () {},
-              label: Text(
-                'Notification',
-                style: TextStyle(
-                    color: black, fontFamily: 'Montserrat', fontSize: 17),
-              ),
-              icon: Icon(
-                Icons.notifications,
-                color: black,
-              )),
-          Container(
-            // color: Colors.white,
-            padding: EdgeInsets.all(10),
-            child: CircleAvatar(
-              backgroundImage:
-                  AssetImage('assets/app_icon/digicsr_app_icon.png'),
-              backgroundColor: Colors.black,
-              radius: 25,
-            ),
-          )
-        ],
-      ),
+      appBar: CustomAppBar(context),
       body: SafeArea(
         child: Column(
           children: [
@@ -167,6 +140,7 @@ class _RFPreqState extends State<RFPreq> {
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavBar((user == 'NGO')?ngonav:companynav),
     );
   }
 }

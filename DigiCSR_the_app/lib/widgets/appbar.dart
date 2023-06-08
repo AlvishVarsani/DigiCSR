@@ -1,3 +1,4 @@
+import 'package:digicsr/screens/Homescreen/drawer.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +10,11 @@ PreferredSize CustomAppBar(context){
     AppBar(
         automaticallyImplyLeading: false,
         elevation: 20,
-        backgroundColor: black,
+        backgroundColor: white,
         title: Text(
-          'Home',
+          appbartitle,
           style: TextStyle(
-            color: secondary,
+            color: black,
             fontFamily: 'Montserrat',
             fontSize: 18,
           ),
@@ -24,24 +25,24 @@ PreferredSize CustomAppBar(context){
               label: Text(
                 'Notification',
                 style: TextStyle(
-                    color: secondary, fontFamily: 'Montserrat', fontSize: 17),
+                    color: black, fontFamily: 'Montserrat', fontSize: 17),
               ),
               icon: Icon(
                 Icons.notifications,
-                color: secondary,
+                color: black,
               )),
           TextButton(
             style: ButtonStyle(
               padding: MaterialStatePropertyAll(EdgeInsets.all(8)),
             ),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>DrawerScreen()));
             },
             child: CircleAvatar(
               backgroundImage:
                   AssetImage('assets/app_icon/digicsr_app_icon.png'),
               backgroundColor: secondary,
-              radius: 25,
+              radius: 20,
             ),
           )
         ],

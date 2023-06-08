@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/ngouser.dart';
@@ -34,7 +36,17 @@ class _CompanyLogin extends State<CompanyLogin> {
 
 
   void sendOTP() async {
+    // final dio = Dio();
     try {
+      // var resSend = await dio.post('http://192.168.114.94:4000/company/login',
+      //   data: {
+      //     'email': company.company_email
+      //   },
+      //   options: Options(
+      //     headers: {}
+      //   )
+      // );
+      // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/login'),
       var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
@@ -42,8 +54,8 @@ class _CompanyLogin extends State<CompanyLogin> {
           body: {
             'email': company.company_email
           });
+          otpsent = true;
           print(resSend.body);
-      otpverify = true;
     } catch (e) {
       print(e);
     }
@@ -51,7 +63,8 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   void verifyOTP() async{
     try {
-       res = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
+      //  res = await http.post(Uri.parse('http://192.168.114.94:4000/company/login/verify'),
+       var ress = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -59,9 +72,13 @@ class _CompanyLogin extends State<CompanyLogin> {
             'email': company.company_email,
             'otp': otp
           });
+          print(ress.body);
+          print('Verified');
+          print(jsonDecode(ress.body)['result']);
+         await storage.write(key: company.company_email!, value: jsonDecode(ress.body)['result']);
+         print('Finished');
       otpverify = true;
       btn = 'Sign in';
-      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -76,14 +93,16 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: h,
+            width: w,
             color: Colors.white,
           ),
           Column(
@@ -109,206 +128,213 @@ class _CompanyLogin extends State<CompanyLogin> {
               ),
             ],
           ),
-          Positioned(
-            left: MediaQuery.of(context).size.width * 0.03,
-            top: MediaQuery.of(context).size.height * 0.25,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(18)),
-                side: BorderSide(
-                    width: 1.5,
-                    style: BorderStyle.solid,
-                    strokeAlign: 3,
-                    color: Colors.transparent),
-              ),
-              elevation: 40,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.50,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Column(
-                  children: [
-                    Container(
-                      // padding: const EdgeInsets.all(15.0),
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.3),
-                      child: Text(
-                        'Sign in as $user',
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 28,
-                          color: darkgrey,
+          Row(
+            children: [
+              Expanded(child: Container()),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(18)),
+                  side: BorderSide(
+                      width: 1.5,
+                      style: BorderStyle.solid,
+                      strokeAlign: 3,
+                      color: Colors.transparent),
+                ),
+                elevation: 40,
+                child: Container(
+                  height: h * 0.60,
+                  width: w * 0.9,
+                  child: Column(
+                    children: [
+                      Container(
+                        // padding: const EdgeInsets.all(15.0),
+                        padding: EdgeInsets.only(top: h * 0.012),
+                        child: Text(
+                          'Sign in as $user',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 28,
+                            color: darkgrey,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.2),
-                      child: Row(
-                        children: [
-                          Expanded(child: Container()),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            // margin: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.04,top: MediaQuery.sizeOf(context).width * 0.04),
-                            // padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.5,left: MediaQuery.paddingOf(context).left * 0.4),
-                            child: Column(
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.fromLTRB(5,8,5,5),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Email',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: darkgrey),
-                                    )),
-                                TextFormField(
-                                  controller: TextEditingController(text: company.company_email),
-                                  onChanged: (value) {
-                                    company.company_email = value;
-                                  },
-                                  style: TextStyle(fontFamily: 'Montserrat'),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter email';
-                                    } else if (RegExp(
-                                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                        .hasMatch(value)) {
-                                      return null;
-                                    } else {
-                                      return 'Enter valid email';
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
-                                    // label: Text(
-                                    //   'Email',
-                                    //   style: TextStyle(
-                                    //       color: darkgrey,
-                                    //       fontFamily: 'Montserrat',
-                                    //       fontWeight: FontWeight.w800),
-                                    // ),
-                                    hintText: 'ex. digicsr@gmail.com',
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
-                                    errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                      Container(
+                        padding: EdgeInsets.only(top: h * 0.035),
+                        child: Row(
+                          children: [
+                            Expanded(child: Container()),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              // margin: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.04,top: MediaQuery.sizeOf(context).width * 0.04),
+                              // padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.5,left: MediaQuery.paddingOf(context).left * 0.4),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.fromLTRB(5,8,5,5),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'Email',
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 20,
+                                            color: darkgrey),
+                                      )),
+                                  TextFormField(
+                                    controller: TextEditingController(text: company.company_email),
+                                    onChanged: (value) {
+                                      company.company_email = value;
+                                    },
+                                    style: TextStyle(fontFamily: 'Montserrat'),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter email';
+                                      } else if (RegExp(
+                                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                          .hasMatch(value)) {
+                                        return null;
+                                      } else {
+                                        return 'Enter valid email';
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                                      // label: Text(
+                                      //   'Email',
+                                      //   style: TextStyle(
+                                      //       color: darkgrey,
+                                      //       fontFamily: 'Montserrat',
+                                      //       fontWeight: FontWeight.w800),
+                                      // ),
+                                      hintText: 'ex. digicsr@gmail.com',
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: grey)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: grey)),
+                                      errorBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: Colors.red)),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: Colors.red)),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(child: Container()),
-                        ],
+                            Expanded(child: Container()),
+                          ],
+                        ),
                       ),
-                    ),
-                    
-                    Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.6,bottom: MediaQuery.paddingOf(context).top * 0.3),
-                      child: OTPTextField(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        controller: otpcontroller,
-                        length: 6,
-                        contentPadding: EdgeInsets.all(8.0),
-                        onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState(verifyOTP)},
-                        // spaceBetween: 2,
-                        outlineBorderRadius: 6,
-                        style: TextStyle(fontFamily: 'Montserrat',fontSize: 20),
-                        spaceBetween: 10, fieldWidth: 35,
-                        textFieldAlignment: MainAxisAlignment.center,
-                        fieldStyle: FieldStyle.box,
-                        otpFieldStyle: OtpFieldStyle(
-                            borderColor: Colors.blue,
-                            focusBorderColor: Colors.blue,
-                            errorBorderColor: Colors.red,
-                            enabledBorderColor: Colors.blue),
+                      
+                      Container(
+                        padding: EdgeInsets.only(top: h * 0.04,bottom: h * 0.04),
+                        child: OTPTextField(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          controller: otpcontroller,
+                          length: 6,
+                          contentPadding: EdgeInsets.all(8.0),
+                          onChanged: (value) => {otp = value},
+                          onCompleted: (value) => {
+                            otp = value,
+                            verifyOTP(),
+                            setState((){})},
+                          // spaceBetween: 2,
+                          outlineBorderRadius: 6,
+                          style: TextStyle(fontFamily: 'Montserrat',fontSize: 20),
+                          spaceBetween: 10, fieldWidth: 35,
+                          textFieldAlignment: MainAxisAlignment.center,
+                          fieldStyle: FieldStyle.box,
+                          otpFieldStyle: OtpFieldStyle(
+                              borderColor: Colors.blue,
+                              focusBorderColor: Colors.blue,
+                              errorBorderColor: Colors.red,
+                              enabledBorderColor: Colors.blue),
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).top * 0.4,top: MediaQuery.paddingOf(context).top * 0.2),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: otpverify, onChanged: (value) {},
-                            activeColor: grey,
-                            fillColor: MaterialStatePropertyAll(grey),
-                            checkColor: darkgrey,
-                            // focusColor: grey,
-                            // hoverColor: grey,
-                            // splashRadius: 9,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Colors.transparent,
-                                  style: BorderStyle.solid),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(2)),
+                      Container(
+                        padding: EdgeInsets.only(left: w * 0.04,top: h * 0.02),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: otpverify, onChanged: (value) {},
+                              activeColor: grey,
+                              fillColor: MaterialStatePropertyAll(grey),
+                              checkColor: darkgrey,
+                              // focusColor: grey,
+                              // hoverColor: grey,
+                              // splashRadius: 9,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.transparent,
+                                    style: BorderStyle.solid),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2)),
+                              ),
+                              // splashRadius: 12,
                             ),
-                            // splashRadius: 12,
-                          ),
-                          Text(
-                            'OTP verified',
-                            style: TextStyle(
-                                color: darkgrey,
-                                fontFamily: 'Montserrat',
-                                fontSize: 17),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        alignment: Alignment.center,
-                        child: TextButton(
-                            style: ButtonStyle(
-                                elevation: MaterialStatePropertyAll(20),
-                                padding: MaterialStatePropertyAll(
-                                    EdgeInsets.all(MediaQuery.paddingOf(context).top * 0.3)),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(darkgrey),
-                                shape: MaterialStatePropertyAll<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.transparent,
-                                            style: BorderStyle.solid),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))))),
-                            onPressed: () {
-                              // (btn == 'Send OTP')
-                              //     ? sendOTP()
-                              //     : Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //                 Login_Screen()));
-                              if(!otpverify){
-                                sendOTP();
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RFP()));
-                              }
-                            },
-                            child: Text(
-                              btn,
+                            Text(
+                              'OTP verified',
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
+                                  color: darkgrey,
                                   fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
-                            )),
+                                  fontSize: 17),
+                            )
+                          ],
+                        ),
                       ),
-                    )
-                  ],
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          alignment: Alignment.center,
+                          child: TextButton(
+                              style: ButtonStyle(
+                                  elevation: MaterialStatePropertyAll(20),
+                                  padding: MaterialStatePropertyAll(
+                                      EdgeInsets.all(h * 0.03)),
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(darkgrey),
+                                  shape: MaterialStatePropertyAll<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Colors.transparent,
+                                              style: BorderStyle.solid),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))))),
+                              onPressed: () {
+                                user = 'Company';
+                                // (btn == 'Send OTP')
+                                //     ? sendOTP()
+                                //     : Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 Login_Screen()));
+                                if(!otpverify){
+                                  sendOTP();
+                                }else{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
+                                }
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                              },
+                              child: Text(
+                                btn,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
+              Expanded(child: Container()),
+            ],
           ),
         ],
       ),
