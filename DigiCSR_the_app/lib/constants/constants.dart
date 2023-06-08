@@ -4,11 +4,14 @@ import 'package:digicsr/screens/ngo/rfprequests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+<<<<<<< HEAD
 import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
 import '../screens/ngo/rfpngo.dart';
 
 
+=======
+>>>>>>> refs/remotes/origin/main
 Color blue = Color(0xFF1DA1F2);
 Color black = Color(0xFF202020);
 Color grey = Color(0xFFAAB8C2);
@@ -25,6 +28,7 @@ String user = '';
 String btn = 'Send OTP';
 String auth = '';
 
+<<<<<<< HEAD
 String appbartitle = 'Home';
 
 
@@ -39,3 +43,6 @@ List<Widget> ngonav = [
   RFPreq(),
   ProfileScreenForNGO()
 ];
+=======
+String ipInfo = "http://192.168.1.3:4000";
+>>>>>>> refs/remotes/origin/main
