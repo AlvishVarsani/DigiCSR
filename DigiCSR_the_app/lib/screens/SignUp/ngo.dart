@@ -9,7 +9,6 @@ import 'package:otp_text_field/style.dart';
 
 import '../../constants/constants.dart';
 
-
 class NGOSignUp extends StatefulWidget {
   @override
   State<NGOSignUp> createState() {
@@ -32,7 +31,7 @@ class _NGOSignUp extends State<NGOSignUp> {
 
   void sendOTP() async {
     try {
-      var resSend = await http.post(Uri.parse('http://localhost:4000/ngo/signup'),
+      var resSend = await http.post(Uri.parse(ipInfo + '/ngo/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -40,7 +39,7 @@ class _NGOSignUp extends State<NGOSignUp> {
             'csr': ngo.csr,
             'email': ngo.email
           });
-          print(resSend.body);
+      print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
@@ -49,7 +48,7 @@ class _NGOSignUp extends State<NGOSignUp> {
 
   void verifyOTP() async {
     try {
-       res = await http.post(Uri.parse('http://localhost:4000/ngo/verify'),
+      res = await http.post(Uri.parse(ipInfo + '/ngo/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -60,7 +59,9 @@ class _NGOSignUp extends State<NGOSignUp> {
           });
       otpverify = true;
       btn = 'SignUP';
-      await storage.write(key: jsonDecode(res.body)['success'], value: jsonDecode(res.body)['result']);
+      await storage.write(
+          key: jsonDecode(res.body)['success'],
+          value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -88,7 +89,8 @@ class _NGOSignUp extends State<NGOSignUp> {
           Column(
             children: [
               Expanded(child: Container()),
-              Card(clipBehavior: Clip.antiAlias,
+              Card(
+                clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.all(0),
                 color: darkgrey,
                 shape: RoundedRectangleBorder(
@@ -128,7 +130,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                   children: [
                     Container(
                       // padding: const EdgeInsets.all(15.0),
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.3),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.3),
                       child: Text(
                         'SignUp as $user',
                         style: TextStyle(
@@ -139,7 +142,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.2),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
                       child: Row(
                         children: [
                           Expanded(child: Container()),
@@ -150,7 +154,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                             child: Column(
                               children: [
                                 Container(
-                                    margin: EdgeInsets.fromLTRB(5,8,5,5),
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       'Email',
@@ -160,7 +164,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                                           color: darkgrey),
                                     )),
                                 TextFormField(
-                                  controller: TextEditingController(text: ngo.email),
+                                  controller:
+                                      TextEditingController(text: ngo.email),
                                   onChanged: (value) {
                                     ngo.email = value;
                                   },
@@ -177,7 +182,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                                    contentPadding: EdgeInsets.only(
+                                        top: 15, bottom: 15, left: 10),
                                     // label: Text(
                                     //   'Email',
                                     //   style: TextStyle(
@@ -194,10 +200,12 @@ class _NGOSignUp extends State<NGOSignUp> {
                                         borderSide: BorderSide(color: grey)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
                                     focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
                                   ),
                                 ),
                               ],
@@ -208,7 +216,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.2),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.2),
                       child: Row(
                         children: [
                           Expanded(child: Container()),
@@ -220,7 +229,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                             child: Column(
                               children: [
                                 Container(
-                                    margin: EdgeInsets.fromLTRB(5,8,5,5),
+                                    margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       'CSR',
@@ -232,7 +241,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                                 TextFormField(
                                   // scrollPadding: EdgeInsets.all(5),
                                   style: TextStyle(fontFamily: 'Montserrat'),
-                                  controller: TextEditingController(text: ngo.csr),
+                                  controller:
+                                      TextEditingController(text: ngo.csr),
                                   onChanged: (value) {
                                     ngo.csr = value;
                                   },
@@ -244,7 +254,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                                    contentPadding: EdgeInsets.only(
+                                        top: 15, bottom: 15, left: 10),
                                     // label: Text(
                                     //   'CSR',
                                     //   style: TextStyle(
@@ -261,10 +272,12 @@ class _NGOSignUp extends State<NGOSignUp> {
                                         borderSide: BorderSide(color: grey)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
                                     focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.red)),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
                                   ),
                                 ),
                               ],
@@ -275,7 +288,9 @@ class _NGOSignUp extends State<NGOSignUp> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.6,bottom: MediaQuery.paddingOf(context).top * 0.3),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.paddingOf(context).top * 0.6,
+                          bottom: MediaQuery.paddingOf(context).top * 0.3),
                       child: OTPTextField(
                         width: MediaQuery.of(context).size.width * 0.8,
                         controller: otpcontroller,
@@ -285,7 +300,8 @@ class _NGOSignUp extends State<NGOSignUp> {
                         onCompleted: (value) => {setState(verifyOTP)},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
-                        style: TextStyle(fontFamily: 'Montserrat',fontSize: 20),
+                        style:
+                            TextStyle(fontFamily: 'Montserrat', fontSize: 20),
                         spaceBetween: 10, fieldWidth: 35,
                         textFieldAlignment: MainAxisAlignment.center,
                         fieldStyle: FieldStyle.box,
@@ -297,7 +313,9 @@ class _NGOSignUp extends State<NGOSignUp> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).top * 0.4,top: MediaQuery.paddingOf(context).top * 0.2),
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.paddingOf(context).top * 0.4,
+                          top: MediaQuery.paddingOf(context).top * 0.2),
                       child: Row(
                         children: [
                           Checkbox(
@@ -335,7 +353,9 @@ class _NGOSignUp extends State<NGOSignUp> {
                             style: ButtonStyle(
                                 elevation: MaterialStatePropertyAll(20),
                                 padding: MaterialStatePropertyAll(
-                                    EdgeInsets.all(MediaQuery.paddingOf(context).top * 0.3)),
+                                    EdgeInsets.all(
+                                        MediaQuery.paddingOf(context).top *
+                                            0.3)),
                                 backgroundColor:
                                     MaterialStatePropertyAll(darkgrey),
                                 shape: MaterialStatePropertyAll<
@@ -354,10 +374,13 @@ class _NGOSignUp extends State<NGOSignUp> {
                               //         MaterialPageRoute(
                               //             builder: (context) =>
                               //                 Login_Screen()));
-                              if(!otpverify){
+                              if (!otpverify) {
                                 sendOTP();
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Container()));
                               }
                             },
                             child: Text(

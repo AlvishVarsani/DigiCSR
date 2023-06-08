@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f0fc56948173c45c1575d4335d666fef1cb3bfa0
 import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/models/RFPModel.dart';
+import 'package:digicsr/services/rfp_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RFP extends StatefulWidget {
   @override
@@ -9,6 +15,13 @@ class RFP extends StatefulWidget {
 }
 
 class _RFPState extends State<RFP> {
+  late Future<List<Rfp>> futureList;
+
+  @override
+  void initState() async {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,16 +229,18 @@ class _RFPState extends State<RFP> {
             ),
           ),
           TextButton(
-            
-            style: ButtonStyle(
-              // padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
-              minimumSize: MaterialStatePropertyAll(Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.08)),
-              backgroundColor: MaterialStatePropertyAll(blue),
-            ),
+              style: ButtonStyle(
+                // padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
+                minimumSize: MaterialStatePropertyAll(Size(
+                    MediaQuery.of(context).size.width,
+                    MediaQuery.of(context).size.height * 0.08)),
+                backgroundColor: MaterialStatePropertyAll(blue),
+              ),
               onPressed: () {},
               child: Text(
                 'Raise RFP',
-                style: TextStyle(fontFamily: 'Montserrat', fontSize: 18,color: black),
+                style: TextStyle(
+                    fontFamily: 'Montserrat', fontSize: 18, color: black),
               ))
         ],
       )),

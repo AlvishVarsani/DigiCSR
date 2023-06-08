@@ -6,7 +6,7 @@ const express = require("express");
 const logger = require('morgan'); // for logging requests , status codes and more.....
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 

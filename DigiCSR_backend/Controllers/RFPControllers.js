@@ -45,19 +45,25 @@ exports.getAllRfps = async (req, res) => {
 
     const rfps = await RFP.find(
       {},
-      { title: 1, sectors: 1, states: 1, company: 1 }
+      { title: 1, amount: 1, timeline: 1, sectors: 1, states: 1, company: 1 }
     )
       .populate({ path: "company", select: "company_name" })
       .sort({ date: -1 })
       .skip(skip)
       .limit(limit);
 
+      console.log(rfps);
+
     let response = rfps.map((rfp) => ({
       title: rfp.title,
+      amount: rfp.amount,
       sectors: rfp.sectors,
       states: rfp.states,
+      timeline: rfp.timeline,
       company_name: rfp.company.company_name,
     }));
+
+    console.log(response)
 
     res.status(200).json(response);
   } catch (error) {
