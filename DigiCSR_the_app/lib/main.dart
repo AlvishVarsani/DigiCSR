@@ -1,6 +1,9 @@
-import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/screens/splash_screen/splash_screen.dart';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/login/login_screen.dart';
+import 'screens/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());

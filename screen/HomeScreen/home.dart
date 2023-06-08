@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 
 import '../CompanyScreen/company_screen.dart';
-import '../ProfileScreen/profile_screen.dart';
+import '../ProfileScreen/profile_screen_for_company.dart';
 import 'home_screen.dart';
 
 class Home extends StatefulWidget {
@@ -13,30 +12,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int selectedIndex = 0;
 
-   int currentIndex = 0;
-
-  final List pages = [
+ var pages = [
     HomeScreen(),
     CompanyScreen(),
-    ProfileScreen(),
-    
+    ProfileScreenForCompany(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title:Text( "DigiCSR"),),
-      
-      
-      body: pages[currentIndex],
-
-    
+      body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (int index) {
+        selectedFontSize: 20,
+        unselectedFontSize: 15,
+        currentIndex: selectedIndex,
+        onTap: (value) {
           setState(() {
-            currentIndex = index;
+            selectedIndex = value;
           });
         },
         items: [
@@ -61,13 +55,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-  
-
-
-    
-    
-    
-     
-
-
-
