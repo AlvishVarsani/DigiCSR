@@ -61,9 +61,7 @@ class _CompanyLogin extends State<CompanyLogin> {
       otpverify = true;
       btn = 'Sign in';
       debugPrint(res.body['success']);
-      await storage.write(
-          key: jsonDecode(res.body)['success'],
-          value: jsonDecode(res.body)['result']);
+      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       print(e);
     }

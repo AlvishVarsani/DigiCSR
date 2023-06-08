@@ -63,9 +63,7 @@ class _CompanySignUp extends State<CompanySignUp> {
       otpverify = true;
       btn = 'SignUP';
       print(res.body);
-      await storage.write(
-          key: jsonDecode(res.body)['success'],
-          value: jsonDecode(res.body)['result']);
+      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);

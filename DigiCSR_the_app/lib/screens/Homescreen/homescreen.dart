@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -9,23 +8,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int currentIndex = 0;
 
-   int currentIndex = 0;
-
-  final List pages = [
-  
-    
-  ];
+  final List pages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title:Text( "DigiCSR"),),
-      
-      
+      appBar: AppBar(
+        title: Text("DigiCSR"),
+      ),
       body: pages[currentIndex],
-
-    
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (int index) {
@@ -55,13 +48,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-  
-
-
-    
-    
-    
-     
-
-
-

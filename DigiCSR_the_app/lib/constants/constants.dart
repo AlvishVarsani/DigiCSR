@@ -15,3 +15,7 @@ String btn = 'Send OTP';
 String auth = '';
 
 String ipInfo = "http://192.168.1.3:4000";
+
+Future<String?> fetchToken() {
+  return storage.read(key: "token");
+}
