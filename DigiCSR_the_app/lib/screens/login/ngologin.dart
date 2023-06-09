@@ -1,10 +1,7 @@
 import 'dart:convert';
 
-<<<<<<< HEAD
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
 
-=======
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -53,7 +50,7 @@ class _NGOLogin extends State<NGOLogin> {
 
   void verifyOTP() async {
     try {
-      res = await http.post(Uri.parse('http://localhost:4000/NGO/login/verify'),
+      final res = await http.post(Uri.parse('http://localhost:4000/NGO/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -305,23 +302,12 @@ class _NGOLogin extends State<NGOLogin> {
                               //         MaterialPageRoute(
                               //             builder: (context) =>
                               //                 Login_Screen()));
-<<<<<<< HEAD
                               // if(!otpverify){
                               //   sendOTP();
                               // }else{
-                              //   Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                               // }
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-=======
-                              if (!otpverify) {
-                                sendOTP();
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Container()));
-                              }
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
                             },
                             child: Text(
                               btn,

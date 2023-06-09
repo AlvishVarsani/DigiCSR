@@ -48,7 +48,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
 
   void verifyOTP() async {
     try {
-      res = await http.post(
+      final res = await http.post(
           Uri.parse('http://localhost:4000/Beneficiary/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'

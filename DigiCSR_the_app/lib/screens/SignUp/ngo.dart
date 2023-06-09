@@ -48,7 +48,7 @@ class _NGOSignUp extends State<NGOSignUp> {
 
   void verifyOTP() async {
     try {
-      res = await http.post(Uri.parse(ipInfo + '/ngo/verify'),
+      final res = await http.post(Uri.parse(ipInfo + '/ngo/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },

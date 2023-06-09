@@ -83,15 +83,12 @@ class _CompanyLogin extends State<CompanyLogin> {
           print(ress.body);
           print('Verified');
           print(jsonDecode(ress.body)['result']);
-         await storage.write(key: company.company_email!, value: jsonDecode(ress.body)['result']);
+         await storage.write(key: 'token', value: jsonDecode(ress.body)['result']);
          print('Finished');
       otpverify = true;
       btn = 'Sign in';
-<<<<<<< HEAD
-=======
-      debugPrint(res.body['success']);
-      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
+      debugPrint(jsonDecode(ress.body)['result']);
+      await storage.write(key: "token", value: jsonDecode(ress.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);

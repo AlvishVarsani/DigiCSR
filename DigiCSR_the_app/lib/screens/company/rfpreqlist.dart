@@ -16,7 +16,8 @@ class _RFPReqListState extends State<RFPReqList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    futureRfpList = fetchCompanyRfp('yashuranparia136@gmail.com');
+    futureRfpList = fetchCompanyRfp();
+    print(futureRfpList);
   }
   @override
   Widget build(BuildContext context) {

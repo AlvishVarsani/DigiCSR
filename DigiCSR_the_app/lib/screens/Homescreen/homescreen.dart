@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
-=======
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
 import 'package:flutter/material.dart';
 
 import 'package:readmore/readmore.dart';
@@ -26,23 +23,15 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-<<<<<<< HEAD
 class _HomeScreenState extends State<HomeScreen> {
   Color _favIconColor = Colors.grey;
   String content =
       "In Flutter, if you are wondering is there any way to work with English words or where to find any library that works with English words the search ends here. There is a library named english_words that contains at most 5000 used English words with some utility functions. It’s useful in applications like dictionaries or teaching-related apps. In this article, we will be learning about it and seeing its usage. In the future, the author of this package might add more functionalities to it";
 
-=======
-class _HomeState extends State<Home> {
-  int currentIndex = 0;
-
-  final List pages = [];
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-<<<<<<< HEAD
       drawer: DrawerScreen(),
       appBar: CustomAppBar(context),
       body: SafeArea(
@@ -50,23 +39,6 @@ class _HomeState extends State<Home> {
             child: Column(children: [
           SizedBox(
             height: 10,
-=======
-      appBar: AppBar(
-        title: Text("DigiCSR"),
-      ),
-      body: pages[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
           ),
           VxSwiper.builder(
               aspectRatio: 16 / 9,

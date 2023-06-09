@@ -18,7 +18,6 @@ Color primary = Color(0xFF0CB6F0);
 Color secondary = Color(0xFFFF6163);
 Color white = Color(0xFFFFFFFF);
 
-late var res;
 final storage = FlutterSecureStorage();
 
 final CompanyUser company = CompanyUser();
@@ -28,7 +27,6 @@ String user = '';
 String btn = 'Send OTP';
 String auth = '';
 
-<<<<<<< HEAD
 String appbartitle = 'Home';
 
 List<Widget> companynav = [HomeScreen(), RFP(), ProfileScreenForCompany()];
@@ -66,11 +64,10 @@ final Indianstates = [
   MultiSelectItem<String>('Option 28','West Bengal')
 ];
 
-String ipInfo = "http://192.168.114.94:4000";
-=======
-String ipInfo = "http://192.168.1.3:4000";
+String ipInfo = "http://localhost:4000";
 
 Future<String?> fetchToken() {
   return storage.read(key: "token");
 }
->>>>>>> bf2b30785fc4b11f5eb8325e61c8ec38b47baec2
+
+late final TextEditingController _controller;

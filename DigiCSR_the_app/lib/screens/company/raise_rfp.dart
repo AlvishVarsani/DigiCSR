@@ -15,41 +15,49 @@ class RaiseRfpRequest extends StatefulWidget {
 }
 
 class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
-  final String rfptitle = '';
-  final String rfpamount = '';
-  final String rfptimeline = '';
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
 
+  String rfptitle = '';
+  String rfpamount = '';
+  String rfptimeline = '';
 
-Map<String,String> rfpbody(){
-  print(rfptitle);
-  return {
-  'title': rfptitle,
-  'amount': rfptitle,
-  'timeline': rfptimeline,
-  'sectors': selectedSectors.toString(),
-  'states': selectedstates.toString(),
-};
-}
+  Map<String, String> rfpbody() {
+    print(rfptitle);
+    return {
+      'title': rfptitle,
+      'amount': rfptitle,
+      'timeline': rfptimeline,
+      'sectors': selectedSectors.toString(),
+      'states': selectedstates.toString(),
+    };
+  }
 
   List<String> selectedSectors = [];
   List<String> selectedstates = [];
   final _items = [
-    MultiSelectItem<String>('Option 1', "Rural Development"),
-    MultiSelectItem<String>('Option 2', "Encouraging Sports"),
-    MultiSelectItem<String>('Option 3', "Clean Ganga Fund"),
-    MultiSelectItem<String>('Option 4', "Swachh Bharat"),
-    MultiSelectItem<String>('Option 5', "Health & Sanitation"),
+    MultiSelectItem<String>('Rural Development', "Rural Development"),
+    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem<String>('Clean Ganga Fund', "Clean Ganga Fund"),
+    MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
+    MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
+    MultiSelectItem<String>('Education, Differently Abled, Livelihood',
+        "Education, Differently Abled, Livelihood"),
     MultiSelectItem<String>(
-        'Option 6', "Education, Differently Abled, Livelihood"),
-    MultiSelectItem<String>('Option 7',
+        'Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
         "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
     MultiSelectItem<String>(
-        'Option 8', "Environment, Animal Welfare, Conservation of Resources"),
-    MultiSelectItem<String>('Option 9', "Slum Development"),
-    MultiSelectItem<String>('Option 10', "Heritage Art And Culture"),
+        'Environment, Animal Welfare, Conservation of Resources',
+        "Environment, Animal Welfare, Conservation of Resources"),
+    MultiSelectItem<String>('Slum Development', "Slum Development"),
     MultiSelectItem<String>(
-        'Option 11', "Prime Minister National Relief Funds"),
-    MultiSelectItem<String>('Option 12', "others"),
+        'Heritage Art And Culture', "Heritage Art And Culture"),
+    MultiSelectItem<String>('Prime Minister National Relief Funds',
+        "Prime Minister National Relief Funds"),
+    MultiSelectItem<String>('others', "others"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -90,18 +98,67 @@ Map<String,String> rfpbody(){
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormFieldButton(
-                        "RFP Title",
-                        Text2: "Enter tilte of RFP",
-                        controller: rfptitle,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'RFP Title',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            textDirection: TextDirection.ltr,
+                            controller: TextEditingController(text: rfptitle),
+                            onChanged: (value) {
+                              rfptitle = value;
+                            },
+                            onEditingComplete: () => {
+                              setState(() {
+                                print(rfptitle);
+                              })
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter title',
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.blue))),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormFieldButton(
-                        "Amount of RFP",
-                        Text2: "Amount of Rfp",
-                        controller: rfpamount,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'RFP Amount',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            textDirection: TextDirection.ltr,
+                            controller: TextEditingController(text: rfpamount),
+                            onChanged: (value) {
+                              rfpamount = value;
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter amount of RFP',
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.blue))),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 10,
@@ -114,17 +171,50 @@ Map<String,String> rfpbody(){
                       Card(
                         child: Padding(
                           padding: EdgeInsets.all(1.0),
-                          child: MultiSelect(_items, selectedSectors),
+                          child: MultiSelectDialogField<String>(
+                            title: Text('Select Options'),
+                            items: _items,
+                            initialValue: selectedSectors,
+                            onConfirm: (values) {
+                              setState(() {
+                                selectedSectors = values;
+                              });
+                            },
+                          ),
                         ),
                       ),
-                      TextFormFieldButton(
-                        "Timeline for money utilization",
-                        Text2: "mm(least value should be of 12 months",
-                        controller: rfptimeline,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(2),
-                          FilteringTextInputFormatter.digitsOnly
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Timeline',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            textDirection: TextDirection.ltr,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(2),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            controller:
+                                TextEditingController(text: rfptimeline),
+                            onChanged: (value) {
+                              rfptimeline = value;
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText:
+                                    'Enter the timeline for amount utility.',
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.blue))),
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -139,7 +229,16 @@ Map<String,String> rfpbody(){
                       Card(
                         child: Padding(
                           padding: EdgeInsets.all(1.0),
-                          child: MultiSelect(Indianstates, selectedstates),
+                          child: MultiSelectDialogField<String>(
+                            title: Text('Select Options'),
+                            items: Indianstates,
+                            initialValue: selectedstates,
+                            onConfirm: (values) {
+                              setState(() {
+                                selectedstates = values;
+                              });
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -149,8 +248,9 @@ Map<String,String> rfpbody(){
                           child: ElevatedButton(
                               onPressed: () {
                                 print(rfpbody());
-                                addRFP('yashuranparia136@gmail.com', rfpbody());
-                              }, child: Text("Raise Request")))
+                                addRFP(rfpbody());
+                              },
+                              child: Text("Raise Request")))
                     ]),
               ),
             ),
