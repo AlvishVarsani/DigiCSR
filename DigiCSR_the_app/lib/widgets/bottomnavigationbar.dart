@@ -20,6 +20,14 @@ List<String> pagetitle = [
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 
+int index = 0;
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    index = 0;
+  }
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -27,7 +35,6 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   }
   @override
   Widget build(BuildContext context) {
-    int index = 0;
     // TODO: implement build
     return BottomNavigationBar(
         elevation: 20,
@@ -41,8 +48,10 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         iconSize: 30,
         backgroundColor: white,
         onTap: (value)=>{
-            index = value,
-            appbartitle = pagetitle[value],
+            setState(() {
+              index = value;
+            appbartitle = pagetitle[value];
+            }),
             Navigator.push(context, MaterialPageRoute(builder: (context)=>widget.pages[value])),
         },
         items: [

@@ -6,9 +6,8 @@ import 'package:http/http.dart' as http;
 import '../constants/constants.dart';
 import '../models/RFPModel.dart';
 
-void addRFP(Map<String,String> body) async {
+void addRFP(Map<String,dynamic> body) async {
   final token = await fetchToken();
-  print(token);
   final response = await http.post(Uri.parse(ipInfo + "/add-rfp"),
   headers: {
     'Context-Type': 'application/json;charSet=UTF-8',
@@ -50,9 +49,11 @@ Future<List<Rfp>> fetchCompanyRfp() async {
         'authorization': token!
       }
       );
-print(response);
+// print(jsonDecode(response.body));
+
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
+    print(data);
     return data.map((e) => Rfp.fromJson(e)).toList();
   } else {
     throw Exception('Failed to load RFP data');

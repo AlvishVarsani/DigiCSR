@@ -83,6 +83,7 @@ class _CompanyLogin extends State<CompanyLogin> {
           print(ress.body);
           print('Verified');
           print(jsonDecode(ress.body)['result']);
+          await storage.deleteAll();
          await storage.write(key: 'token', value: jsonDecode(ress.body)['result']);
          print('Finished');
       otpverify = true;
@@ -322,10 +323,11 @@ class _CompanyLogin extends State<CompanyLogin> {
                                 //         MaterialPageRoute(
                                 //             builder: (context) =>
                                 //                 Login_Screen()));
+                                
                                 if(!otpverify){
                                   sendOTP();
                                 }else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                                 }
                                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                               },

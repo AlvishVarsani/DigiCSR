@@ -1,5 +1,6 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/company/raise_rfp.dart';
+import 'package:digicsr/screens/company/request.dart';
 import 'package:digicsr/screens/company/rfpreqlist.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
@@ -14,17 +15,23 @@ class RFP extends StatefulWidget {
 
 class _RFPState extends State<RFP> {
   late Future<List<Rfp>> futureList;
-
+  final PageController _pageController = PageController();
   // Rfp rfp = Rfp(title: 'Children\'s Day' , amount: 2000, sectors: ['Healthcare','education'], states: ['Gujarat','Delhi'], timeline: '20', company: 'reliance');
 
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
   @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int index = 0;
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -37,52 +44,79 @@ class _RFPState extends State<RFP> {
             children: [
               Expanded(
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          index = 1;
+                        });
+                      },
                       child: Text('Requests',
                           style: TextStyle(
-                              color: black,
+                              color: white,
                               fontFamily: 'Montserrat',
-                              fontSize: 25)),
+                              fontSize: 25,
+                              )),
                       style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(primary),
                           // padding: MaterialStatePropertyAll(
                           //     EdgeInsets.only(top: h*)),
                           alignment: Alignment.center,
-                          minimumSize: MaterialStatePropertyAll(Size(w*0.5,h*0.05)),
-                          maximumSize: MaterialStatePropertyAll(Size(w*0.5, h*0.07)),
+                          minimumSize:
+                              MaterialStatePropertyAll(Size(w * 0.5, h * 0.07)),
+                          maximumSize: MaterialStatePropertyAll(
+                              Size(w * 0.5, h * 0.095)),
                           // elevation: MaterialStatePropertyAll(20),
                           shape:
                               MaterialStatePropertyAll<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       side: BorderSide(
-                                          color: black,
+                                          color: white,
                                           width: 1.2,
                                           style: BorderStyle.solid)))))),
               Expanded(
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          index = 2;
+                        });
+                      },
                       child: Text('Respnses',
                           style: TextStyle(
-                              color: black,
+                              color: white,
                               fontFamily: 'Montserrat',
                               fontSize: 25)),
                       style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(primary),
                           // padding: MaterialStatePropertyAll(
                           //     EdgeInsets.fromLTRB(10, 20, 10, 20)),
-                          minimumSize: MaterialStatePropertyAll(Size(w*0.5,h*0.05)),
-                          maximumSize: MaterialStatePropertyAll(Size(w*0.5, h*0.07)),
+                          minimumSize:
+                              MaterialStatePropertyAll(Size(w * 0.5, h * 0.07)),
+                          maximumSize: MaterialStatePropertyAll(
+                              Size(w * 0.5, h * 0.095)),
                           alignment: Alignment.center,
                           // elevation: MaterialStatePropertyAll(20),
                           shape:
                               MaterialStatePropertyAll<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       side: BorderSide(
-                                          color: black,
+                                          color: white,
                                           width: 1.2,
                                           style: BorderStyle.solid)))))),
             ],
           ),
           Expanded(
-            child: RFPReqList(),
+            child: PageView(
+              onPageChanged: (value) => {
+                
+              },
+              controller: PageController(initialPage: index),
+              // reverse: true,
+              children: [
+                RFPReqList(),
+                Container(
+                  color: blue,
+                ),
+              ],
+            ),
           ),
           TextButton(
               style: ButtonStyle(
@@ -93,7 +127,8 @@ class _RFPState extends State<RFP> {
                 backgroundColor: MaterialStatePropertyAll(blue),
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RaiseRfpRequest()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RaiseRfpRequest()));
                 // addRFP('yashuranparia136@gmail.com', rfpbody);
               },
               child: Text(

@@ -1,3 +1,4 @@
+import 'package:digicsr/screens/company/rfp.dart';
 import 'package:digicsr/services/rfp_services.dart';
 import 'package:flutter/material.dart';
 
@@ -13,24 +14,27 @@ class _RFPReqListState extends State<RFPReqList> {
   late Future<List<Rfp>> futureRfpList;
 
   @override
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
-    futureRfpList = fetchCompanyRfp();
-    print(futureRfpList);
+    try {
+  futureRfpList = fetchCompanyRfp();
+} on Exception catch (e) {
+  // TODO
+  print(e);
+}
   }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-    width: MediaQuery.of(context).size.width,
-    child: FutureBuilder(
+    return FutureBuilder(
     future: futureRfpList,
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         return ListView.builder(
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {
+            print('${snapshot.data![index].company}');
             return Card(
               elevation: 20,
               margin: EdgeInsets.all(15),
@@ -46,20 +50,16 @@ class _RFPReqListState extends State<RFPReqList> {
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
                         child: Text(
-                            'Company: ${snapshot.data![index].company}'),
+                            'Title: ${snapshot.data![index].title}'),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                              child: Text(
-                                  'Amount: ${snapshot.data![index].amount}')),
-                          Container(
-                              padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-                              child: Text(
-                                  'Timeline: ${snapshot.data![index].timeline}')),
-                        ],
-                      ),
+                      Container(
+                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          child: Text(
+                              'Sectors: ${snapshot.data![index].sectors}')),
+                      Container(
+                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          child: Text(
+                              'States: ${snapshot.data![index].states}')),
                     ]),
               ),
             );
@@ -69,11 +69,16 @@ class _RFPReqListState extends State<RFPReqList> {
         return Text("${snapshot.error}");
       }
 
-      return const CircularProgressIndicator(
-        strokeWidth: 3,
+      return Center(
+        child: Container(
+          height: MediaQuery.of(context).size.width*0.15,
+          width: MediaQuery.of(context).size.width*0.15,
+          child: const CircularProgressIndicator(
+            strokeWidth: 1,
+          ),
+        ),
       );
     },
-    ),
     );
   }
 }

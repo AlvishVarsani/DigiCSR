@@ -1,4 +1,5 @@
 import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/SignUp/benificiary.dart';
 import 'package:digicsr/screens/SignUp/company.dart';
 import 'package:digicsr/screens/SignUp/ngo.dart';
@@ -84,7 +85,7 @@ class UserSelection extends StatelessWidget {
                   //     left: MediaQuery.of(context).size.width * 0.08,
                   //     right: MediaQuery.of(context).size.width * 0.08),
                   child: Text(
-                    'Want to SignUp as ...',
+                    'Want to $auth as ...',
                     style:
                         TextStyle(color: black, fontSize: 30, fontFamily: 'Lato'),
                   ),
@@ -117,9 +118,11 @@ class UserSelection extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async{
                             user = 'Company';
-                            if (auth == 'signup') {
+                            final token = await fetchToken();
+                            if(token == null){
+                              if (auth == 'signup') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -130,6 +133,13 @@ class UserSelection extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CompanyLogin()));
                             }
+                              
+                            }
+                            else{
+                              print(token);
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                            }
+                            
                           },
                           child: Container(
                             child: Row(

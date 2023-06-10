@@ -25,11 +25,10 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
   String rfpamount = '';
   String rfptimeline = '';
 
-  Map<String, String> rfpbody() {
-    print(rfptitle);
+  Map<String, dynamic> rfpbody() {
     return {
       'title': rfptitle,
-      'amount': rfptitle,
+      'amount': rfpamount,
       'timeline': rfptimeline,
       'sectors': selectedSectors.toString(),
       'states': selectedstates.toString(),

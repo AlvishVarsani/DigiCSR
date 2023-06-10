@@ -18,72 +18,80 @@ class _DrawerScreenState extends State<DrawerScreen> {
     return Drawer(
       width: 400,
       backgroundColor: Colors.white,
-      
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(accountName: Text("Alvish varsani"), accountEmail: Text("alvishvarsani@gmail.com"),
-            currentAccountPicture: CircleAvatar( 
+      child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: Text("Alvish varsani"),
+            accountEmail: Text("alvishvarsani@gmail.com"),
+            currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              
-               child: Image.asset("assets/images/ngologo.png",width: 60,)
-
-            ,),),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text("Home"),
-              onTap: () {
-                
-              },
+              child: Image.asset(
+                "assets/images/ngologo.png",
+                width: 60,
+              ),
             ),
-
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text("Edit Profile"),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.heart_broken),
-              title: Text("Save fundraisers"),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RFP()));
-              },
-            ),
-             ListTile(
-              leading: Icon(Icons.notifications_active),
-              title: Text("Notifications"),
-              onTap: () {
-                
-              },
-            ),
-             ListTile(
-              leading: Icon(Icons.phone),
-              title: Text("Contact us"),
-              onTap: () {
-                
-              },
-            ),
-             
-            
-             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Settings"),
-              onTap: () {
-                
-              },
-            ),
-             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text("Log Out"),
-              onTap: () async {
-                await storage.delete(key: company.company_email!);
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
-              },
-            )
-          ],
-        ),
-        );
-      
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text("Home"),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text("Edit Profile"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfileScreenForCompany()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.heart_broken),
+            title: Text("Save fundraisers"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => RFP()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.notifications_active),
+            title: Text("Notifications"),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text("Contact us"),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text("Settings"),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text("Log Out"),
+            onTap: () async {
+              try {
+                await storage.deleteAll();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Login_Screen()));
+              } on Exception catch (e) {
+                print(e);
+                () {
+                  return AlertDialog(
+                    title: Text(
+                      'Error while logout!\nTry after sometime',
+                      style: TextStyle(color: black, fontSize: 20),
+                    ),
+                  );
+                };
+              }
+            },
+          )
+        ],
+      ),
+    );
   }
 }
