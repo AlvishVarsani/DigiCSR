@@ -33,12 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    return Scaffold(
-      drawer: DrawerScreen(),
-      drawerEdgeDragWidth: w*0.45,
+    return Material(
         //backgroundColor:  Color.fromRGBO(38, 191, 104, 1),
         // backgroundColor: Color.fromARGB(255, 160, 229, 162),
-        body: Container(
+        child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [primary, white],

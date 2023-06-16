@@ -36,30 +36,41 @@ class _RFPReqListState extends State<RFPReqList> {
           itemBuilder: (context, index) {
             print('${snapshot.data![index].company}');
             return Card(
-              elevation: 20,
+              color: Color(0x130CB6F0),
+              shadowColor: Color(0x130CB6F0),
+              elevation: 15,
               margin: EdgeInsets.all(15),
               shape: RoundedRectangleBorder(
                   side: BorderSide(
-                      color: black, width: 1.2, style: BorderStyle.solid),
-                  borderRadius: BorderRadius.all(Radius.circular(17))),
+                      color: primary, width: 1.2, style: BorderStyle.solid),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         child: Text(
-                            'Title: ${snapshot.data![index].title}'),
+                            '${snapshot.data![index].title}',style: TextStyle(color: black,fontSize: 25,fontWeight: FontWeight.bold),),
                       ),
                       Container(
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          padding: EdgeInsets.fromLTRB(10, 1, 10, 5),
                           child: Text(
-                              'Sectors: ${snapshot.data![index].sectors}')),
+                              'Date: ${snapshot.data![index].date}')),
                       Container(
                           padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
                           child: Text(
-                              'States: ${snapshot.data![index].states}')),
+                              'Amount funded: ${snapshot.data![index].amount}',style: TextStyle(color: black,fontSize: 18),)),
+                      
+                      // Container(
+                      //     padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                      //     child: Text(
+                      //         'States: ${snapshot.data![index].states}')),
+                      // Container(
+                      //     padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                      //     child: Text(
+                      //         'Sectors: ${snapshot.data![index].sectors.toString()}')),
                     ]),
               ),
             );

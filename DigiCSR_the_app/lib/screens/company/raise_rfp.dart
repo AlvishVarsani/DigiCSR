@@ -30,10 +30,11 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
       'title': rfptitle,
       'amount': rfpamount,
       'timeline': rfptimeline,
-      'sectors': selectedSectors.toString(),
-      'states': selectedstates.toString(),
+      'sectors': selectedSectors,
+      'states': selectedstates,
     };
   }
+  
 
   List<String> selectedSectors = [];
   List<String> selectedstates = [];

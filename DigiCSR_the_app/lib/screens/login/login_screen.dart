@@ -11,15 +11,6 @@ class Login_Screen extends StatefulWidget {
 
 class _Login_ScreenState extends State<Login_Screen> {
   // Color btnclr = Color(0x720CB6F0);
-  ButtonStyle btnstyle = ButtonStyle(
-      foregroundColor: MaterialStatePropertyAll(black),
-      // surfaceTintColor: MaterialStatePropertyAll(black),
-      shadowColor: MaterialStatePropertyAll(Color(0x200CB6F0)),
-      backgroundColor: MaterialStatePropertyAll(Color(0x200CB6F0)),
-      elevation: MaterialStatePropertyAll(20),
-      minimumSize: MaterialStatePropertyAll(Size(150, 50)),
-      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(11),side: BorderSide(color: primary,width: 1.2,style: BorderStyle.solid))));
 
   @override
   void setState(VoidCallback fn) {
@@ -33,113 +24,145 @@ class _Login_ScreenState extends State<Login_Screen> {
     double w = MediaQuery.of(context).size.width;
     // TODO: implement build
     return Scaffold(
-      drawer: DrawerScreen(),
-      drawerEdgeDragWidth: w * 0.45,
+      resizeToAvoidBottomInset: false,
       backgroundColor: white,
-      body: SafeArea(
-        child: Stack(children: [
-          Container(
-            height: h * 0.5,
-            width: w,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [primary,white],begin: Alignment.topCenter,end: Alignment.bottomCenter)
-            ),
-          ),
-          Column(
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: h * 0.5,
-                  child: Center(
-                    child: Card(
-                      // margin: EdgeInsets.only(top: 100, bottom: 20),
-                      elevation: 15,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Container(
-                        // height: h * 0.3,
-                        width: w * 0.7,
-                        padding: EdgeInsets.all(14),
-                        child: Image.asset(
-                          'assets/images/DigiCSR_Logo_Black_Tagline-1.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+      body: Container(
+        color: Color(0x130CB6F0),
+        child: Column(
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: h * 0.1,
+                width: w,
+              ),
+              Center(
+                child: Card(
+                  // margin: EdgeInsets.only(top: 100, bottom: 20),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Container(
+
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    height: h * 0.27,
+                    width: w ,
+                    padding: EdgeInsets.all(14),
+                    child: Image.asset(
+                      'assets/images/DigiCSR_Logo_Black_Tagline-1.png',
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
-                Expanded(child: Container()),
-                Container(
-                  // width: 500,
-                  padding: EdgeInsets.only(right: 70, left: 70),
+              ),
+
+              SizedBox(height: (40<h*0.05)?40:h*0.05,),
+
+              Expanded(
+                child: Container(
+                  // height: h*0.2,
+                  padding: EdgeInsets.all((30 < w * 0.08)?30:w*0.08),
                   // alignment: Alignment(0.5, 0.5),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Welcome to DigiCSR',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: black,
-                            fontSize: 25,
-                            letterSpacing: 1.6,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Join our community in order to get service or to give service.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
+                      Container(
+                        margin: EdgeInsets.only(bottom: (16 > h*0.02 ? 16 : h*0.02)),
+                        child: Text(
+                      'Let\'s be helpful !!',
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
                           color: black,
-                          fontSize: 16,
+                          fontSize: 40,
+                          // letterSpacing: 1.3,
+                          fontWeight: FontWeight.bold,
+                         ),
                         ),
-                      )
+                      ),
+                      Text(
+                        'A digital platform that connects companies and NGOs to collaborate and make a meanigful impact on society',
+                        // textAlign: TextAlign.center,
+                        style: TextStyle(
+                      color: black,
+                      fontSize: 16,
+                      letterSpacing: 1.1
+                        ),
+                      ),
+                      SizedBox(height: (40<h*0.05)?40:h*0.05,),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => {
+                                auth = 'login',
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserSelection()))
+                              },
+                              onHover: (value) => {},
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 8),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(fontSize: 23, color: white),
+                                  )),
+                              style: ButtonStyle(
+                                  padding: MaterialStatePropertyAll(EdgeInsets.only(top: 8,bottom: 8,right: 10,left: 10)),
+                                  elevation: MaterialStatePropertyAll(15),
+                                  minimumSize: MaterialStatePropertyAll(Size(w*0.35, 50)),
+                                  maximumSize:
+                                      MaterialStatePropertyAll(Size(w * 0.43, 60)),
+                                  shape:
+                                      MaterialStatePropertyAll<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                              side: BorderSide(
+                                                  color: primary,
+                                                  width: 1.2,
+                                                  style: BorderStyle.solid)))),
+                            ),
+                            Expanded(child: Container()),
+                            ElevatedButton(
+                              onPressed: () => {
+                                auth = 'signup',
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserSelection()))
+                              },
+                              onHover: (value) => {},
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 8),
+                                  child: Text(
+                                    'SignUp',
+                                    style: TextStyle(fontSize: 23, color: white),
+                                  )),
+                              style: ButtonStyle(
+                                  // padding: MaterialStatePropertyAll(EdgeInsets.only(top: 8,bottom: 8,right: 10,left: 10)),
+                                  elevation: MaterialStatePropertyAll(15),
+                                  minimumSize: MaterialStatePropertyAll(Size(w*0.35, 50)),
+                                  maximumSize:
+                                      MaterialStatePropertyAll(Size(w * 0.43, 60)),
+                                  shape:
+                                      MaterialStatePropertyAll<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                              side: BorderSide(
+                                                  color: primary,
+                                                  width: 1.2,
+                                                  style: BorderStyle.solid)))),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      // border: Border.all(color: Colors.black12,style: BorderStyle.solid),
-                      // borderRadius: BorderRadius.circular(30)
-                      ),
-                  // padding: const EdgeInsets.all(20.0),
-                  height: 200,
-                  padding: EdgeInsets.all(10),
-                  // width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(child: Container()),
-                      ElevatedButton(
-                        onPressed: () => {
-                          auth = 'login',
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserSelection()))
-                        },
-                        onHover: (value) => {},
-                        child: Text('Login',style: TextStyle(fontSize: 20),),
-                        style: btnstyle,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      ElevatedButton(
-                        onPressed: () => {
-                          auth = 'signup',
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserSelection())),
-                        },
-                        child: Text('Sign Up',style: TextStyle(fontSize: 20),),
-                        style: btnstyle,
-                      ),
-                      Expanded(child: Container())
-                    ],
-                  ),
-                ),
-              ]),
-        ]),
+              ),
+            ]),
       ),
     );
   }

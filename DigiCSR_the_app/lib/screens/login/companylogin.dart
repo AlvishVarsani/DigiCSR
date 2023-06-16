@@ -67,10 +67,6 @@ class _CompanyLogin extends State<CompanyLogin> {
   void verifyOTP() async{
     try {
 
-      //  res = await http.post(Uri.parse('http://192.168.114.94:4000/company/login/verify'),
-      //  var ress = await http.post(Uri.parse('http://localhost:4000/company/login/verify'),
-
-      //  res = await http.post(Uri.parse('http:// 192.168.101.58:4000/company/login/verify'),
 
       var ress = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
           headers: <String, String>{
@@ -301,9 +297,11 @@ class _CompanyLogin extends State<CompanyLogin> {
                           alignment: Alignment.center,
                           child: TextButton(
                               style: ButtonStyle(
+                                minimumSize: MaterialStatePropertyAll(Size(100, 50)),
+                                maximumSize: MaterialStatePropertyAll(Size((144 < w*0.4) ? 144 : w*0.4, 60)),
                                   elevation: MaterialStatePropertyAll(20),
                                   padding: MaterialStatePropertyAll(
-                                      EdgeInsets.all(h * 0.018)),
+                                      EdgeInsets.all((15 < h * 0.018) ? 15 : h*0.018)),
                                   backgroundColor:
                                       MaterialStatePropertyAll(darkgrey),
                                   shape: MaterialStatePropertyAll<

@@ -1,3 +1,5 @@
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/Homescreen/notification.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
@@ -34,7 +36,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
           ListTile(
             leading: Icon(Icons.home),
             title: Text("Home"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+            },
           ),
           ListTile(
             leading: Icon(Icons.person),
@@ -57,7 +61,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
           ListTile(
             leading: Icon(Icons.notifications_active),
             title: Text("Notifications"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsScreen()));
+            },
           ),
           ListTile(
             leading: Icon(Icons.phone),

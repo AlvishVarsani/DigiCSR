@@ -4,6 +4,7 @@ import 'package:digicsr/screens/Homescreen/homescreen.dart';
 
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
@@ -33,8 +34,9 @@ class _NGOLogin extends State<NGOLogin> {
 
   void sendOTP() async {
     try {
+      print(ngo.email);
       var resSend = await http.post(
-          Uri.parse('http://192.168.101.58:4000/NGO/login'),
+          Uri.parse(ipInfo + '/NGO/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -42,7 +44,7 @@ class _NGOLogin extends State<NGOLogin> {
             'email': ngo.email
           });
       print(resSend.body);
-      otpverify = true;
+      otpsent = true;
     } catch (e) {
       print(e);
     }
@@ -50,7 +52,7 @@ class _NGOLogin extends State<NGOLogin> {
 
   void verifyOTP() async {
     try {
-      final res = await http.post(Uri.parse('http://localhost:4000/NGO/login/verify'),
+      final res = await http.post(Uri.parse(ipInfo + '/NGO/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -60,17 +62,40 @@ class _NGOLogin extends State<NGOLogin> {
           });
       otpverify = true;
       btn = 'Sign in';
-      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
+      await storage.write(key: "ngo", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);
     }
   }
 
+
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
     super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  //   SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.portraitDown,
+  //     DeviceOrientation.portraitUp,
+  // ]);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+     SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+    super.dispose();
   }
 
   @override
@@ -224,7 +249,10 @@ class _NGOLogin extends State<NGOLogin> {
                         length: 6,
                         contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState(verifyOTP)},
+                        onCompleted: (value) => {setState((){
+                          otp = value;
+                          verifyOTP();
+                        })},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
                         style:
@@ -295,19 +323,12 @@ class _NGOLogin extends State<NGOLogin> {
                                             Radius.circular(10))))),
                             onPressed: () {
                               user = 'NGO';
-                              // (btn == 'Send OTP')
-                              //     ? sendOTP()
-                              //     : Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //                 Login_Screen()));
-                              // if(!otpverify){
-                              //   sendOTP();
-                              // }else{
-                              //   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                              // }
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                              if(!otpverify){
+                                sendOTP();
+                              }else{
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                              }
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                             },
                             child: Text(
                               btn,

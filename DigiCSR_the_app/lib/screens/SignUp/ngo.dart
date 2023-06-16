@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/login/ngologin.dart';
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +42,7 @@ class _NGOSignUp extends State<NGOSignUp> {
             'email': ngo.email
           });
       print(resSend.body);
-      otpverify = true;
+      otpsent = true;
     } catch (e) {
       print(e);
     }
@@ -57,6 +59,7 @@ class _NGOSignUp extends State<NGOSignUp> {
             'email': ngo.email,
             'otp': otp
           });
+          print(res.body);
       otpverify = true;
       btn = 'SignUP';
       await storage.write(key: "token", value: jsonDecode(res.body)['result']);
@@ -90,7 +93,7 @@ class _NGOSignUp extends State<NGOSignUp> {
               Card(
                 clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.all(0),
-                color: darkgrey,
+                color: primary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
@@ -100,7 +103,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                   width: double.maxFinite,
                   height: MediaQuery.of(context).size.height * 0.45,
                   decoration: BoxDecoration(
-                      color: darkgrey,
+                      color: primary,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
@@ -135,7 +138,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 28,
-                          color: darkgrey,
+                          color: primary,
                         ),
                       ),
                     ),
@@ -159,7 +162,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 20,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   controller:
@@ -192,10 +195,10 @@ class _NGOSignUp extends State<NGOSignUp> {
                                     hintText: 'ex. digicsr@gmail.com',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -234,7 +237,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 20,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   // scrollPadding: EdgeInsets.all(5),
@@ -264,10 +267,10 @@ class _NGOSignUp extends State<NGOSignUp> {
                                     hintText: 'Enter CSR here',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -295,7 +298,9 @@ class _NGOSignUp extends State<NGOSignUp> {
                         length: 6,
                         contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState(verifyOTP)},
+                        onCompleted: (value) => {setState((){
+                          otp = value;
+                          verifyOTP();})},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
                         style:
@@ -318,9 +323,9 @@ class _NGOSignUp extends State<NGOSignUp> {
                         children: [
                           Checkbox(
                             value: otpverify, onChanged: (value) {},
-                            activeColor: grey,
-                            fillColor: MaterialStatePropertyAll(grey),
-                            checkColor: darkgrey,
+                            activeColor: primary,
+                            fillColor: MaterialStatePropertyAll(primary),
+                            checkColor: primary,
                             // focusColor: grey,
                             // hoverColor: grey,
                             // splashRadius: 9,
@@ -336,7 +341,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                           Text(
                             'OTP verified',
                             style: TextStyle(
-                                color: darkgrey,
+                                color: primary,
                                 fontFamily: 'Montserrat',
                                 fontSize: 17),
                           )
@@ -355,7 +360,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                                         MediaQuery.paddingOf(context).top *
                                             0.3)),
                                 backgroundColor:
-                                    MaterialStatePropertyAll(darkgrey),
+                                    MaterialStatePropertyAll(primary),
                                 shape: MaterialStatePropertyAll<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -378,7 +383,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Container()));
+                                        builder: (context) => HomeScreen()));
                               }
                             },
                             child: Text(

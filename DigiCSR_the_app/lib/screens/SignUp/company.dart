@@ -32,21 +32,21 @@ class _CompanySignUp extends State<CompanySignUp> {
   void sendOTP() async {
     try {
       var resSend = await http.post(Uri.parse(ipInfo + '/company/signup'),
-          headers: <String, String>{ 
+          headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
             'cin': company.cin,
             'email': company.company_email
           });
-      print(resSend.body); 
+      print(resSend.body);
       otpverify = true;
     } catch (e) {
       print(e);
     }
   }
 
-  void verifyOTP() async {
+  Future verifyOTP() async {
     try {
       var res = await http.post(Uri.parse(ipInfo + '/company/verify'),
           headers: <String, String>{
@@ -57,10 +57,12 @@ class _CompanySignUp extends State<CompanySignUp> {
             'email': company.company_email,
             'otp': otp
           });
-      otpverify = true;
-      btn = 'SignUP';
       print(res.body);
       await storage.write(key: "token", value: jsonDecode(res.body)['result']);
+      if (jsonDecode(res.body)['success']) {
+        otpverify = true;
+        btn = 'SignUp';
+      }
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -298,9 +300,8 @@ class _CompanySignUp extends State<CompanySignUp> {
                         onChanged: (value) => {otp = value},
                         onCompleted: (value) => {
                           otp = value,
-                          setState(() {
-                            verifyOTP();
-                          })
+                          if (verifyOTP() == true) {},
+                          setState(() {})
                         },
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
@@ -371,16 +372,10 @@ class _CompanySignUp extends State<CompanySignUp> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))))),
                             onPressed: () {
-                              // (btn == 'Send OTP')
-                              //     ? sendOTP()
-                              //     : Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //                 Login_Screen()));
                               if (!otpverify) {
                                 sendOTP();
-                              } {
+                              }
+                              {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

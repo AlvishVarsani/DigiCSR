@@ -9,6 +9,7 @@ class Rfp {
   final List<dynamic>? states;
   final String? timeline;
   final String? company;
+  final String? date;
 
   const Rfp({
      this.id,
@@ -19,6 +20,7 @@ class Rfp {
      this.states,
      this.timeline,
      this.company,
+     this.date
   });
 
   factory Rfp.fromJson(Map<String, dynamic> json) {
@@ -30,7 +32,20 @@ class Rfp {
       states: json['states'],
       timeline: json['timeline'],
       company: json['company_name'],
+      date: json['date']
     );
   }
 
+  // factor Rfp.toJson(){
+
+  // }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'title': title,
+    'amount': amount,
+    'timeline':timeline,
+    'sectors': sectors,
+    'states': states,
+  };
 }
+

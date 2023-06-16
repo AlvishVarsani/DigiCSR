@@ -20,13 +20,11 @@ List<String> pagetitle = [
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 
-int index = 0;
 
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    index = 0;
   }
   @override
   void setState(VoidCallback fn) {
@@ -48,11 +46,13 @@ int index = 0;
         iconSize: 30,
         backgroundColor: white,
         onTap: (value)=>{
-            setState(() {
-              index = value;
-            appbartitle = pagetitle[value];
-            }),
+          index = value,
+            appbartitle = pagetitle[value],
             Navigator.push(context, MaterialPageRoute(builder: (context)=>widget.pages[value])),
+            setState(() {
+              
+            }),
+            
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
