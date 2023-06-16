@@ -70,8 +70,12 @@ final Indianstates = [
   MultiSelectItem<String>('Option 28','West Bengal')
 ];
 
+<<<<<<< HEAD
 String ipInfo = "http://localhost:4000";
 // String ipInfo = "http://192.168.155.94:4000";
+=======
+String ipInfo = "http://192.168.101.58:4000";
+>>>>>>> a4dcfce8489ca3302c63380c7a117de45140e54d
 
 Future<String?> fetchToken() {
   return storage.read(key: "token");

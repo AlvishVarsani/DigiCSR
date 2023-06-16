@@ -1,7 +1,7 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/Homescreen/drawer.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
