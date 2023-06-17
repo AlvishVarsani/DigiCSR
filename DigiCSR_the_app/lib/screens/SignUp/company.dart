@@ -103,7 +103,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                   width: double.maxFinite,
                   height: MediaQuery.of(context).size.height * 0.45,
                   decoration: BoxDecoration(
-                      color: darkgrey,
+                      color: primary,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
@@ -138,7 +138,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 28,
-                          color: darkgrey,
+                          color: primary,
                         ),
                       ),
                     ),
@@ -162,7 +162,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 20,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   controller: TextEditingController(
@@ -237,7 +237,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 20,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   // scrollPadding: EdgeInsets.all(5),
@@ -327,7 +327,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                             value: otpverify, onChanged: (value) {},
                             activeColor: grey,
                             fillColor: MaterialStatePropertyAll(grey),
-                            checkColor: darkgrey,
+                            checkColor: primary,
                             // focusColor: grey,
                             // hoverColor: grey,
                             // splashRadius: 9,
@@ -343,7 +343,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                           Text(
                             'OTP verified',
                             style: TextStyle(
-                                color: darkgrey,
+                                color: primary,
                                 fontFamily: 'Montserrat',
                                 fontSize: 17),
                           )
@@ -362,7 +362,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                                         MediaQuery.paddingOf(context).top *
                                             0.3)),
                                 backgroundColor:
-                                    MaterialStatePropertyAll(darkgrey),
+                                    MaterialStatePropertyAll(primary),
                                 shape: MaterialStatePropertyAll<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(

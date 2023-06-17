@@ -252,7 +252,6 @@ class UserSelection extends StatelessWidget {
                                   builder: (context) => BenificiaryLogin()));
                         }
                         else{
-                          print(token);
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                         }
                       },

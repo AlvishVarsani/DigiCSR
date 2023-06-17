@@ -1,4 +1,6 @@
 import 'package:digicsr/models/NotificationModel.dart';
+import 'package:digicsr/models/RFPModel.dart';
+import 'package:digicsr/screens/company/company_details.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/ngo/ngoprofile.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
@@ -19,10 +21,12 @@ Color primary = Color(0xFF0CB6F0);
 Color secondary = Color(0xFFFF6163);
 Color white = Color(0xFFFFFFFF);
 Color black = Color(0xFF202020);
+Color blueglass = Color(0x130CB6F0);
 
 final storage = FlutterSecureStorage();
 
 final CompanyUser company = CompanyUser();
+final Rfp rfp = Rfp(title: '',timeline: '',states: [],sectors: [],amount: 0,remaining_amount: 0,company: '');
 
 int index = 0;
 
@@ -35,7 +39,7 @@ String appbartitle = 'Home';
 
 String requested_amount = '';
 
-List<Widget> companynav = [HomeScreen(), RFP(), ProfileScreenForCompany()];
+List<Widget> companynav = [HomeScreen(), RFP(), CompanyDetails()];
 
 List<Widget> ngonav = [HomeScreen(), PraposalScreen(), ProfileScreenForNGO()];
 
@@ -70,12 +74,8 @@ final Indianstates = [
   MultiSelectItem<String>('Option 28','West Bengal')
 ];
 
-<<<<<<< HEAD
 String ipInfo = "http://localhost:4000";
 // String ipInfo = "http://192.168.155.94:4000";
-=======
-String ipInfo = "http://192.168.101.58:4000";
->>>>>>> a4dcfce8489ca3302c63380c7a117de45140e54d
 
 Future<String?> fetchToken() {
   return storage.read(key: "token");
