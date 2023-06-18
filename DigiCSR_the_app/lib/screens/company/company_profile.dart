@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:file_picker/file_picker.dart';
