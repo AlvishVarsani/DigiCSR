@@ -3,10 +3,20 @@ const Company = require("../Models/Company");
 const CRN = require("../Models/CRN");
 const { sendOTP, verifyOTP } = require("../Services/otpService");
 const genToken = require("../Services/jwtTokenService");
+const {
+  CompanySignupValidator,
+  CompanyLoginValidator,
+} = require("../Services/Validators/companyValidator");
 
 exports.CompanySignup = async (req, res) => {
   try {
     const { cin, email } = req.body;
+    const { error } = CompanySignupValidator.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
 
     const checkCIN = await CRN.findOne({ cin: cin });
     const checkEmail = await CRN.findOne({ email: email });
@@ -33,12 +43,13 @@ exports.CompanySignup = async (req, res) => {
 
     try {
       await sendOTP(email);
-      res.status(200).send({ success: true, message: 'OTP sent' });
+      res.status(200).send({ success: true, message: "OTP sent" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Error sending OTP !!!' });
+      res
+        .status(500)
+        .json({ success: false, message: "Error sending OTP !!!" });
     }
-
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -51,7 +62,12 @@ exports.CompanySignup = async (req, res) => {
 exports.VerifyCompany = async (req, res) => {
   try {
     const { cin, email, otp } = req.body;
-
+    const { error } = CompanySignupValidator.validate({ email, cin });
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
@@ -71,8 +87,8 @@ exports.VerifyCompany = async (req, res) => {
       const payload = {
         _id: newCompany._id,
         email: newCompany.email,
-        type: "company"
-      }
+        type: "company",
+      };
 
       const authToken = genToken(payload);
 
@@ -90,10 +106,17 @@ exports.VerifyCompany = async (req, res) => {
 exports.CompanyLogin = async (req, res) => {
   try {
     const { email } = req.body;
-
+    const { error } = CompanyLoginValidator.validate({ email });
+    if (error) {
+      console.warn(error);
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const checkEmail = await Company.findOne({ email: email });
 
     if (!checkEmail) {
+      console.warn("insdie");
       return res.status(400).send({
         success: false,
         message: "Email address is not registered",
@@ -102,12 +125,13 @@ exports.CompanyLogin = async (req, res) => {
 
     try {
       await sendOTP(email);
-      res.status(200).send({ success: true, message: 'OTP sent' });
+      res.status(200).send({ success: true, message: "OTP sent" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Error sending OTP !!!' });
+      res
+        .status(500)
+        .json({ success: false, message: "Error sending OTP !!!" });
     }
-
   } catch (error) {
     res.status(400).send({
       success: false,
@@ -119,7 +143,12 @@ exports.CompanyLogin = async (req, res) => {
 exports.CompanyLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
-
+    const { error } = CompanyLoginValidator.validate({ email });
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
@@ -137,8 +166,8 @@ exports.CompanyLoginVerify = async (req, res) => {
       const payload = {
         _id: company._id,
         email: company.email,
-        type: "company"
-      }
+        type: "company",
+      };
 
       const authToken = genToken(payload);
 

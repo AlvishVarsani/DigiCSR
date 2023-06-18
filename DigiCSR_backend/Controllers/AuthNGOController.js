@@ -1,12 +1,22 @@
 require("dotenv").config({ path: "../.env" });
 const NGO = require("../Models/NGO");
 const CRN = require("../Models/CRN");
-const genToken = require("../Services/jwtTokenService")
+const genToken = require("../Services/jwtTokenService");
 const { sendOTP, verifyOTP } = require("../Services/otpService");
+const { NgoSingupValidator } = require("../Services/Validators/ngoValidators");
+const {
+  CompanyLoginValidator,
+} = require("../Services/Validators/companyValidator");
 
 exports.NGOSignup = async (req, res) => {
   try {
     const { csr, email } = req.body;
+    const { error } = NgoSingupValidator.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
 
     const checkCSR = await CRN.findOne({ csr: csr });
     const checkEmail = await CRN.findOne({ email: email });
@@ -51,7 +61,12 @@ exports.NGOSignup = async (req, res) => {
 exports.VerifyNGO = async (req, res) => {
   try {
     const { csr, email, otp } = req.body;
-
+    const { error } = NgoSingupValidator.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
@@ -74,7 +89,7 @@ exports.VerifyNGO = async (req, res) => {
         type: "NGO",
       };
 
-      const authToken = genTocken(payload);
+      const authToken = genToken(payload);
 
       res.status(200).send({ success: true, result: authToken });
     } else res.status(400).send({ success: false, message: "Wrong OTP" });
@@ -90,7 +105,12 @@ exports.VerifyNGO = async (req, res) => {
 exports.NGOLogin = async (req, res) => {
   try {
     const { email } = req.body;
-
+    const { error } = CompanyLoginValidator.validate(req.body); // it has only email validator
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const checkEmail = await NGO.findOne({ email: email });
 
     if (!checkEmail) {
@@ -120,7 +140,13 @@ exports.NGOLogin = async (req, res) => {
 exports.NGOLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
-
+    const { error } = CompanyLoginValidator.validate({email}); // it has only email validator
+    if (error) {
+      console.warn(error);
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {

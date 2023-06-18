@@ -23,7 +23,7 @@ const fileUploaderMiddleware = (req, res, next) => {
         if (!req.file) {
             return res.status(400).json({ success: false, message: 'No file uploaded' });
         }
-        console.log(req.file);
+        // console.log(req.file);
         // File uploaded successfully
         const fileUrl = `http://localhost:4000/uploads/${req.file.filename}`;
         req.fileUrl = fileUrl;

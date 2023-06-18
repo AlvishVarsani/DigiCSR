@@ -1,13 +1,22 @@
 require("dotenv").config({ path: "../.env" });
-const Beneficiary = require('../Models/Beneficiary');
-const jwt = require("jsonwebtoken");
+const Beneficiary = require("../Models/Beneficiary");
 const { sendOTP, verifyOTP } = require("../Services/otpService");
-const genToken = require("../Services/jwtTokenService")
+const genToken = require("../Services/jwtTokenService");
+const {
+  CompanyLoginValidator,
+} = require("../Services/Validators/companyValidator");
+const { BenfValidators } = require("../Services/Validators/BenfValidators");
 
 exports.BeneficiarySignup = async (req, res) => {
   try {
     const { name, email, mobile_no, aadhar_no } = req.body;
-
+    console.log(req.body);
+    const { error } = BenfValidators.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const exist = await Beneficiary.findOne({
       $or: [{ email: email }, { mobile_no: mobile_no }],
     });
@@ -21,12 +30,13 @@ exports.BeneficiarySignup = async (req, res) => {
 
     try {
       await sendOTP(email);
-      res.status(200).send({ success: true, message: 'OTP sent' });
+      res.status(200).send({ success: true, message: "OTP sent" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Error sending OTP !!!' });
+      res
+        .status(500)
+        .json({ success: false, message: "Error sending OTP !!!" });
     }
-
   } catch (err) {
     res.status(400).send({
       success: false,
@@ -38,7 +48,12 @@ exports.BeneficiarySignup = async (req, res) => {
 exports.VerifyBeneficiary = async (req, res) => {
   try {
     const { name, email, mobile_no, aadhar_no, otp } = req.body;
-
+    const { error } = BenfValidators.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
@@ -53,14 +68,19 @@ exports.VerifyBeneficiary = async (req, res) => {
         });
       }
 
-      const newBeneficiary = await new Beneficiary({ name, email, mobile_no, aadhar_no });
+      const newBeneficiary = await new Beneficiary({
+        name,
+        email,
+        mobile_no,
+        aadhar_no,
+      });
       await newBeneficiary.save();
 
       const payload = {
         _id: newBeneficiary._id,
         email: newBeneficiary.email,
-        type: "Beneficiary"
-      }
+        type: "Beneficiary",
+      };
 
       const authToken = genToken(payload);
 
@@ -80,7 +100,12 @@ exports.VerifyBeneficiary = async (req, res) => {
 exports.BeneficiaryLogin = async (req, res) => {
   try {
     const { email } = req.body;
-
+    const { error } = CompanyLoginValidator.validate(req.body); // it has only email validator
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const checkEmail = await Beneficiary.findOne({ email: email });
 
     if (!checkEmail) {
@@ -90,15 +115,15 @@ exports.BeneficiaryLogin = async (req, res) => {
       });
     }
 
-
     try {
       await sendOTP(email);
-      res.status(200).send({ success: true, message: 'OTP sent' });
+      res.status(200).send({ success: true, message: "OTP sent" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Error sending OTP !!!' });
+      res
+        .status(500)
+        .json({ success: false, message: "Error sending OTP !!!" });
     }
-
   } catch (error) {
     res.status(400).send({
       success: false,
@@ -110,15 +135,20 @@ exports.BeneficiaryLogin = async (req, res) => {
 exports.BeneficiaryLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
-
+    const { error } = CompanyLoginValidator.validate(req.body); // it has only email validator
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const is_verified = verifyOTP(email, otp);
 
     if (is_verified) {
-      const Beneficiary = await Beneficiary.findOne({
+      const beneficiary = await Beneficiary.findOne({
         $or: [{ email: email }],
       });
 
-      if (!Beneficiary) {
+      if (!beneficiary) {
         return res.status(400).send({
           success: false,
           message: "Beneficiary with this email not exists.",
@@ -126,10 +156,10 @@ exports.BeneficiaryLoginVerify = async (req, res) => {
       }
 
       const payload = {
-        _id: Beneficiary._id,
-        email: Beneficiary.email,
-        type: "Beneficiary"
-      }
+        _id: beneficiary._id,
+        email: beneficiary.email,
+        type: "Beneficiary",
+      };
 
       const authToken = genToken(payload);
 
