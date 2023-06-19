@@ -1,37 +1,32 @@
 import 'package:flutter/material.dart';
 
-Widget TextFormFieldButton ({String ?Text1 ,String ? Text2,setState,keyboardType,inputFormatters})
+
+Widget TextFormFieldButton ({String ?Text1 ,String ? Text2,setState,keyboardType,inputFormatters,prefixIcons})
 {
   return
-  Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [Text(
-                Text1!,
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                keyboardType: keyboardType,
-                inputFormatters: inputFormatters,
-               
-                onChanged: (value) {
-                  setState(() {
-                    // Update the variable when the input changes
-                  });
-                },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: Text2,
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue))),
-              ),
+Column(    children: [
+  Padding(
+    padding: const EdgeInsets.only(right: 15,left: 10),
+    child: TextFormField(
+                            decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                      
+                          labelText: Text1,
+                          hintText: Text2, //hint text
+                          prefixIcon: prefixIcons,//prefix iocn
+                          hintStyle: TextStyle(
+                            fontSize: 16,
+                          ), //hint text style
+                          labelStyle: TextStyle(
+                              fontSize: 16, color: Colors.grey), //label style
+                        ),
+                        keyboardType: keyboardType,
+                        inputFormatters: inputFormatters,
+                        
+                        ),
+  )
+],
 
-    ],
-  );
-    
-
+);
 }
-
