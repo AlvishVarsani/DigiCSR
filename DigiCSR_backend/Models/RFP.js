@@ -8,6 +8,9 @@ const RFPSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  remaining_amount: {
+    type: Number,
+  },
   sectors: [
     {
       type: String,
@@ -40,6 +43,10 @@ const RFPSchema = mongoose.Schema({
       },
       date: {
         type: Date,
+      },
+      status: {
+        type: String,
+        default: "Pending",
       },
     },
   ],

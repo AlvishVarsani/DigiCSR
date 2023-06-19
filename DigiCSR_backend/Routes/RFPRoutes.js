@@ -5,6 +5,8 @@ const {
   acceptRFP,
   getRfpOfCompany,
   getRFP,
+  manageDonation,
+  deleteRFP,
 } = require("../Controllers/RFPControllers");
 const AuthMiddleware = require("../Middlewares/AuthMiddleware");
 
@@ -15,6 +17,8 @@ const RFPRoutes = (app) => {
   app.put("/accept-rfp", AuthMiddleware, acceptRFP);
   app.get("/company/rfp", AuthMiddleware, getRfpOfCompany);
   app.get("/rfp/:id", AuthMiddleware, getRFP);
+  app.put("/rfp/manage", AuthMiddleware, manageDonation);
+  app.put("/rfp/delete/:id", AuthMiddleware, deleteRFP);
 };
 
 module.exports = RFPRoutes;

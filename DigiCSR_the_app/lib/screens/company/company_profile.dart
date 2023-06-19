@@ -1,7 +1,8 @@
-import 'dart:core';
+import 'dart:convert';
 
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +12,6 @@ import 'package:http/http.dart' as http;
 import '../../constants/constants.dart';
 import '../../widgets/textformfield.dart';
 
-
-
 class ProfileScreenForCompany extends StatefulWidget {
   const ProfileScreenForCompany({super.key});
 
@@ -21,63 +20,99 @@ class ProfileScreenForCompany extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreenForCompany> {
-
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
     super.setState(fn);
   }
 
-  void save()async{
+  void save() async {
+    var formdata = FormData.fromMap(
+      {
+        'company_name': company.company_name,
+        'summary': company.summary,
+        'city': company.company_city,
+        'state': company.company_state,
+        'pincode': company.pincode,
+        'establishment_year': company.establishment_year.toString(),
+        'cp_name': company.cp_name,
+        'cp_email': company.cp_email,
+        'cp_designation': company.cp_designation,
+        'cp_phone': company.cp_phone,
+        'tax_comp': company.tax_comp,
+        'sectors': company.sectors
+      },
+    );
     try {
-  var token = await storage.read(key: company.company_email!);
-  print(token.toString());
-  // var resp = await http.post(Uri.parse('http://192.168.114.94:4000/company/add-profile/:id'),
-  var resp = await http.post(Uri.parse('http://localhost:4000/company/add-profile/:id'),
-    headers: {
-      'Context-Type': 'application/json;charSet=UTF-8',
-      'authorization': token.toString()
-    },
-    body: {
-      'company_name': company.company_name,
-      'summary':company.summary,
-      'city': company.company_city,
-      'state': company.company_state,
-      'pincode': company.pincode,
-      'establishment_year': company.establishment_year.toString(),
-      'cp_name':company.cp_name,
-      'cp_email': company.cp_email,
-      'cp_designation':company.cp_designation,
-      'cp_phone':company.cp_phone,
-      'tax_comp': company.tax_comp,
-      'sectors': company.sectors
-    },
-  );
-  print(resp.body);
-} on Exception catch (e) {
-  print(e);
-}
+      var token = await fetchToken();
+      print(token.toString());
+      // var resp = await http.post(Uri.parse('http://192.168.114.94:4000/company/add-profile/:id'),
+      var dio = Dio();
+      var response = await dio.post(ipInfo + '/company/add-profile',
+          data: formdata,
+          options: Options(
+            headers: {
+              'Context-Type': 'application/json;charSet=UTF-8',
+              'authorization': token.toString()
+            },
+          ));
+      if (response.statusCode == 200) {
+        print('Upload successful');
+      } else {
+        print('Upload failed');
+      }
+
+      // var resp = await http.post(
+      //   Uri.parse(ipInfo + '/company/add-profile'),
+      //   headers: {
+      //     'Context-Type': 'application/json;charSet=UTF-8',
+      //     'authorization': token.toString()
+      //   },
+      //   body: {
+      //     'company_name': company.company_name,
+      //     'summary': company.summary,
+      //     'city': company.company_city,
+      //     'state': company.company_state,
+      //     'pincode': company.pincode,
+      //     'establishment_year': company.establishment_year.toString(),
+      //     'cp_name': company.cp_name,
+      //     'cp_email': company.cp_email,
+      //     'cp_designation': company.cp_designation,
+      //     'cp_phone': company.cp_phone,
+      //     'tax_comp': jsonEncode(company.tax_comp!),
+      //     'sectors': jsonEncode(company.sectors!)
+      //   },
+      // );
+      // print(resp.body);
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   String countryValue = '';
   String? stateValue = '';
   String? cityValue = '';
-   List<String> _selectedOptions = [];
+  List<String> _selectedOptions = [];
   final _items = [
-    MultiSelectItem<String>('Option 1', "Rural Development"),
-    MultiSelectItem<String>('Option 2',  "Encouraging Sports"),
-    MultiSelectItem<String>('Option 3',  "Clean Ganga Fund"),
-    MultiSelectItem<String>('Option 4',   "Swachh Bharat"),
-    MultiSelectItem<String>('Option 5',   "Health & Sanitation" ),
-    MultiSelectItem<String>('Option 6',    "Education, Differently Abled, Livelihood"),
-     MultiSelectItem<String>('Option 7',    "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
-    MultiSelectItem<String>('Option 8',   "Environment, Animal Welfare, Conservation of Resources"),
-    MultiSelectItem<String>('Option 9',  "Slum Development"),
-    MultiSelectItem<String>('Option 10',  "Heritage Art And Culture"),
-    MultiSelectItem<String>('Option 11',  "Prime Minister National Relief Funds"),
-    MultiSelectItem<String>('Option 12',"others"),
-
-   
+    MultiSelectItem<String>('Rural Development', "Rural Development"),
+    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem<String>('Clean Ganga Fund', "Clean Ganga Fund"),
+    MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
+    MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
+    MultiSelectItem<String>('Education, Differently Abled, Livelihood',
+        "Education, Differently Abled, Livelihood"),
+    MultiSelectItem<String>(
+        'Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
+        "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
+    MultiSelectItem<String>(
+        'Environment, Animal Welfare, Conservation of Resources',
+        "Environment, Animal Welfare, Conservation of Resources"),
+    MultiSelectItem<String>('Slum Development', "Slum Development"),
+    MultiSelectItem<String>(
+        'Heritage Art And Culture', "Heritage Art And Culture"),
+    MultiSelectItem<String>('Prime Minister National Relief Funds',
+        "Prime Minister National Relief Funds"),
+    MultiSelectItem<String>('others', "others"),
   ];
 
   @override
@@ -89,10 +124,8 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
-            
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
@@ -105,8 +138,9 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                       color: Colors.white),
                 ),
               ),
-              TextFormFieldButton(
-                  "Company Name", Text2: "Enter Full Name Of Company",controller: company.company_name),
+              TextFormFieldButton("Company Name",
+                  Text2: "Enter Full Name Of Company",
+                  controller: company.company_name),
               SizedBox(
                 height: 10,
               ),
@@ -186,19 +220,15 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                       color: Colors.white),
                 ),
               ),
-              TextFormFieldButton(
-                "Name",
-                Text2: 'Enter Name of the communication person',
-                controller: company.cp_name
-              ),
+              TextFormFieldButton("Name",
+                  Text2: 'Enter Name of the communication person',
+                  controller: company.cp_name),
               SizedBox(
                 height: 10,
               ),
-              TextFormFieldButton(
-                "Email",
-                Text2: 'Enter email of communicatoin person',
-                controller: company.cp_email
-              ),
+              TextFormFieldButton("Email",
+                  Text2: 'Enter email of communicatoin person',
+                  controller: company.cp_email),
               SizedBox(
                 height: 10,
               ),
@@ -215,11 +245,9 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               SizedBox(
                 height: 10,
               ),
-              TextFormFieldButton(
-                'Designation of the communication person',
-                Text2: 'Enter Designation of the communication person',
-                controller: company.cp_designation
-              ),
+              TextFormFieldButton('Designation of the communication person',
+                  Text2: 'Enter Designation of the communication person',
+                  controller: company.cp_designation),
               SizedBox(
                 height: 10,
               ),
@@ -228,25 +256,27 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height:5,),
-             
+              SizedBox(
+                height: 5,
+              ),
+
               Card(
                 child: Padding(
-                      padding: EdgeInsets.all(1.0),
-                      child: MultiSelectDialogField<String>(
-                        title: Text('Select Options'),
-                        items: _items,
-                        initialValue: _selectedOptions,
-                        onConfirm: (values) {
-                          company.sectors = values;
-                          setState(() {
-                _selectedOptions = values;
-                          });
-                        },
-                      ),
-                    ),
+                  padding: EdgeInsets.all(1.0),
+                  child: MultiSelectDialogField<String>(
+                    title: Text('Select Options'),
+                    items: _items,
+                    initialValue: _selectedOptions,
+                    onConfirm: (values) {
+                      company.sectors = values;
+                      setState(() {
+                        _selectedOptions = values;
+                      });
+                    },
+                  ),
+                ),
               ),
-               SizedBox(
+              SizedBox(
                 height: 10,
               ),
               Text(
@@ -254,24 +284,29 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10,),
-          ElevatedButton(
-                
-      child: Text('Upload file'),
-      
-      onPressed: () async {
-        var picked = await FilePicker.platform.pickFiles();
-        company.registration_certificate = picked;
+              SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                child: Text('Upload file'),
+                onPressed: () async {
+                  var picked = await FilePicker.platform.pickFiles();
+                  company.registration_certificate = picked;
 
-        if (picked != null) {
-          print(picked.files.first.name);
-        }
-      },
-    ),
-    SizedBox(height: 10,),
-   Center(child: ElevatedButton(onPressed: (){
-    save();
-   }, child: Text("Save")))
+                  if (picked != null) {
+                    print(picked.files.first.name);
+                  }
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        print(company.sectors);
+                      },
+                      child: Text("Save")))
             ],
           ),
         ),

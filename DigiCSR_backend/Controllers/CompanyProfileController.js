@@ -1,8 +1,12 @@
 const Company = require("../Models/Company");
 const fs = require("fs");
+const {
+  CompanyProfileValidator,
+} = require("../Services/Validators/companyValidator");
 
 // Route to fetch data from the Company schema
-exports.getCompanyProfile = async (req, res) => {
+exports.
+getCompanyProfile = async (req, res) => {
   try {
     const companyId = req.params.id;
 
@@ -76,7 +80,12 @@ exports.getCertificate = async (req, res) => {
 
 exports.AddCompanyProfile = async (req, res) => {
   try {
-    const companyId = req.params.id;
+    if (req.userType !== "company") {
+      return res
+        .status(400)
+        .send({ success: false, message: "Not Authorized." });
+    }
+    const companyId = req.user.id;
     const {
       company_name,
       summary,
@@ -91,7 +100,9 @@ exports.AddCompanyProfile = async (req, res) => {
       tax_comp,
       sectors,
     } = req.body;
-
+    console.log(req.body);
+    let fileData, imageData;
+    // console.warn(tax_comp);
     let updatedFields = {
       company_name,
       "profile.summary": summary,
@@ -107,19 +118,34 @@ exports.AddCompanyProfile = async (req, res) => {
       "profile.sectors": sectors,
     };
 
-    if (
-      req.files &&
-      req.files.registration_certificate &&
-      req.files.company_logo
-    ) {
-      const fileData = fs.readFileSync(
-        req.files.registration_certificate[0].path
-      );
-      updatedFields["profile.registration_certificate"] = fileData;
-      const imageData = fs.readFileSync(req.files.company_logo[0].path);
-      updatedFields["profile.company_logo"] = imageData;
+    if (req.files) {
+      if (req.files.registration_certificate) {
+        fileData = fs.readFileSync(req.files.registration_certificate[0].path);
+        updatedFields["profile.registration_certificate"] = fileData;
+      }
+      if (req.files.company_logo) {
+        imageData = fs.readFileSync(req.files.company_logo[0].path);
+        updatedFields["profile.company_logo"] = imageData;
+      }
     }
-
+    const { error } = CompanyProfileValidator.validate({
+      ...req.body,
+      tax_comp: tax_comp,
+      sectors: sectors,
+      registration_certificate: fileData,
+      company_logo: imageData,
+    });
+    console.warn({
+      ...req.body,
+      tax_comp: tax_comp,
+      sectors: sectors,
+    });
+    if (error) {
+      console.warn(error.details);
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
     const company = await Company.findByIdAndUpdate(
       companyId,
       { $set: updatedFields },
@@ -138,6 +164,55 @@ exports.AddCompanyProfile = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+
+exports.getCompanyLogo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const company = await Company.findOne(
+      { _id: id },
+      {
+        "profile.company_logo": 1,
+      }
+    );
+    if (!company) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Company not found." });
+    }
+
+    const logoBuffer = company.profile.company_logo;
+    if (!logoBuffer) {
+      return res.status(404).json({
+        success: false,
+        message: "Registration certificate not found.",
+      });
+    }
+
+    res.set("Content-Type", "image");
+    res.send(logoBuffer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+
+exports.getAllCompany = async (req, res) => {
+  try {
+    const userType = req.userType;
+    if (userType !== "ngo" && userType !== "Beneficiary") {
+      return res
+        .status(403)
+        .send({ success: false, message: "Not Authorized." });
+    }
+    const companies = await Company.find(
+      {},
+      { "profile.registration_certificate": 0 }
+    );
+    return res.status(200).send({ success: true, companies });
+  } catch (error) {
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 };

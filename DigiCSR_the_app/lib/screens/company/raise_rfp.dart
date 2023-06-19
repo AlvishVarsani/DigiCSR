@@ -4,7 +4,7 @@ import 'package:digicsr/widgets/multiselect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-
+import 'package:dio/dio.dart';
 
 class RaiseRfpRequest extends StatefulWidget {
   const RaiseRfpRequest({super.key});
@@ -20,43 +20,42 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
     super.setState(fn);
   }
 
-  String rfptitle = '';
-  String rfpamount = '';
-  String rfptimeline = '';
+  // String rfptitle = '';
+  // String rfpamount = '';
+  // String rfptimeline = '';
 
-  Map<String, dynamic> rfpbody() {
-    return {
-      'title': rfptitle,
-      'amount': rfpamount,
-      'timeline': rfptimeline,
-      'sectors': selectedSectors,
-      'states': selectedstates,
-    };
-  }
-  
+  var formdata;
 
-  List<String> selectedSectors = [];
-  List<String> selectedstates = [];
+  // Map<String, dynamic> rfpbody() {
+  //   return {
+  //     'title': rfptitle,
+  //     'amount': rfpamount,
+  //     'timeline': rfptimeline,
+  //     'sectors': selectedSectors,
+  //     'states': selectedstates,
+  //   };
+  // }
+
+  // List<String> selectedSectors = [];
+  // List<String> selectedstates = [];
   final _items = [
-    MultiSelectItem<String>('Rural Development', "Rural Development"),
-    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
-    MultiSelectItem<String>('Clean Ganga Fund', "Clean Ganga Fund"),
-    MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
-    MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
-    MultiSelectItem<String>('Education, Differently Abled, Livelihood',
+    MultiSelectItem('Rural Development', "Rural Development"),
+    MultiSelectItem('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem('Clean Ganga Fund', "Clean Ganga Fund"),
+    MultiSelectItem('Swachh Bharat', "Swachh Bharat"),
+    MultiSelectItem('Health & Sanitation', "Health & Sanitation"),
+    MultiSelectItem('Education, Differently Abled, Livelihood',
         "Education, Differently Abled, Livelihood"),
-    MultiSelectItem<String>(
+    MultiSelectItem(
         'Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
         "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
-    MultiSelectItem<String>(
-        'Environment, Animal Welfare, Conservation of Resources',
+    MultiSelectItem('Environment, Animal Welfare, Conservation of Resources',
         "Environment, Animal Welfare, Conservation of Resources"),
-    MultiSelectItem<String>('Slum Development', "Slum Development"),
-    MultiSelectItem<String>(
-        'Heritage Art And Culture', "Heritage Art And Culture"),
-    MultiSelectItem<String>('Prime Minister National Relief Funds',
+    MultiSelectItem('Slum Development', "Slum Development"),
+    MultiSelectItem('Heritage Art And Culture', "Heritage Art And Culture"),
+    MultiSelectItem('Prime Minister National Relief Funds',
         "Prime Minister National Relief Funds"),
-    MultiSelectItem<String>('others', "others"),
+    MultiSelectItem('others', "others"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -111,15 +110,11 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                           ),
                           TextFormField(
                             textDirection: TextDirection.ltr,
-                            controller: TextEditingController(text: rfptitle),
+                            controller: TextEditingController(text: rfp.title),
                             onChanged: (value) {
-                              rfptitle = value;
+                              rfp.title = value;
                             },
-                            onEditingComplete: () => {
-                              setState(() {
-                                print(rfptitle);
-                              })
-                            },
+                            
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: 'Enter title',
@@ -146,9 +141,9 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                           ),
                           TextFormField(
                             textDirection: TextDirection.ltr,
-                            controller: TextEditingController(text: rfpamount),
+                            controller: TextEditingController(),
                             onChanged: (value) {
-                              rfpamount = value;
+                              rfp.amount = int.parse(value);
                             },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -170,13 +165,13 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                       Card(
                         child: Padding(
                           padding: EdgeInsets.all(1.0),
-                          child: MultiSelectDialogField<String>(
+                          child: MultiSelectDialogField<dynamic>(
                             title: Text('Select Options'),
                             items: _items,
-                            initialValue: selectedSectors,
+                            initialValue: rfp.sectors!,
                             onConfirm: (values) {
                               setState(() {
-                                selectedSectors = values;
+                                rfp.sectors = values;
                               });
                             },
                           ),
@@ -202,9 +197,9 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             controller:
-                                TextEditingController(text: rfptimeline),
+                                TextEditingController(text: rfp.timeline),
                             onChanged: (value) {
-                              rfptimeline = value;
+                              rfp.timeline = value;
                             },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -228,13 +223,13 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                       Card(
                         child: Padding(
                           padding: EdgeInsets.all(1.0),
-                          child: MultiSelectDialogField<String>(
+                          child: MultiSelectDialogField(
                             title: Text('Select Options'),
                             items: Indianstates,
-                            initialValue: selectedstates,
+                            initialValue: rfp.states!,
                             onConfirm: (values) {
                               setState(() {
-                                selectedstates = values;
+                                rfp.states = values;
                               });
                             },
                           ),
@@ -246,8 +241,15 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                       Center(
                           child: ElevatedButton(
                               onPressed: () {
-                                print(rfpbody());
-                                addRFP(rfpbody());
+                                formdata = FormData.fromMap({
+                                  'title': rfp.title,
+                                  'amount': rfp.amount,
+                                  'timeline': rfp.timeline,
+                                  'sectors': rfp.sectors,
+                                  'states': rfp.states,
+                                });
+                                print(formdata['sectors']+formdata['states']);
+                                addRFP(formdata);
                               },
                               child: Text("Raise Request")))
                     ]),

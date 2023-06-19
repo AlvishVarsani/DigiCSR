@@ -1,31 +1,48 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/constants.dart';
 import '../models/RFPModel.dart';
 
-void addRFP(Map<String,dynamic> body) async {
+void addRFP(var formdata) async {
   final token = await fetchToken();
 
-  var client = new http.Client();
-client.post(Uri.parse(ipInfo + "/add-rfp"), body: json.encode(body),
-headers: {
-    'Context-Type': 'application/json;charSet=UTF-8',
-    'authorization': token!
-  },
-).then((response) {
-  client.close();
-  print(response.body);
-  if (response.statusCode == 200) {
-     //enter your code for change state
-     print('Raised');
-  }
-}).catchError((onError) {
-   client.close();
-   print("Error: $onError");
-});
+  var dio = Dio();
+      var response = await dio.post(ipInfo + '/add-rfp',
+          data: formdata,
+          options: Options(
+            headers: {
+              'Context-Type': 'application/json;charSet=UTF-8',
+              'authorization': token.toString()
+            },
+          ));
+          print(response.data);
+      if (response.statusCode == 200) {
+        print('Upload successful');
+      } else {
+        print('Upload failed');
+      } 
+
+//   var client = new http.Client();
+// client.post(Uri.parse(ipInfo + "/add-rfp"), body: body,
+// headers: {
+//     'Context-Type': 'application/json;charSet=UTF-8',
+//     'authorization': token!
+//   },
+// ).then((response) {
+//   client.close();
+//   print(response.body);
+//   if (response.statusCode == 200) {
+//      //enter your code for change state
+//      print('Raised');
+//   }
+// }).catchError((onError) {
+//    client.close();
+//    print("Error: $onError");
+// });
 }
   // final response = await http.post(Uri.parse(ipInfo + "/add-rfp"),
   // headers: {

@@ -117,7 +117,7 @@ class _CompanyLogin extends State<CompanyLogin> {
               Expanded(child: Container()),
               Card(clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.all(0),
-                color: darkgrey,
+                color: primary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
@@ -127,7 +127,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                   width: double.maxFinite,
                   height: MediaQuery.of(context).size.height * 0.45,
                   decoration: BoxDecoration(
-                      color: darkgrey,
+                      color: primary,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
@@ -161,7 +161,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 28,
-                            color: darkgrey,
+                            color: primary,
                           ),
                         ),
                       ),
@@ -268,7 +268,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                               value: otpverify, onChanged: (value) {},
                               activeColor: grey,
                               fillColor: MaterialStatePropertyAll(grey),
-                              checkColor: darkgrey,
+                              checkColor: primary,
                               // focusColor: grey,
                               // hoverColor: grey,
                               // splashRadius: 9,
@@ -284,7 +284,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                             Text(
                               'OTP verified',
                               style: TextStyle(
-                                  color: darkgrey,
+                                  color: primary,
                                   fontFamily: 'Montserrat',
                                   fontSize: 17),
                             )
@@ -303,7 +303,7 @@ class _CompanyLogin extends State<CompanyLogin> {
                                   padding: MaterialStatePropertyAll(
                                       EdgeInsets.all((15 < h * 0.018) ? 15 : h*0.018)),
                                   backgroundColor:
-                                      MaterialStatePropertyAll(darkgrey),
+                                      MaterialStatePropertyAll(primary),
                                   shape: MaterialStatePropertyAll<
                                           RoundedRectangleBorder>(
                                       RoundedRectangleBorder(

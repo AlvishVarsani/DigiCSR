@@ -16,7 +16,7 @@ class CompanyUser{
   String? cp_email = 'yashuranparia136@gmail.com';
   String? cp_designation='keshod';
   String? cp_phone = '9426573656';
-  List<String>? sectors = [];
-  List<String>? tax_comp = [];
+  List? sectors = [];
+  List? tax_comp = [];
   FilePickerResult? registration_certificate; 
 }

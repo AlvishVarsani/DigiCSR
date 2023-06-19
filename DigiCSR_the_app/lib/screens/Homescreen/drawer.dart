@@ -1,5 +1,6 @@
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
+import 'package:digicsr/screens/company/company_details.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
@@ -47,7 +48,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ProfileScreenForCompany()));
+                      builder: (context) => CompanyDetails()));
             },
           ),
           ListTile(

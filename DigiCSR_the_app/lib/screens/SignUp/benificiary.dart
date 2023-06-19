@@ -1,3 +1,4 @@
+import 'package:digicsr/screens/benificiary/benificiary_screen.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/benificiaryuser.dart';
 import 'package:flutter/material.dart';
@@ -22,48 +23,27 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
   String otp = '';
   bool otpverify = false;
 
-  BenificiaryUser benificiary = BenificiaryUser();
+  final BenificiaryUser benificiary = BenificiaryUser();
 
   bool otpsent = false;
 
   // TextButton btn = TextButton(onPressed: (){}, child: );
 
-  void save() async {
-    try {
-      var res = await http.post(
-          Uri.parse('http://localhost:4000/Beneficiary/signup'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'name': benificiary.name,
-            'email': benificiary.benificiary_email,
-            'mobile_number': benificiary.mobile_no,
-            'addhar_number': benificiary.addhar_no
-          });
-      otpsent = true;
-    } on Exception catch (e) {
-      print(e);
-    }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Login_Screen()));
-  }
-
   void sendOTP() async {
     try {
       var res = await http.post(
-          Uri.parse('http://localhost:4000/Beneficiary/signup'),
+          Uri.parse(ipInfo + '/Beneficiary/signup'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
             'name': benificiary.name,
             'email': benificiary.benificiary_email,
-            'mobile_number': benificiary.mobile_no,
-            'addhar_number': benificiary.addhar_no
+            'mobile_no': benificiary.mobile_no,
+            'addhar_no': benificiary.addhar_no
           });
       print(res.body);
-      otpverify = true;
+      otpsent = true;
     } catch (e) {
       print(e);
     }
@@ -71,15 +51,15 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
 
   void verifyOTP() {
     try {
-      var res = http.post(Uri.parse('http://localhost:4000/Beneficiary/verify'),
+      var res = http.post(Uri.parse(ipInfo + '/Beneficiary/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
           body: {
             'name': benificiary.name,
             'email': benificiary.benificiary_email,
-            'mobile_number': benificiary.mobile_no,
-            'addhar_number': benificiary.addhar_no,
+            'mobile_no': benificiary.mobile_no,
+            'addhar_no': benificiary.addhar_no,
             'otp': otp
           });
       otpverify = true;
@@ -113,7 +93,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
               Expanded(child: Container()),
               Card(
                 margin: EdgeInsets.all(0),
-                color: darkgrey,
+                color: primary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
@@ -123,7 +103,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                   width: double.maxFinite,
                   height: MediaQuery.of(context).size.height * 0.45,
                   decoration: BoxDecoration(
-                      color: darkgrey,
+                      color: primary,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
@@ -157,7 +137,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 28,
-                          color: darkgrey,
+                          color: primary,
                         ),
                       ),
                     ),
@@ -181,7 +161,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 17,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   style: TextStyle(fontFamily: 'Montserrat'),
@@ -213,10 +193,10 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                     hintText: 'ex. digicsr@gmail.com',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -254,14 +234,14 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 17,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   style: TextStyle(fontFamily: 'Montserrat'),
                                   controller: TextEditingController(
-                                      text: benificiary.mobile_no),
+                                      text: benificiary.name),
                                   onChanged: (value) {
-                                    benificiary.mobile_no = value;
+                                    benificiary.name = value;
                                   },
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -282,10 +262,10 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                     hintText: 'ex. Yashu',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -323,7 +303,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 17,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   style: TextStyle(fontFamily: 'Montserrat'),
@@ -332,6 +312,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                   onChanged: (value) {
                                     benificiary.mobile_no = value;
                                   },
+                                  keyboardType: TextInputType.number,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Enter mobile number';
@@ -351,10 +332,10 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                     hintText: 'ex. 942-7245-632',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -392,7 +373,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 17,
-                                          color: darkgrey),
+                                          color: primary),
                                     )),
                                 TextFormField(
                                   style: TextStyle(fontFamily: 'Montserrat'),
@@ -420,10 +401,10 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                     hintText: 'ex. 1234-5678-9012',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -451,7 +432,10 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                         length: 6,
                         contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState(verifyOTP)},
+                        onCompleted: (value) => {setState((){
+                          otp = value;
+                          verifyOTP();
+                        })},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
                         style:
@@ -472,9 +456,9 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                         children: [
                           Checkbox(
                             value: otpverify, onChanged: (value) {},
-                            activeColor: grey,
+                            activeColor: primary,
                             fillColor: MaterialStatePropertyAll(grey),
-                            checkColor: darkgrey,
+                            checkColor: primary,
                             // focusColor: grey,
                             // hoverColor: grey,
                             // splashRadius: 9,
@@ -490,7 +474,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                           Text(
                             'OTP verified',
                             style: TextStyle(
-                                color: darkgrey,
+                                color: primary,
                                 fontFamily: 'Montserrat',
                                 fontSize: 17),
                           )
@@ -509,7 +493,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                         MediaQuery.paddingOf(context).top *
                                             0.3)),
                                 backgroundColor:
-                                    MaterialStatePropertyAll(darkgrey),
+                                    MaterialStatePropertyAll(primary),
                                 shape: MaterialStatePropertyAll<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -526,14 +510,19 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                               //         MaterialPageRoute(
                               //             builder: (context) =>
                               //                 Login_Screen()));
-                              if (!otpverify) {
-                                sendOTP();
-                              } else {
-                                Navigator.push(
+                              // if (!otpverify) {
+                              //   sendOTP();
+                              // } else {
+                              //   Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) => BeneficiaryHomeScreen()));
+                              // }
+
+                              Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Container()));
-                              }
+                                        builder: (context) => BeneficiaryHomeScreen()));
                             },
                             child: Text(
                               btn,
