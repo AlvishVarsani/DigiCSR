@@ -113,6 +113,12 @@ flutter:
         - asset: assets\fonts\Montserrat\Montserrat-VariableFont_wght.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+    - family: Myriad Pro
+      fonts:
+        - asset: assets\fonts\myriad-pro-cufonfonts-webfont\MYRIADPRO-REGULAR.woff
+    - family: Gotham
+      fonts:
+        - asset: assets\fonts\Gotham-Font\GothamBook.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

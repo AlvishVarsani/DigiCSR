@@ -1,4 +1,7 @@
 import 'package:csc_picker/csc_picker.dart';
+import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/widgets/appbar.dart';
+import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -47,13 +50,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          "Profile",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blue,
-      ),
+      appBar: CustomAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -211,6 +208,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
           ),
         ),
       ),
+      bottomNavigationBar: CustomBottomNavBar(ngonav),
     );
   }
 }

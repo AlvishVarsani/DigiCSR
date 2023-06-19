@@ -39,6 +39,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                 child: Card(
                   // margin: EdgeInsets.only(top: 100, bottom: 20),
                   elevation: 4,
+                  shadowColor: primary,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: Container(
@@ -46,8 +47,8 @@ class _Login_ScreenState extends State<Login_Screen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
-                    height: h * 0.27,
-                    width: w ,
+                    height: h * 0.25,
+                    width: w * 0.9 ,
                     padding: EdgeInsets.all(14),
                     child: Image.asset(
                       'assets/images/DigiCSR_Logo_Black_Tagline-1.png',
@@ -73,6 +74,13 @@ class _Login_ScreenState extends State<Login_Screen> {
                       'Let\'s be helpful !!',
                       // textAlign: TextAlign.center,
                       style: TextStyle(
+                        shadows: <Shadow>[
+                          Shadow(
+                color: primary.withOpacity(0.2),
+                offset: Offset(2, 2),
+                blurRadius: 1,
+              ),
+                        ],
                           color: black,
                           fontSize: 40,
                           // letterSpacing: 1.3,
@@ -110,8 +118,10 @@ class _Login_ScreenState extends State<Login_Screen> {
                                     style: TextStyle(fontSize: 23, color: white),
                                   )),
                               style: ButtonStyle(
+                                // shadowColor: MaterialStatePropertyAll(primary),
+                                backgroundColor: MaterialStatePropertyAll(primary),
                                   padding: MaterialStatePropertyAll(EdgeInsets.only(top: 8,bottom: 8,right: 10,left: 10)),
-                                  elevation: MaterialStatePropertyAll(15),
+                                  elevation: MaterialStatePropertyAll(10),
                                   minimumSize: MaterialStatePropertyAll(Size(w*0.35, 50)),
                                   maximumSize:
                                       MaterialStatePropertyAll(Size(w * 0.43, 60)),
@@ -141,8 +151,10 @@ class _Login_ScreenState extends State<Login_Screen> {
                                     style: TextStyle(fontSize: 23, color: white),
                                   )),
                               style: ButtonStyle(
+                                // shadowColor: MaterialStatePropertyAll(primary),
+                                backgroundColor: MaterialStatePropertyAll(primary),
                                   // padding: MaterialStatePropertyAll(EdgeInsets.only(top: 8,bottom: 8,right: 10,left: 10)),
-                                  elevation: MaterialStatePropertyAll(15),
+                                  elevation: MaterialStatePropertyAll(10),
                                   minimumSize: MaterialStatePropertyAll(Size(w*0.35, 50)),
                                   maximumSize:
                                       MaterialStatePropertyAll(Size(w * 0.43, 60)),

@@ -84,7 +84,7 @@ Future<List<Rfp>> fetchCompanyRfp() async {
       // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
       await http.get(Uri.parse(ipInfo + "/company/rfp"),
       headers: {
-        'Context-Type': 'application/json;charSet=UTF-8',
+        'Content-Type': 'application/json;charSet=UTF-8',
         'authorization': token!
       }
       );
@@ -106,7 +106,7 @@ void acceptPraposal(Map<dynamic,dynamic> data)async{
   var client = new http.Client();
 client.put(Uri.parse(ipInfo + "/accept-rfp"), body: jsonEncode(data),
 headers: {
-    'Context-Type': 'application/json',
+    'Content-Type': 'application/json',
     'authorization': token!
   },
 ).then((response) {

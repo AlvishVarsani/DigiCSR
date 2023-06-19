@@ -66,8 +66,6 @@ class _CompanyLogin extends State<CompanyLogin> {
 
   void verifyOTP() async{
     try {
-
-
       var ress = await http.post(Uri.parse(ipInfo + '/company/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
@@ -82,10 +80,14 @@ class _CompanyLogin extends State<CompanyLogin> {
           await storage.deleteAll();
          await storage.write(key: 'token', value: jsonDecode(ress.body)['result']);
          print('Finished');
-      otpverify = true;
-      btn = 'Sign in';
+      
       debugPrint(jsonDecode(ress.body)['result']);
-      await storage.write(key: "token", value: jsonDecode(ress.body)['result']);
+      
+      if(ress.statusCode == 200){
+        otpverify = true;
+        btn = 'Sign in';
+        await storage.write(key: "token", value: jsonDecode(ress.body)['result']);
+      }
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -322,12 +324,12 @@ class _CompanyLogin extends State<CompanyLogin> {
                                 //             builder: (context) =>
                                 //                 Login_Screen()));
                                 
-                                if(!otpverify){
-                                  sendOTP();
-                                }else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                                }
-                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                                // if(!otpverify){
+                                //   sendOTP();
+                                // }else{
+                                //   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                                // }
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                               },
                               child: Text(
                                 btn,

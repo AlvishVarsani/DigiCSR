@@ -19,11 +19,24 @@ class NGOSignUp extends StatefulWidget {
 }
 
 class _NGOSignUp extends State<NGOSignUp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    btn = 'SignUp';
+    otp = '';
+    otpverify = false;
+    otpcontroller = OtpFieldController();
+    otpsent = false;
+    ngo = NGOuser();
+  }
+
+  
   final _formkey = GlobalKey<FormState>();
 
   OtpFieldController otpcontroller = OtpFieldController();
   String otp = '';
-  bool otpverify = false;
+  bool otpverify = false;    
 
   NGOuser ngo = NGOuser();
 
@@ -60,9 +73,11 @@ class _NGOSignUp extends State<NGOSignUp> {
             'otp': otp
           });
           print(res.body);
-      otpverify = true;
+      if(res.statusCode == 200){
+        otpverify = true;
       btn = 'SignUP';
-      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
+      await storage.write(key: "ngo", value: jsonDecode(res.body)['result']);
+      }
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -77,6 +92,7 @@ class _NGOSignUp extends State<NGOSignUp> {
 
   @override
   Widget build(BuildContext context) {
+    
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -298,9 +314,11 @@ class _NGOSignUp extends State<NGOSignUp> {
                         length: 6,
                         contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState((){
-                          otp = value;
-                          verifyOTP();})},
+                        onCompleted: (value) => {
+                          otp = value,
+                          print(otp),
+                          verifyOTP(),
+                          setState((){})},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
                         style:
@@ -324,7 +342,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                           Checkbox(
                             value: otpverify, onChanged: (value) {},
                             activeColor: primary,
-                            fillColor: MaterialStatePropertyAll(primary),
+                            fillColor: MaterialStatePropertyAll(white),
                             checkColor: primary,
                             // focusColor: grey,
                             // hoverColor: grey,

@@ -8,18 +8,13 @@ import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
 
-class DrawerScreen extends StatefulWidget {
+class DrawerScreen extends StatelessWidget {
   const DrawerScreen({super.key});
 
   @override
-  State<DrawerScreen> createState() => _DrawerScreenState();
-}
-
-class _DrawerScreenState extends State<DrawerScreen> {
-  @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 400,
+      width: MediaQuery.of(context).size.width * 0.65,
       backgroundColor: Colors.white,
       child: ListView(
         children: [

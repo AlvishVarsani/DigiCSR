@@ -1,7 +1,5 @@
-import 'package:digicsr/models/NotificationModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/screens/company/company_details.dart';
-import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/ngo/ngoprofile.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,6 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
-import '../screens/ngo/Praposal_Accept.dart';
 import '../users/companyuser.dart';
 
 Color blue = Color(0xFF1DA1F2);
@@ -74,8 +71,8 @@ final Indianstates = [
   MultiSelectItem<String>('Option 28','West Bengal')
 ];
 
-String ipInfo = "http://localhost:4000";
-// String ipInfo = "http://192.168.155.94:4000";
+// String ipInfo = "http://localhost:4000";
+String ipInfo = "http://192.168.155.94:4000";
 
 Future<String?> fetchToken() {
   return storage.read(key: "token");
