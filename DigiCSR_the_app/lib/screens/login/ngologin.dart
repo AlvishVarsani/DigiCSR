@@ -4,7 +4,7 @@ import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/users/ngouser.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
