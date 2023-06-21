@@ -341,7 +341,13 @@ exports.getRfpOfCompany = async (req, res) => {
     const companyId = req.user._id;
     const rfps = await RFP.find(
       { company: companyId },
+<<<<<<< HEAD
       { _id: 1, title: 1, sectors: 1, states: 1, amount: 1,date: 1,timeline: 1 }
+=======
+
+      { _id: 1, title: 1, sectors: 1, states: 1, amount: 1,date: 1,timeline: 1 }
+//>>>>>>> 7479267afcce48ea30ff6cfe96fd50d898bed0cd
+>>>>>>> f74cb02e6b0e2215a72c67058c995d91d9c9f736
     )
       .sort({ date: -1 })
       // .skip(skip)
