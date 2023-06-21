@@ -1,12 +1,14 @@
+import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:readmore/readmore.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../constants/constants.dart';
 import 'drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,536 +32,397 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      drawer: DrawerScreen(),
-      appBar: CustomAppBar(context),
-      body: SafeArea(
-        child: SingleChildScrollView(
-            child: Column(children: [
-          SizedBox(
-            height: 10,
-          ),
-          VxSwiper.builder(
-              aspectRatio: 16 / 9,
-              autoPlay: true,
-              height: 150,
-              enlargeCenterPage: true,
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return Image.asset(
-                  HomeScreen.sliderlist[index],
-                  fit: BoxFit.fill,
-                )
-                    .box
-                    .rounded
-                    .clip(Clip.antiAlias)
-                    .margin(const EdgeInsets.symmetric(horizontal: 8))
-                    .make();
-              }),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              shadowColor: Colors.black,
-              elevation: 30,
-              child: Column(
-                children: [
-                  Row(children: [
-                    CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.white,
-                        child: Image.asset(
-                          "assets/images/earth.png",
-                          width: 60,
-                          fit: BoxFit.fill,
-                        )),
-                    Container(
+    return  SingleChildScrollView(
+          child: Column(children: [
+        SizedBox(
+          height: 10,
+        ),
+        VxSwiper.builder(
+            aspectRatio: 16 / 9,
+            autoPlay: true,
+            height: 150,
+            enlargeCenterPage: true,
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return Image.asset(
+                HomeScreen.sliderlist[index],
+                fit: BoxFit.fill,
+              )
+                  .box
+                  .rounded
+                  .clip(Clip.antiAlias)
+                  .margin(const EdgeInsets.symmetric(horizontal: 8))
+                  .make();
+            }),
+        SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  
+                  children: [
+                    Card(
+                      shadowColor: blueglass,
+                      elevation: 30,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Internauts Infotech",
-                            style: TextStyle(fontSize: 18),
+                          Row(children: [
+                            CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.white,
+                                child: Image.asset(
+                                  "assets/images/earth.png",
+                                  width: 60,
+                                  fit: BoxFit.fill,
+                                )),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Internauts Infotech",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    "Location",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ]),
+                            
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                "assets/images/ngorelated1.jpg",
+                                //  height: 150.0,
+                                width: 280.0,
+                              ),
+                            ),
                           ),
-                          Text(
-                            "Location",
-                            style: TextStyle(color: Colors.grey),
-                          )
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              //crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Cleaning the beach...",
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 280,
+                              child: ReadMoreText(
+                                content,
+                                trimLines: 3,
+                                textAlign: TextAlign.justify,
+                                trimMode: TrimMode.Line,
+                                trimCollapsedText: "  read more",
+                                trimExpandedText: "  show less",
+                                lessStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                                moreStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ]),
-                  Container(
-                    child: ReadMoreText(
-                      content,
-                      trimLines: 2,
-                      textAlign: TextAlign.center,
-                      trimMode: TrimMode.Line,
-                      trimCollapsedText: "  read more",
-                      trimExpandedText: "  show less",
-                      lessStyle: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.blue),
-                      moreStyle: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.blue),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Image.asset(
-                    "assets/images/ngorelated1.jpg",
-                    width: 300,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "Cleaning the beach...",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // setState(() {
+                    SizedBox(width: 20,),
+                    Card(
+                      shadowColor: Colors.black,
+                      elevation: 30,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.white,
+                                child: Image.asset(
+                                  "assets/images/earth.png",
+                                  width: 60,
+                                  fit: BoxFit.fill,
+                                )),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Internauts Infotech",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    "Location",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ]),
                             
-                          // });
-                        },
-                        icon: Icon(
-                          Icons.thumb_up,
-                          color: Colors.blue,
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                "assets/images/ngorelated1.jpg",
+                                //  height: 150.0,
+                                width: 280.0,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              //crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Cleaning the beach...",
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 280,
+                              child: ReadMoreText(
+                                content,
+                                trimLines: 3,
+                                textAlign: TextAlign.justify,
+                                trimMode: TrimMode.Line,
+                                trimCollapsedText: "  read more",
+                                trimExpandedText: "  show less",
+                                lessStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                                moreStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.comment)),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.report)),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.share)),
-                    ],
-                  )
-                ],
+                    ),
+                    SizedBox(width: 20,),
+                    Card(
+                      shadowColor: Colors.black,
+                      elevation: 30,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.white,
+                                child: Image.asset(
+                                  "assets/images/earth.png",
+                                  width: 60,
+                                  fit: BoxFit.fill,
+                                )),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Internauts Infotech",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    "Location",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ]),
+                            
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                "assets/images/ngorelated1.jpg",
+                                //  height: 150.0,
+                                width: 280.0,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              //crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Cleaning the beach...",
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 280,
+                              child: ReadMoreText(
+                                content,
+                                trimLines: 3,
+                                textAlign: TextAlign.justify,
+                                trimMode: TrimMode.Line,
+                                trimCollapsedText: "  read more",
+                                trimExpandedText: "  show less",
+                                lessStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                                moreStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  
+                  ]
+                   
+                      
+                  
+                ),
               ),
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: Column(
               children: [
-                Container(
-                  width: 360,
-                  height: 450,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Color.fromARGB(255, 150, 199, 239),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                            ),
-                            CircleAvatar(
-                                radius: 28,
-                                backgroundColor: Colors.blue,
-                                child: Image.asset(
-                                  "assets/app_icon/digicsr_app_icon.png",
-                                  width: 40,
-                                  fit: BoxFit.fill,
-                                )),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              "  Name Of NGO",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Story Title",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Sector",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            SizedBox(
-                              width: 90,
-                            ),
-                            Text(
-                              "Data",
-                              style: TextStyle(fontSize: 15),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Image.asset(
-                          "assets/images/ngorelated1.jpg",
-                          width: 260,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Description...",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: 330,
-                          child: Text(
-                            "    NGOs (Non-Governmental Organizations) are vital agents of change, human rights. In this essay, we will explore the significance of NGOs and their impact on society.rth rth",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(color: Colors.red, fontSize: 15),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                SizedBox(
+                  height: 10,
                 ),
-                Container(
-                  width: 360,
-                  height: 450,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Color.fromARGB(255, 150, 199, 239),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                            ),
-                            CircleAvatar(
-                                radius: 28,
-                                backgroundColor: Colors.blue,
-                                child: Image.asset(
-                                  "assets/app_icon/digicsr_app_icon.png",
-                                  width: 40,
-                                  fit: BoxFit.fill,
-                                )),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              "  Name Of NGO",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Story Title",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Sector",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            SizedBox(
-                              width: 90,
-                            ),
-                            Text(
-                              "Data",
-                              style: TextStyle(fontSize: 15),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Image.asset(
-                          "assets/images/ngorelated1.jpg",
-                          width: 260,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Description...",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: 330,
+                Card(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(
+                            255,
+                            224,
+                            128,
+                            80,
+                          ),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: ListTile(
+                        title: Center(
                           child: Text(
-                            "    NGOs (Non-Governmental Organizations) are vital agents of change, human rights. In this essay, we will explore the significance of NGOs and their impact on society.rth rth",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(color: Colors.red, fontSize: 15),
+                            "Our Impact",
+                            style: TextStyle(fontSize: 25, color: Colors.white),
                           ),
                         ),
-                      ],
+                      )),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 247, 243, 243),
+                    child: FaIcon(
+                      FontAwesomeIcons.building,
                     ),
                   ),
+                  title: Center(
+                      child: Text(
+                    "20802",
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  subtitle: Center(child: Text("Total no. of companies")),
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 247, 243, 243),
+                    child: Icon(Icons.currency_rupee)
+                  ),
+                  title: Center(
+                      child: Text(
+                    "255802",
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  subtitle: Center(child: Text("Total amount spent on CSR")),
                 ),
                 
-                Container(
-                  width: 360,
-                  height: 450,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Color.fromARGB(255, 150, 199, 239),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                            ),
-                            CircleAvatar(
-                                radius: 28,
-                                backgroundColor: Colors.blue,
-                                child: Image.asset(
-                                  "assets/app_icon/digicsr_app_icon.png",
-                                  width: 40,
-                                  fit: BoxFit.fill,
-                                )),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              "  Name Of NGO",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Story Title",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Sector",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            SizedBox(
-                              width: 90,
-                            ),
-                            Text(
-                              "Data",
-                              style: TextStyle(fontSize: 15),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Image.asset(
-                          "assets/images/ngorelated1.jpg",
-                          width: 260,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Description...",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: 330,
-                          child: Text(
-                            "    NGOs (Non-Governmental Organizations) are vital agents of change, human rights. In this essay, we will explore the significance of NGOs and their impact on society.rth rth",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(color: Colors.red, fontSize: 15),
-                          ),
-                        ),
-                      ],
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 247, 243, 243),
+                    child: FaIcon(
+                      FontAwesomeIcons.earthAsia,
                     ),
                   ),
+                  title: Center(
+                      child: Text(
+                    "20802",
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  subtitle: Center(child: Text("States and UT's covered")),
+                )
+                ,ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 247, 243, 243),
+                    child: FaIcon(
+                      FontAwesomeIcons.building,
+                    ),
+                  ),
+                  title: Center(
+                      child: Text(
+                    "20802",
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  subtitle: Center(child: Text("Total no. of CSR Projects")),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            "Our Impact",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Card(
-                  elevation: 50,
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 247, 243, 243),
+                    child: Icon(Icons.security)
                   ),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            Row(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 40,
-                                ),
-                                Image.asset(
-                                  "assets/images/bargraph.png",
-                                  width: 80,
-                                ),
-                                SizedBox(
-                                  width: 40,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      " \n1+ Cr*",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.blue),
-                                    ),
-                                    Text(
-                                      "Fastest fund raised",
-                                      style: TextStyle(fontSize: 15),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Text(
-                                "--------------------------------------------------------------------------"),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/earth.png",
-                                  width: 150,
-                                  height: 100,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      " 30 Lakh+",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.blue),
-                                    ),
-                                    Text(
-                                      "Donor community",
-                                      style: TextStyle(fontSize: 15),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Text(
-                                "--------------------------------------------------------------------------"),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Image.asset(
-                                  "assets/images/population.png",
-                                  width: 120,
-                                ),
-                                SizedBox(
-                                  width: 25,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "25,000+",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.blue),
-                                    ),
-                                    Text(
-                                      "Patients Funded",
-                                      style: TextStyle(fontSize: 15),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Text(
-                                "\n--------------------------------------------------------------------------"),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  title: Center(
+                      child: Text(
+                    "20802",
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  subtitle: Center(child: Text("Devlopment Sectors")),
                 )
               ],
             ),
           ),
-        ])),
-      ),
-      bottomNavigationBar: CustomBottomNavBar((user == 'NGO')?ngonav:companynav),
-    );
+        ), 
+      ]));
+    
   }
 }

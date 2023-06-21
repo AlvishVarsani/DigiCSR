@@ -16,41 +16,43 @@ class ProfileScreenForNGO extends StatefulWidget {
 }
 
 class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
-  List<String> _selectedOptions1 = [];
-  final _items1 = [
+  
+ List<String> _selectedOptions1 = [];
+final _items1 = [
     MultiSelectItem<String>('Option 1', "Male"),
-    MultiSelectItem<String>('Option 2', "Female"),
-    MultiSelectItem<String>('Option 3', "others"),
-  ];
-  String countryValue = '';
-  String? stateValue = '';
-  String? cityValue = '';
+    MultiSelectItem<String>('Option 2',  "Female"),
+    MultiSelectItem<String>('Option 3',"others"),
 
+   
+  ];
+   String countryValue = '';
+  String? stateValue = '';
+  String? cityValue='';
+ 
   List<String> _selectedOptions = [];
   final _items = [
     MultiSelectItem<String>('Option 1', "Rural Development"),
-    MultiSelectItem<String>('Option 2', "Encouraging Sports"),
-    MultiSelectItem<String>('Option 3', "Clean Ganga Fund"),
-    MultiSelectItem<String>('Option 4', "Swachh Bharat"),
-    MultiSelectItem<String>('Option 5', "Health & Sanitation"),
-    MultiSelectItem<String>(
-        'Option 6', "Education, Differently Abled, Livelihood"),
-    MultiSelectItem<String>('Option 7',
-        "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
-    MultiSelectItem<String>(
-        'Option 8', "Environment, Animal Welfare, Conservation of Resources"),
-    MultiSelectItem<String>('Option 9', "Slum Development"),
-    MultiSelectItem<String>('Option 10', "Heritage Art And Culture"),
-    MultiSelectItem<String>(
-        'Option 11', "Prime Minister National Relief Funds"),
-    MultiSelectItem<String>('Option 12', "others"),
-  ];
+    MultiSelectItem<String>('Option 2',  "Encouraging Sports"),
+    MultiSelectItem<String>('Option 3',  "Clean Ganga Fund"),
+    MultiSelectItem<String>('Option 4',   "Swachh Bharat"),
+    MultiSelectItem<String>('Option 5',   "Health & Sanitation" ),
+    MultiSelectItem<String>('Option 6',    "Education, Differently Abled, Livelihood"),
+     MultiSelectItem<String>('Option 7',    "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
+    MultiSelectItem<String>('Option 8',   "Environment, Animal Welfare, Conservation of Resources"),
+    MultiSelectItem<String>('Option 9',  "Slum Development"),
+    MultiSelectItem<String>('Option 10',  "Heritage Art And Culture"),
+    MultiSelectItem<String>('Option 11',  "Prime Minister National Relief Funds"),
+    MultiSelectItem<String>('Option 12',"others"),
 
+   
+  ];
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(context),
+      // appBar: CustomAppBar(context),
+      // bottomNavigationBar: CustomBottomNavBar(ngonav),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -72,7 +74,8 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
               SizedBox(
                 height: 10,
               ),
-              TextFormFieldButton("Ngo Name", Text2: "Enter ngo full name"),
+              TextFormFieldButton(
+                   "Ngo Name", Text2: "Enter ngo full name"),
               SizedBox(
                 height: 10,
               ),
@@ -82,11 +85,10 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(100),
                 ],
+
               ),
-              SizedBox(
-                height: 10,
-              ),
-              TextButton(
+              SizedBox(height: 10,),
+               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.blue, fixedSize: Size(550, 42)),
@@ -98,68 +100,53 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                       color: Colors.white),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormFieldButton("Member Name", Text2: "Enter Member Name"),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Select Gender",
-                style:
+              SizedBox(height: 10,),
+              TextFormFieldButton( "Member Name",
+              Text2: "Enter Member Name"),
+              SizedBox( height: 10,),
+              Text("Select Gender",style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              Card(
+               Card(
                 child: Padding(
-                  padding: EdgeInsets.all(1.0),
-                  child: MultiSelectDialogField<String>(
-                    title: Text('Select Options'),
-                    items: _items1,
-                    initialValue: _selectedOptions1,
-                    onConfirm: (values) {
-                      setState(() {
-                        _selectedOptions1 = values;
-                      });
-                    },
-                  ),
-                ),
+                      padding: EdgeInsets.all(1.0),
+                      child: MultiSelectDialogField<String>(
+                        title: Text('Select Options'),
+                        items: _items1,
+                        initialValue: _selectedOptions1,
+                        onConfirm: (values) {
+                          setState(() {
+                _selectedOptions1 = values;
+                          });
+                        },
+                      ),
+                    ),
               ),
-              TextFormFieldButton("DIN", Text2: "Enter DIN "),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormFieldButton(
-                "Phone no.",
-                Text2: "Enter phone no",
-                keyboardType: TextInputType.number,
+              TextFormFieldButton("DIN",
+              Text2: "Enter DIN "),
+              SizedBox(height: 10,),
+              TextFormFieldButton( "Phone no.",
+              Text2: "Enter phone no",
+              keyboardType: TextInputType.number,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   FilteringTextInputFormatter.digitsOnly,
                 ],
               ),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10,),
+              TextFormFieldButton( "Designation",
+              Text2: "Enter Designation"),
+              SizedBox(height: 10,),
+              TextFormFieldButton( "CSR Budget of this year",
+              Text2: "CSR Budget"
               ),
-              TextFormFieldButton("Designation", Text2: "Enter Designation"),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormFieldButton("CSR Budget of this year",
-                  Text2: "CSR Budget"),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Area of operation",
-                style:
+              SizedBox(height: 10,),
+              Text("Area of operation",style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                height: 5,
-              ),
-              CSCPicker(
-                showCities: false,
+              SizedBox(height: 5,),
+             CSCPicker(
+              showCities: false,
                 onCountryChanged: (country) {
                   setState(() {
                     countryValue = country;
@@ -176,39 +163,38 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                   });
                 },
               ),
-              Text(
+               Text(
                 "Sector  to provide CSR",
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height:5,),
+             
               Card(
                 child: Padding(
-                  padding: EdgeInsets.all(1.0),
-                  child: MultiSelectDialogField<String>(
-                    title: Text('Select Options'),
-                    items: _items,
-                    initialValue: _selectedOptions,
-                    onConfirm: (values) {
-                      setState(() {
-                        _selectedOptions = values;
-                      });
-                    },
-                  ),
-                ),
+                      padding: EdgeInsets.all(1.0),
+                      child: MultiSelectDialogField<String>(
+                        title: Text('Select Options'),
+                        items: _items,
+                        initialValue: _selectedOptions,
+                        onConfirm: (values) {
+                          setState(() {
+                _selectedOptions = values;
+                          });
+                        },
+                      ),
+                    ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                  child: ElevatedButton(onPressed: () {}, child: Text("Save")))
-            ],
-          ),
+               SizedBox(height: 10,),
+   Center(child: ElevatedButton(onPressed: (){}, child: Text("Save")))
+
+
+           
+
+
+          ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(ngonav),
-    );
+        ),),);
+    
   }
 }

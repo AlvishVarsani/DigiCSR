@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
       },
     );
     try {
-      var token = await fetchToken();
+      var token = await fetchCompanyToken();
       print(token.toString());
       // var resp = await http.post(Uri.parse('http://192.168.114.94:4000/company/add-profile/:id'),
       var dio = Dio();
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(context),
+      // appBar: CustomAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -311,7 +311,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(companynav),
+      // bottomNavigationBar: CustomBottomNavBar(companynav),
     );
   }
 }

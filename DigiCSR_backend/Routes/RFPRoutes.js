@@ -18,7 +18,7 @@ const RFPRoutes = (app) => {
   app.get("/company/rfp", AuthMiddleware, getRfpOfCompany);
   app.get("/rfp/:id", AuthMiddleware, getRFP);
   app.put("/rfp/manage", AuthMiddleware, manageDonation);
-  app.put("/rfp/delete/:id", AuthMiddleware, deleteRFP);
+  app.delete("/rfp/delete/:id", AuthMiddleware, deleteRFP);
 };
 
 module.exports = RFPRoutes;

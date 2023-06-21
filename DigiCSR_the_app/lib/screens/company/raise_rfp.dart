@@ -24,18 +24,6 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
   // String rfpamount = '';
   // String rfptimeline = '';
 
-  var formdata;
-
-  // Map<String, dynamic> rfpbody() {
-  //   return {
-  //     'title': rfptitle,
-  //     'amount': rfpamount,
-  //     'timeline': rfptimeline,
-  //     'sectors': selectedSectors,
-  //     'states': selectedstates,
-  //   };
-  // }
-
   // List<String> selectedSectors = [];
   // List<String> selectedstates = [];
   final _items = [
@@ -241,15 +229,17 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                       Center(
                           child: ElevatedButton(
                               onPressed: () {
-                                formdata = FormData.fromMap({
-                                  'title': rfp.title,
+                                 Map<String, dynamic> rfpbody(){
+                                  return {
+                                    'title': rfp.title,
                                   'amount': rfp.amount,
                                   'timeline': rfp.timeline,
                                   'sectors': rfp.sectors,
                                   'states': rfp.states,
-                                });
-                                print(formdata['sectors']+formdata['states']);
-                                addRFP(formdata);
+                                  };
+                                 }
+                                // print(formdata['sectors']+formdata['states']);
+                                addRFP(rfpbody());
                               },
                               child: Text("Raise Request")))
                     ]),

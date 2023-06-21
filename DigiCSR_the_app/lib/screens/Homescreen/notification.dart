@@ -131,7 +131,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             );
           }
         }),
-        bottomNavigationBar: CustomBottomNavBar(ngonav),
+        // bottomNavigationBar: CustomBottomNavBar(ngonav),
         );
   }
 }

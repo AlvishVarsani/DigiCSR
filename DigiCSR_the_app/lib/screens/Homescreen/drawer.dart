@@ -1,6 +1,6 @@
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
-import 'package:digicsr/screens/company/company_details.dart';
+import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
@@ -14,7 +14,11 @@ class DrawerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: MediaQuery.of(context).size.width * 0.65,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
+        side: BorderSide(style: BorderStyle.solid,)
+      ),
+      width: MediaQuery.of(context).size.width * 0.75,
       backgroundColor: Colors.white,
       child: ListView(
         children: [
@@ -43,7 +47,7 @@ class DrawerScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CompanyDetails()));
+                      builder: (context) => CompanyProfile()));
             },
           ),
           ListTile(

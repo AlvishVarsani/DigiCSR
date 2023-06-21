@@ -58,7 +58,7 @@ class _CompanySignUp extends State<CompanySignUp> {
             'otp': otp
           });
       print(res.body);
-      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
+      await storage.write(key: "company", value: jsonDecode(res.body)['result']);
       if (jsonDecode(res.body)['success']) {
         otpverify = true;
         btn = 'SignUp';

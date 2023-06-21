@@ -1,5 +1,6 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/SignUp/benificiary.dart';
 import 'package:digicsr/screens/SignUp/company.dart';
 import 'package:digicsr/screens/SignUp/ngo.dart';
@@ -113,7 +114,7 @@ class UserSelection extends StatelessWidget {
                     TextButton(
                       onPressed: () async{
                         user = 'Company';
-                        final token = await fetchToken();
+                        final token = await fetchCompanyToken();
                           if (auth == 'signup') {
                           Navigator.push(
                               context,
@@ -127,7 +128,7 @@ class UserSelection extends StatelessWidget {
                         }
                         else{
                           print(token);
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
                         
                       },
@@ -192,7 +193,7 @@ class UserSelection extends StatelessWidget {
                         }
                         else{
                           print(token);
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
                       },
                       child: Container(
@@ -239,7 +240,7 @@ class UserSelection extends StatelessWidget {
                     TextButton(
                       onPressed: () async{
                         user = 'Benificiary';
-                        final token = await fetchToken();
+                        final token = await fetchBenificiaryToken();
                           if (auth == 'signup') {
                           Navigator.push(
                               context,
@@ -252,7 +253,7 @@ class UserSelection extends StatelessWidget {
                                   builder: (context) => BenificiaryLogin()));
                         }
                         else{
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
                       },
                       child: Container(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/users/ngouser.dart';
 
 import 'package:flutter/material.dart';
@@ -423,7 +424,7 @@ class _NGOLogin extends State<NGOLogin> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()));
+                                        builder: (context) => MainScreen()));
                               }
                               // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                             },

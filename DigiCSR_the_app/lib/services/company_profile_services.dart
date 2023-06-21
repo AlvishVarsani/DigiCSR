@@ -6,23 +6,32 @@ import 'package:digicsr/models/CompanyModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 // import 'package:path_provider/path_provider.dart';
 
-Future<Company> fetchCompany(String id) async {
-  String? token = await fetchToken();
-
-  var response = await http.get(Uri.parse(ipInfo + "/company/$id"),
-      headers: {HttpHeaders.authorizationHeader: 'Bearer $token'});
-
+Future<Company> fetchCompany() async {
+  final token = await fetchCompanyToken();
+  print(token);
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  String id = decodedToken['_id'];
+  print(decodedToken['_id']);
+  var response = await http.get(Uri.parse(ipInfo + "/company/profile/$id"),
+      headers: {
+        'Content-Type': 'application/json;charSet=UTF-8',
+        'authorization': token
+      }
+      );
+print(response.body);
   if (response.statusCode == 200) {
-    return Company.fromJson(jsonDecode(response.body));
+    print(jsonDecode(response.body)['data']);
+    return Company.fromJson(jsonDecode(response.body)['data']);
   } else {
     throw Exception("Something went wrong");
   }
 }
 
 Future fetchCompanyCertificate(String id) async {
-  String? token = await fetchToken();
+  String? token = await fetchCompanyToken();
 
   var response = await http.get(Uri.parse(ipInfo + "/company/certificate/$id"),
       headers: {HttpHeaders.authorizationHeader: 'Bearer  $token'});
@@ -43,7 +52,7 @@ Future fetchCompanyCertificate(String id) async {
 
 Future updateCompanyProfile(
     String id, Map<String, String> updatedData, File image) async {
-  String? token = await fetchToken();
+  String? token = await fetchCompanyToken();
 
   var request = http.MultipartRequest(
       'POST', Uri.parse(ipInfo + "/company/add-profile/$id"));
@@ -59,7 +68,7 @@ Future updateCompanyProfile(
 }
 
 void CompanayProfile()async{
-  final token = fetchToken();
+  final token = fetchCompanyToken();
 
   var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/company/add-profile'));
 

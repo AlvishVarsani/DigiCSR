@@ -33,6 +33,7 @@ require("./Routes/RFPRoutes")(app);
 require("./Routes/NotificationRoutes")(app);
 require("./Routes/MediaRoutes")(app);
 require("./Routes/ChartRoutes")(app);
+require("./Routes/ReviewRoutes")(app)
 app.listen(PORT, () => {
   console.log(`Server listening on : http://localhost:${PORT}`);
 });

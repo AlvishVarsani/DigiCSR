@@ -2,6 +2,7 @@ import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/company/raise_rfp.dart';
 import 'package:digicsr/screens/company/request.dart';
 import 'package:digicsr/screens/company/rfpreqlist.dart';
+import 'package:digicsr/services/rfp_services.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
 
@@ -21,6 +22,7 @@ class _RFPState extends State<RFP> {
   @override
   void initState() {
     super.initState();
+    donationReq();
   }
 
   @override
@@ -36,7 +38,7 @@ class _RFPState extends State<RFP> {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(context),
+      // appBar: CustomAppBar(context),
       body: SafeArea(
           child: Column(
         children: [
@@ -51,10 +53,10 @@ class _RFPState extends State<RFP> {
                       },
                       child: Text('Requests',
                           style: TextStyle(
-                              color: white,
-                              fontFamily: 'Montserrat',
-                              fontSize: 25,
-                              )),
+                            color: white,
+                            fontFamily: 'Montserrat',
+                            fontSize: 25,
+                          )),
                       style: ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(primary),
                           // padding: MaterialStatePropertyAll(
@@ -105,9 +107,7 @@ class _RFPState extends State<RFP> {
           ),
           Expanded(
             child: PageView(
-              onPageChanged: (value) => {
-                
-              },
+              onPageChanged: (value) => {},
               controller: PageController(initialPage: index),
               // reverse: true,
               children: [
@@ -138,7 +138,7 @@ class _RFPState extends State<RFP> {
               ))
         ],
       )),
-      bottomNavigationBar: CustomBottomNavBar(companynav),
+      // bottomNavigationBar: CustomBottomNavBar(companynav),
     );
   }
 }

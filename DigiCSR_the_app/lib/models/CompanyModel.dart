@@ -1,38 +1,67 @@
 class Company {
-  final String id;
-  final String name;
-  final String cin;
-  final String email;
-  final Map<String, dynamic> profile;
-  final List<Map<String, dynamic>> initialData;
+  // String? id;
+  String? company_name;
+  String? cin;
+  String? email;
+  String? summary;
+  int? establishment_year; 
+  String? state; 
+  String? city; 
+  String? pincode; 
+  String? cp_name; 
+  String? cp_email; 
+  String? cp_designation; 
+  String? cp_phone; 
+  List<dynamic>? tax_comp; 
+  List<dynamic>? sectors; 
+  // Map<String, dynamic>? profile;
+  // List<Map<String, dynamic>>? initialData;
 
-  const Company({
-    required this.id,
-    required this.name,
-    required this.cin,
-    required this.email,
-    required this.profile,
-    required this.initialData,
+  Company({
+  // this.id,
+  this.company_name,
+  this.cin,
+  this.email,
+  this.summary,
+  this.establishment_year, 
+  this.state, 
+  this.city, 
+  this.pincode, 
+  this.cp_name, 
+  this.cp_email, 
+  this.cp_designation, 
+  this.cp_phone,
+  this.tax_comp,
+  this.sectors,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
-      id: json['_id'],
-      name: json['company_name'],
+      // id: json['_id'],
+      company_name: json['company_name'],
       cin: json['cin'],
       email: json['email'],
-      profile: json['profile'],
-      initialData: json['initialData'],
+      summary: json['profile']['summary'],
+      establishment_year: json['profile']['establishment_year'],
+      state: json['profile']['location']['state'],
+      city: json['profile']['location']['city'],
+      pincode: json['profile']['location']['pincode'],
+      cp_name: json['profile']['comunication_person']['cp_name'],
+      cp_email: json['profile']['comunication_person']['cp_email'],
+      cp_phone: json['profile']['comunication_person']['cp_phone'],
+      cp_designation: json['profile']['comunication_person']['cp_designation'],
+      tax_comp: json['profile']['tax_comp'],
+      sectors: json['profile']['sectors'],
     );
   }
 
-  Map<String, dynamic> getMap() {
-    return {
-      "company_name": name,
-      "cin": cin,
-      "email": email,
-      "profile": profile,
-      "initialData": initialData
-    };
-  }
+  // Map<String, dynamic> getMap() {
+  //   return {
+  //     "company_name": company_name,
+  //     "cin": cin,
+  //     "email": email,
+  //     "profile": profile,
+  //     "initialData": initialData
+  //   };
+  // }
 }

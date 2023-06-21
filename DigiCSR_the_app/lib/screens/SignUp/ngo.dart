@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/login/ngologin.dart';
 import 'package:digicsr/users/ngouser.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,6 @@ class _NGOSignUp extends State<NGOSignUp> {
     otpverify = false;
     otpcontroller = OtpFieldController();
     otpsent = false;
-    ngo = NGOuser();
   }
 
   
@@ -37,8 +37,6 @@ class _NGOSignUp extends State<NGOSignUp> {
   OtpFieldController otpcontroller = OtpFieldController();
   String otp = '';
   bool otpverify = false;    
-
-  NGOuser ngo = NGOuser();
 
   bool otpsent = false;
 
@@ -401,7 +399,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()));
+                                        builder: (context) => MainScreen()));
                               }
                             },
                             child: Text(

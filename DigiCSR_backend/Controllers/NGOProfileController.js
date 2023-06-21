@@ -26,9 +26,9 @@ exports.getNGOProfile = async (req, res) => {
         csr_budget: ngo.profile.csr_budget,
         operation_area: ngo.profile.operation_area,
         sectors: ngo.profile.sectors,
-        location : ngo.profile.location,
-        phone : ngo.profile.phone,
-        establishment_year : ngo.profile.establishment_year
+        location: ngo.profile.location,
+        phone: ngo.profile.phone,
+        establishment_year: ngo.profile.establishment_year,
       },
     };
 
@@ -61,7 +61,7 @@ exports.AddNGOProfile = async (req, res) => {
       state,
       pincode,
       establishment_year,
-      phone
+      phone,
     } = req.body;
 
     let fileData;
@@ -150,21 +150,51 @@ exports.getNgoLogo = async (req, res) => {
 exports.getAllNgo = async (req, res) => {
   try {
     const userType = req.userType;
-    if (userType !== "company" && userType !== "Beneficiary") {
+    if (userType === "ngo") {
       return res
         .status(403)
         .send({ success: false, message: "Not Authorized." });
     }
-    const ngos = await NGO.find({},{
-      _id : 1,
-      email : 1,
-      ngo_name : 1,
-      "profile.phone" : 1,
-      "profile.location" : 1,
-      "profile.operation_area" : 1,
-      "profile.sectors" : 1,
-    });
+    const ngos = await NGO.find(
+      {},
+      {
+        _id: 1,
+        email: 1,
+        ngo_name: 1,
+        "profile.phone": 1,
+        "profile.location": 1,
+        "profile.operation_area": 1,
+        "profile.sectors": 1,
+      }
+    );
     return res.status(200).send({ success: true, ngos });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+
+exports.deleteNgo = async (req, res) => {
+  try {
+    const userType = req.userType;
+    if (userType !== "Admin") {
+      return res
+        .status(403)
+        .send({ success: false, message: "Not Authorized." });
+    }
+    const _id = req.body._id;
+    const ngo = await NGO.findOne({ _id });
+    if (!ngo) {
+      return res
+        .status(404)
+        .json({ success: false, message: "NGO not found." });
+    }
+    const result = await NGO.findByIdAndDelete(_id);
+    if (!result) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to delete ngo." });
+    }
+    return res.status(200).send({ success: true, message: "Ngo Deleted." });
   } catch (error) {
     res.status(500).json({ success: false, message: "Internal server error." });
   }

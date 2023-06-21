@@ -30,7 +30,7 @@ class _PraposalScreenState extends State<PraposalScreen> {
     double w =MediaQuery.of(context).size.width;
     // TODO: implement build
     return Scaffold(
-      appBar: CustomAppBar(context),
+      // appBar: CustomAppBar(context),
       body: SafeArea(
         child: Column(
           children: [
@@ -176,8 +176,8 @@ class _PraposalScreenState extends State<PraposalScreen> {
           ],
         ),
       ),
-      bottomNavigationBar:
-          CustomBottomNavBar((user == 'NGO') ? ngonav : companynav),
+      // bottomNavigationBar:
+          // CustomBottomNavBar((user == 'NGO') ? ngonav : companynav),
     );
   }
 }

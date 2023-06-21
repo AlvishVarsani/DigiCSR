@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/company/rfp.dart';
 
@@ -86,7 +87,7 @@ class _CompanyLogin extends State<CompanyLogin> {
       if(ress.statusCode == 200){
         otpverify = true;
         btn = 'Sign in';
-        await storage.write(key: "token", value: jsonDecode(ress.body)['result']);
+        await storage.write(key: "company", value: jsonDecode(ress.body)['result']);
       }
     } on Exception catch (e) {
       // TODO
@@ -324,12 +325,12 @@ class _CompanyLogin extends State<CompanyLogin> {
                                 //             builder: (context) =>
                                 //                 Login_Screen()));
                                 
-                                // if(!otpverify){
-                                //   sendOTP();
-                                // }else{
-                                //   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                                // }
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                                if(!otpverify){
+                                  sendOTP();
+                                }else{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                                }
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                               },
                               child: Text(
                                 btn,

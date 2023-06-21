@@ -19,6 +19,7 @@ const {
   BeneficiaryLogin,
   BeneficiaryLoginVerify,
 } = require("../Controllers/AuthBeneficiaryController");
+const { AdminLogin, AdminLoginVerify } = require("../Controllers/AuthAdmin");
 
 const AuthRoutes = (app) => {
   app.post("/company/signup", CompanySignup);
@@ -33,5 +34,7 @@ const AuthRoutes = (app) => {
   app.post("/Beneficiary/verify", VerifyBeneficiary);
   app.post("/Beneficiary/login", BeneficiaryLogin);
   app.post("/Beneficiary/login/verify", BeneficiaryLoginVerify);
+  app.post("/admin/login/", AdminLogin);
+  app.post("/admin/login/verify", AdminLoginVerify);
 };
 module.exports = AuthRoutes;

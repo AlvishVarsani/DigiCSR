@@ -7,7 +7,7 @@ import 'package:digicsr/models/NgoModel.dart';
 import 'package:http/http.dart' as http;
 
 Future<Ngo> fetchNgoProfile(String id) async {
-  String? token = await fetchToken();
+  String? token = await fetchCompanyToken();
 
   var response = await http.get(
     Uri.parse(ipInfo + "/NGO/profile/$id"),
@@ -23,7 +23,7 @@ Future<Ngo> fetchNgoProfile(String id) async {
 
 Future<void> updateNgoProfile(
     String id, Map<String, String> updatedData, File image) async {
-  String? token = await fetchToken();
+  String? token = await fetchCompanyToken();
 
   var request = http.MultipartRequest(
     'POST',

@@ -1,5 +1,4 @@
 require("dotenv").config({ path: "../.env" });
-const mongoose = require("mongoose");
 const NGO = require("../Models/NGO");
 const RFP = require("../Models/RFP");
 const Notification = require("../Models/Notification");
@@ -63,7 +62,7 @@ exports.AddRfp = async (req, res) => {
 
 exports.getAllRfps = async (req, res) => {
   try {
-    if (req.userType !== "ngo") {
+    if (req.userType !== "ngo" && req.userType !== "Admin") {
       return res
         .status(400)
         .send({ success: false, message: "Not Authorized." });
@@ -95,7 +94,7 @@ exports.getAllRfps = async (req, res) => {
 
 exports.getRFPDetails = async (req, res) => {
   try {
-    if (req.userType !== "ngo") {
+    if (req.userType !== "ngo" && req.userType !== "Admin") {
       return res
         .status(400)
         .send({ success: false, message: "Not Authorized." });
@@ -292,7 +291,7 @@ exports.getRFP = async (req, res) => {
         .send({ success: false, message: "Not Authorized." });
     }
     const id = req.params.id;
-    const rfp = await RFP.findOne({ _id: id }).populate(
+    const rfp = await RFP.findOne({ company: id }).populate(
       "donations.ngo",
       "ngo_name"
     );
@@ -342,11 +341,7 @@ exports.getRfpOfCompany = async (req, res) => {
     const companyId = req.user._id;
     const rfps = await RFP.find(
       { company: companyId },
-<<<<<<< HEAD
-      { _id: 1, title: 1, sectors: 1, states: 1 ,amount:1,date:1,timeline:1}
-=======
       { _id: 1, title: 1, sectors: 1, states: 1, amount: 1,date: 1,timeline: 1 }
->>>>>>> 7479267afcce48ea30ff6cfe96fd50d898bed0cd
     )
       .sort({ date: -1 })
       // .skip(skip)
@@ -361,7 +356,7 @@ exports.getRfpOfCompany = async (req, res) => {
 
 exports.deleteRFP = async (req, res) => {
   try {
-    if (req.userType !== "company") {
+    if (req.userType !== "company" && req.userType !== "Admin") {
       return res
         .status(400)
         .send({ success: false, message: "Not Authorized." });
@@ -373,7 +368,7 @@ exports.deleteRFP = async (req, res) => {
         .status(404)
         .json({ success: false, message: "RFP not found." });
     }
-    if (!rfp.company.equals(req.user._id)) {
+    if (!rfp.company.equals(req.user._id) && req.userType !== "Admin") {
       return res
         .status(403)
         .json({ success: false, message: "Unauthorized to delete this RFP." });

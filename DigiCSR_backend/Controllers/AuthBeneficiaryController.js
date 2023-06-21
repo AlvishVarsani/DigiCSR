@@ -48,7 +48,12 @@ exports.BeneficiarySignup = async (req, res) => {
 exports.VerifyBeneficiary = async (req, res) => {
   try {
     const { name, email, mobile_no, aadhar_no, otp } = req.body;
-    const { error } = BenfValidators.validate(req.body);
+    const { error } = BenfValidators.validate({
+      name,
+      email,
+      aadhar_no,
+      mobile_no,
+    });
     if (error) {
       return res
         .status(400)
@@ -84,7 +89,13 @@ exports.VerifyBeneficiary = async (req, res) => {
 
       const authToken = genToken(payload);
 
-      res.status(200).send({ success: true, result: authToken });
+      res.status(200).send({
+        success: true,
+        result: authToken,
+        _id: newBeneficiary._id,
+        email: newBeneficiary.email,
+        type: "Beneficiary",
+      });
     } else {
       res.status(400).send({ success: false, message: "Wrong OTP" });
     }
@@ -135,7 +146,7 @@ exports.BeneficiaryLogin = async (req, res) => {
 exports.BeneficiaryLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    const { error } = CompanyLoginValidator.validate(req.body); // it has only email validator
+    const { error } = CompanyLoginValidator.validate({ email }); // it has only email validator
     if (error) {
       return res
         .status(400)
@@ -163,7 +174,15 @@ exports.BeneficiaryLoginVerify = async (req, res) => {
 
       const authToken = genToken(payload);
 
-      res.status(200).send({ success: true, result: authToken });
+      res
+        .status(200)
+        .send({
+          success: true,
+          result: authToken,
+          _id: beneficiary._id,
+          email: beneficiary.email,
+          type: "Beneficiary",
+        });
     } else res.status(400).send({ success: false, message: "Wrong OTP" });
   } catch (err) {
     console.warn(err);
@@ -171,5 +190,49 @@ exports.BeneficiaryLoginVerify = async (req, res) => {
       success: false,
       message: "Error in login Beneficiary.",
     });
+  }
+};
+
+exports.getAllBeneficiaries = async (req, res) => {
+  try {
+    const userType = req.userType;
+    if (userType !== "Admin") {
+      return res
+        .status(403)
+        .send({ success: false, message: "Not Authorized." });
+    }
+    const beneficiary = await Beneficiary.find({});
+    return res.status(200).send({ success: true, beneficiary });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+
+exports.deleteBeneficiary = async (req, res) => {
+  try {
+    const userType = req.userType;
+    if (userType !== "Admin") {
+      return res
+        .status(403)
+        .send({ success: false, message: "Not Authorized." });
+    }
+    const _id = req.body._id;
+    const beneficiary = await Beneficiary.findOne({ _id });
+    if (!beneficiary) {
+      return res
+        .status(404)
+        .json({ success: false, message: "beneficiary not found." });
+    }
+    const result = await Beneficiary.findByIdAndDelete(_id);
+    if (!result) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to delete beneficiary." });
+    }
+    return res
+      .status(200)
+      .send({ success: true, message: "beneficiary Deleted." });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 };

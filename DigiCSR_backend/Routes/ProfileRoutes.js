@@ -6,6 +6,7 @@ const {
   getCertificate,
   getCompanyLogo,
   getAllCompany,
+  deleteCompany,
 } = require("../Controllers/CompanyProfileController");
 
 const {
@@ -13,8 +14,13 @@ const {
   AddNGOProfile,
   getNgoLogo,
   getAllNgo,
+  deleteNgo,
 } = require("../Controllers/NGOProfileController");
 const AuthMiddleware = require("../Middlewares/AuthMiddleware");
+const {
+  deleteBeneficiary,
+  getAllBeneficiaries,
+} = require("../Controllers/AuthBeneficiaryController");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -27,7 +33,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const ProfileRoutes = (app) => {
-  app.get("/company", AuthMiddleware, getAllCompany);
   app.get("/NGO", AuthMiddleware, getAllNgo);
   app.get("/company/profile/:id", getCompanyProfile);
   app.get("/company/certificate/:id", getCertificate);
@@ -49,5 +54,12 @@ const ProfileRoutes = (app) => {
     AuthMiddleware,
     AddNGOProfile
   );
+
+  // Admin
+  app.delete("/company/delete", AuthMiddleware, deleteCompany);
+  app.delete("/NGO/delete", AuthMiddleware, deleteNgo);
+  app.delete("/Beneficiary/delete", AuthMiddleware, deleteBeneficiary);
+  app.get("/Beneficiaries", AuthMiddleware, getAllBeneficiaries);
+  app.get("/companies", AuthMiddleware, getAllCompany);
 };
 module.exports = ProfileRoutes;

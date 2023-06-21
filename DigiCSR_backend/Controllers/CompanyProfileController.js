@@ -202,16 +202,43 @@ exports.getCompanyLogo = async (req, res) => {
 exports.getAllCompany = async (req, res) => {
   try {
     const userType = req.userType;
-    if (userType !== "ngo" && userType !== "Beneficiary") {
+    if (userType !== "Admin") {
       return res
         .status(403)
         .send({ success: false, message: "Not Authorized." });
     }
     const companies = await Company.find(
       {},
-      { "profile.registration_certificate": 0 }
+      { "profile.registration_certificate": 0, "profile.company_logo": 0 }
     );
     return res.status(200).send({ success: true, companies });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+
+exports.deleteCompany = async (req, res) => {
+  try {
+    const userType = req.userType;
+    if (userType !== "Admin") {
+      return res
+        .status(403)
+        .send({ success: false, message: "Not Authorized." });
+    }
+    const _id = req.body._id;
+    const company = await Company.findOne({ _id });
+    if (!company) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Company not found." });
+    }
+    const result = await Company.findByIdAndDelete(_id);
+    if (!result) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to delete company." });
+    }
+    return res.status(200).send({ success: true, message: "Company Deleted." });
   } catch (error) {
     res.status(500).json({ success: false, message: "Internal server error." });
   }

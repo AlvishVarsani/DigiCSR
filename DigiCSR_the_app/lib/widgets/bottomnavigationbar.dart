@@ -6,7 +6,8 @@ import '../constants/constants.dart';
 
 class CustomBottomNavBar extends StatefulWidget{
   List<Widget> pages;
-  CustomBottomNavBar(this.pages);
+  var MainScreenSetState;
+  CustomBottomNavBar(this.pages,this.MainScreenSetState);
 
   @override
   State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
@@ -48,11 +49,8 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         onTap: (value)=>{
           index = value,
             appbartitle = pagetitle[value],
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>widget.pages[value])),
-            setState(() {
-              
-            }),
-            
+            setState(() {}),
+            widget.MainScreenSetState((){})
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

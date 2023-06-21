@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-PreferredSize CustomAppBar(context){
+PreferredSize CustomAppBar(context,void drawer()){
   return PreferredSize(
     child:
     AppBar(
@@ -39,7 +39,8 @@ PreferredSize CustomAppBar(context){
               padding: MaterialStatePropertyAll(EdgeInsets.all(8)),
             ),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>DrawerScreen()));
+              drawer();
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=>DrawerScreen()));
             },
             child: CircleAvatar(
               backgroundImage:
