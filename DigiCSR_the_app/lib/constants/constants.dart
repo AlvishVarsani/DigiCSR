@@ -85,7 +85,7 @@ final Indianstates = [
 ];
 
 
-String ipInfo = "http://localhost:4000";
+String ipInfo = "http://192.168.80.58:4000";
 // String ipInfo = "http://192.168.155.94:4000";
 
 
