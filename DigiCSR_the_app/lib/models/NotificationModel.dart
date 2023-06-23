@@ -1,7 +1,7 @@
 class NotificationModel{
   String? notificationID;
   String? content;
-  DateTime? timestamp;
+  String? timestamp;
   bool? read;
 
   NotificationModel({

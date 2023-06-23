@@ -67,20 +67,35 @@ class _CompanyProfileState extends State<CompanyProfile> {
                           border: Border.all(color: Colors.transparent,style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(Radius.circular(20))
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Stack(
                           children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/yashu.jpg'),
-                              radius: 45,
+                            Container(
+                              width: w * 0.85,
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage('assets/images/yashu.jpg'),
+                                  radius: 45,
+                                ),
+                                SizedBox(height: 15,),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text('${companydata.company_name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                                ),
+                                Text('${companydata.summary}',style: TextStyle(fontSize: 14),),
+                              ],
+                              ),
                             ),
-                            SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text('${companydata.company_name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: IconButton(
+                              onPressed: (){},
+                              icon: Icon(Icons.mode_edit_outline_outlined,color: primary,),
+                              )
                             ),
-                            Text('${companydata.summary}',style: TextStyle(fontSize: 14),),
-                          ],
+                          ]
                         ),
                       ),
                     ),

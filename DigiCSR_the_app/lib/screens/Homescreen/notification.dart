@@ -14,12 +14,12 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  late Future<List<NotificationModel>> NGOnotifications;
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  NGOnotifications = notifyNGO();
+    NGOnotifications = notifyNGO();
   }
 
   @override
@@ -35,6 +35,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         body: FutureBuilder(
           future: NGOnotifications,
           builder: (context, snapshot) {
+          // Use MediaQuery to get the screen size
+          final screenSize = MediaQuery.of(context).size;
           if (snapshot.hasData) {
             return ListView.builder(
                 itemCount: snapshot.data!.length,
@@ -66,49 +68,60 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             '${snapshot.data![index].read}',
                             style: TextStyle(color: Colors.red),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Container(
-                                  //  width: 50,
-                                  //  height: 50,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          shadowColor: Colors.black,
-                                          backgroundColor: Colors.white,
-                                          elevation: 20,
-                                          shape: RoundedRectangleBorder(
+                          // Use LayoutBuilder to get the parent widget size
+                          LayoutBuilder(builder: (context, constraints) {
+                            // Use Flexible or Expanded to make the buttons responsive
+                            return Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.black,
+                                            backgroundColor: Colors.white,
+                                            elevation: 20,
+                                            shape:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(15))),
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Delete',
-                                        style: TextStyle(color: black),
-                                      )),
+                                                  BorderRadius.circular(15),
+                                            )),
+                                        onPressed: () {},
+                                        child: Text('Delete',
+                                            style:
+                                                TextStyle(color: black)),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Container(
-                                  //  width: 50,
-                                  //  height: 50,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          shadowColor: Colors.black,
-                                          backgroundColor: Colors.white,
-                                          elevation: 20,
-                                          shape: RoundedRectangleBorder(
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.black,
+                                            backgroundColor: Colors.white,
+                                            elevation: 20,
+                                            shape:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(15))),
-                                      onPressed: () {},
-                                      child: Text('Mark as Read',
-                                          style: TextStyle(color: black))),
+                                                  BorderRadius.circular(15),
+                                            )),
+                                        onPressed: () {},
+                                        child: Text('Mark as Read',
+                                            style:
+                                                TextStyle(color: black)),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            );
+                          }),
                           SizedBox(
                             height: 15,
                           )
@@ -117,13 +130,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     ),
                   );
                 });
-          } else if (snapshot.hasData) {
+          } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           } else {
             return Center(
               child: Container(
-                height: MediaQuery.of(context).size.width * 0.15,
-                width: MediaQuery.of(context).size.width * 0.15,
+                // Use screenSize to adjust the size of the widget
+                height: screenSize.width * 0.15,
+                width: screenSize.width * 0.15,
                 child: const CircularProgressIndicator(
                   strokeWidth: 1,
                 ),
@@ -131,6 +145,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             );
           }
         }),
+
         // bottomNavigationBar: CustomBottomNavBar(ngonav),
         );
   }

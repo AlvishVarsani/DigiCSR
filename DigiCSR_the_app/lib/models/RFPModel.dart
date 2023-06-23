@@ -8,7 +8,7 @@ class Rfp {
   String? timeline;
   String? company;
   String? date;
-  List<Donation>? donations;
+  // List<Donation>? donations;
 
   Rfp({
      this.id,
@@ -20,7 +20,7 @@ class Rfp {
      this.date ,
      this.sectors,
      this.states,
-     this.donations
+    //  this.donations
   });
 
   factory Rfp.fromJson(Map<String, dynamic> json) {
@@ -33,7 +33,7 @@ class Rfp {
       timeline: json['timeline'],
       company: json['company_name'],
       date: json['date'],
-      donations: json['donations'].map((donation) => Donation.fromJson(donation)).toList()
+      // donations: json['donations'].map((donation) => Donation.fromJson(donation)).toList()
     );
   }
 

@@ -22,7 +22,7 @@ class _RFPState extends State<RFP> {
   @override
   void initState() {
     super.initState();
-    donationReq();
+    // donationReq();
   }
 
   @override

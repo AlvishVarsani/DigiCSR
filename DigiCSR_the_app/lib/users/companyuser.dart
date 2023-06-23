@@ -1,5 +1,7 @@
 // import 'dart:html';
 
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 
 class CompanyUser{
@@ -16,7 +18,8 @@ class CompanyUser{
   String? cp_email = 'yashuranparia136@gmail.com';
   String? cp_designation='keshod';
   String? cp_phone = '9426573656';
-  List? sectors = [];
-  List? tax_comp = [];
-  FilePickerResult? registration_certificate; 
+  List<String>? sectors = [];
+  List<String>? tax_comp = [];
+  PlatformFile? registration_certificate; 
+  File? certificate;
 }

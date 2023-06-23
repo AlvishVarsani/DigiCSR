@@ -1,3 +1,4 @@
+
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/ngo/ngoprofile.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../models/CompanyModel.dart';
+import '../models/NotificationModel.dart';
 import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
 import '../services/company_profile_services.dart';
@@ -24,13 +26,19 @@ Color black = Color(0xFF202020);
 Color blueglass = Color(0x130CB6F0);
 
 final storage = FlutterSecureStorage();
-
+bool multilist = false;
 final CompanyUser company = CompanyUser();
 final NGOuser ngo = NGOuser();
 final Rfp rfp = Rfp(title: '',timeline: '',states: [],sectors: [],amount: 0,remaining_amount: 0,company: '');
 Company companydata = Company();
 
+late Future<List<NotificationModel>> NGOnotifications;
+
 int index = 0;
+
+bool editmode = false;
+
+bool unread_notification = false;
 
 String user = '';
 
@@ -77,8 +85,8 @@ final Indianstates = [
 ];
 
 
-// String ipInfo = "http://localhost:4000";
-String ipInfo = "http://192.168.155.94:4000";
+String ipInfo = "http://localhost:4000";
+// String ipInfo = "http://192.168.155.94:4000";
 
 
 Future<String?> fetchCompanyToken() {

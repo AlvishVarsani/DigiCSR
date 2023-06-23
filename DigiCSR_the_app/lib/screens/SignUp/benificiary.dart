@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:digicsr/screens/benificiary/benificiary_screen.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/users/benificiaryuser.dart';
@@ -49,9 +51,9 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
     }
   }
 
-  void verifyOTP() {
+  void verifyOTP()async {
     try {
-      var res = http.post(Uri.parse(ipInfo + '/Beneficiary/verify'),
+      var res = await http.post(Uri.parse(ipInfo + '/Beneficiary/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -62,8 +64,12 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
             'addhar_no': benificiary.addhar_no,
             'otp': otp
           });
-      otpverify = true;
-      btn = 'SignUP';
+
+      await storage.write(key: "benificiary", value: jsonDecode(res.body)['result']);
+      if (jsonDecode(res.body)['success']) {
+        otpverify = true;
+        btn = 'SignUp';
+      }
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -422,6 +428,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 10,),
                     Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.paddingOf(context).top * 0.6,
@@ -492,6 +499,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                     EdgeInsets.all(
                                         MediaQuery.paddingOf(context).top *
                                             0.3)),
+                                            minimumSize: MaterialStatePropertyAll(Size(140, 45)),
                                 backgroundColor:
                                     MaterialStatePropertyAll(primary),
                                 shape: MaterialStatePropertyAll<
@@ -501,7 +509,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                             color: Colors.transparent,
                                             style: BorderStyle.solid),
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(10))))),
+                                            Radius.circular(8))))),
                             onPressed: () {
                               // (btn == 'Send OTP')
                               //     ? sendOTP()
@@ -527,7 +535,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                             child: Text(
                               btn,
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   color: Colors.white,
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.bold),

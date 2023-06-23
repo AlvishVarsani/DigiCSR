@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:http_parser/src/media_type.dart';
 // import 'package:path_provider/path_provider.dart';
 
 Future<Company> fetchCompany() async {
@@ -67,31 +68,53 @@ Future updateCompanyProfile(
   await request.send();
 }
 
-void CompanayProfile()async{
-  final token = fetchCompanyToken();
+void AddCompanayProfile()async{
+  String? token = await fetchCompanyToken();
+  print(token.toString());
 
-  var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/company/add-profile'));
+  var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/company/add-profile'),);
+  String sectors = jsonEncode(company.sectors);
+  String tax_comp = jsonEncode(company.tax_comp);
+  print(company.tax_comp);
+  print(tax_comp);
+  // int? establishment_year = company.establishment_year;
+
+request.headers["Content-Type"] = "multipart/form-data";
+request.headers["authorization"] = token.toString();
 
 request.fields['company_name'] = company.company_name!;
 request.fields['summary'] = company.summary!;
 request.fields['city'] = company.company_city!;
 request.fields['state'] = company.company_state!;
 request.fields['pincode'] = company.pincode!;
-request.fields['establishment_year'] = jsonEncode(company.establishment_year);
+request.fields['establishment_year'] = company.establishment_year.toString();
 request.fields['cp_name'] = company.cp_name!;
 request.fields['cp_email'] = company.cp_email!;
 request.fields['cp_designation'] = company.cp_designation!;
 request.fields['cp_phone'] = company.cp_phone!;
-request.fields['tax_comp'] = jsonEncode(company.tax_comp);
-request.fields['sectors'] = jsonEncode(company.sectors);
+request.files.add(http.MultipartFile.fromString("tax_comp", tax_comp, contentType: MediaType("application", "json")));
+// request.fields['sectors'] = sectors;
+request.files.add(http.MultipartFile.fromString("sectors", sectors, contentType: MediaType("application", "json")));
 
-// var registrationCertificateFile = await http.MultipartFile.fromPath('registration_certificate', 'path/to/registration_certificate');
+
+// for (String item in tax_comp!) {
+//   request.files.add(http.MultipartFile.fromString("tax_comp", item));
+// }
+// for (String item in sectors!) {
+//   request.files.add(http.MultipartFile.fromString("sectors", item));
+// }
+
+var registrationCertificateFile = await http.MultipartFile.fromPath('registration_certificate', company.certificate!.path);
 // var companyLogoFile = await http.MultipartFile.fromPath('company_logo', 'path/to/company_logo');
 
-// request.files.add(registrationCertificateFile);
+request.files.add(registrationCertificateFile);
 // request.files.add(companyLogoFile);
 
 var response = await request.send();
+ response.stream.transform(utf8.decoder).listen((data) {
+      print(data);
+      // Do something with data
+    });
 
 if (response.statusCode == 200) {
   // The request was successful

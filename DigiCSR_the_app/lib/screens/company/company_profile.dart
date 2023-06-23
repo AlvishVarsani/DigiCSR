@@ -1,13 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:digicsr/screens/company/CompanyProfile.dart';
+import 'package:digicsr/services/company_profile_services.dart';
 import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
+import 'package:digicsr/widgets/multiselect.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import '../../constants/constants.dart';
 import '../../widgets/textformfield.dart';
@@ -114,6 +119,50 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
         "Prime Minister National Relief Funds"),
     MultiSelectItem<String>('others', "others"),
   ];
+
+  // PlatformFile? _file;
+
+  Future<void> pick_company_certificate() async {
+    // Clear previous files
+    setState(() {
+      company.registration_certificate = null;
+    });
+
+    // Pick files using file picker
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc'],
+      allowMultiple: false,
+    );
+
+    // If files are picked, update state
+    if (result != null) {
+      setState(() {
+        company.registration_certificate = result.files.first;
+        _saveFile();
+      });
+    }
+  }
+
+  Future<void> _saveFile() async {
+    // Check if a file is picked
+    if (company.registration_certificate != null) {
+      // Create a file object from picked file path
+      File pickedFile = File(company.registration_certificate!.path!);
+
+      // Get app's documents directory
+      Directory directory = await getApplicationDocumentsDirectory();
+
+      // Copy picked file to documents directory with a new name
+      File savedFile =
+          await pickedFile.copy('${directory.path}/${company.registration_certificate!.name}');
+
+      // Update state with saved file
+      setState(() {
+        company.certificate = savedFile;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -263,19 +312,27 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               Card(
                 child: Padding(
                   padding: EdgeInsets.all(1.0),
-                  child: MultiSelectDialogField<String>(
-                    title: Text('Select Options'),
-                    items: _items,
-                    initialValue: _selectedOptions,
-                    onConfirm: (values) {
-                      company.sectors = values;
-                      setState(() {
-                        _selectedOptions = values;
-                      });
-                    },
-                  ),
+                  child: MultiSelect(_items,'sectors')
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Taxes included for RFP",
+                style:
+                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Card(
+                child: Padding(
+                  padding: EdgeInsets.all(1.0),
+                  child: MultiSelect(_items,'tax_comp'),
+                ),
+              ),
+              
               SizedBox(
                 height: 10,
               ),
@@ -287,16 +344,21 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               SizedBox(
                 height: 10,
               ),
+              if (company.registration_certificate != null)
+              ListTile(
+                title: Text(company.registration_certificate!.name),
+                subtitle:
+                    Text('${company.registration_certificate!.size} bytes, ${company.registration_certificate!.extension} format'),
+                trailing: Icon(Icons.file_present),
+                onTap: () {
+                  // Open or read the file using its path
+                  // File pickedFile = File();
+                  // Do something with pickedFile
+                },
+              ),
               ElevatedButton(
                 child: Text('Upload file'),
-                onPressed: () async {
-                  var picked = await FilePicker.platform.pickFiles();
-                  company.registration_certificate = picked;
-
-                  if (picked != null) {
-                    print(picked.files.first.name);
-                  }
-                },
+                onPressed: pick_company_certificate,
               ),
               SizedBox(
                 height: 10,
@@ -304,7 +366,8 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               Center(
                   child: ElevatedButton(
                       onPressed: () {
-                        print(company.sectors);
+                        // print(company.sectors);
+                        AddCompanayProfile();
                       },
                       child: Text("Save")))
             ],

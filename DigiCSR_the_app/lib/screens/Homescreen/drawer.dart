@@ -1,4 +1,5 @@
 import 'package:digicsr/screens/Homescreen/homescreen.dart';
+import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
@@ -15,7 +16,7 @@ class DrawerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
         side: BorderSide(style: BorderStyle.solid,)
       ),
       width: MediaQuery.of(context).size.width * 0.75,
@@ -37,25 +38,29 @@ class DrawerScreen extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text("Home"),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+              index = 0;
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
             },
           ),
           ListTile(
             leading: Icon(Icons.person),
             title: Text("Edit Profile"),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CompanyProfile()));
+              // index = 2;
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => MainScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
             },
           ),
           ListTile(
             leading: Icon(Icons.heart_broken),
             title: Text("Save fundraisers"),
             onTap: () {
+              index = 1;
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => RFP()));
+                  context, MaterialPageRoute(builder: (context) => MainScreen()));
             },
           ),
           ListTile(

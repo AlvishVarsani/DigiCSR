@@ -1,14 +1,19 @@
 import 'package:digicsr/screens/Homescreen/drawer.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
+import 'package:digicsr/widgets/animated_notification_icon.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-PreferredSize CustomAppBar(context,void drawer()){
-  return PreferredSize(
-    child:
-    AppBar(
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
+  // final ScaffoldState scaffoldState;
+
+  CustomAppBar();
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return AppBar(
         automaticallyImplyLeading: false,
         elevation: 20,
         backgroundColor: white,
@@ -21,25 +26,35 @@ PreferredSize CustomAppBar(context,void drawer()){
           ),
         ),
         actions: [
-          TextButton.icon(
+          TextButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsScreen()));
               },
-              label: Text(
-                'Notification',
-                style: TextStyle(
-                    color: black, fontFamily: 'Montserrat', fontSize: 17),
-              ),
-              icon: Icon(
+              // label: Text(
+              //   'Notification',
+              //   style: TextStyle(
+              //       color: black, fontFamily: 'Montserrat', fontSize: 17),
+              // ),
+              child: (!unread_notification)
+              ?
+              Icon(
                 Icons.notifications,
                 color: black,
-              )),
+              )
+              :
+              Icon(
+                Icons.notifications_active,
+                color: black,
+              )
+              // Animated_Notification_Icon()
+              ),
           TextButton(
             style: ButtonStyle(
               padding: MaterialStatePropertyAll(EdgeInsets.all(8)),
             ),
             onPressed: (){
-              drawer();
+              Scaffold.of(context).openEndDrawer();
+              // drawer();
               // Navigator.push(context, MaterialPageRoute(builder: (context)=>DrawerScreen()));
             },
             child: CircleAvatar(
@@ -50,6 +65,10 @@ PreferredSize CustomAppBar(context,void drawer()){
             ),
           )
         ],
-      ) 
-  , preferredSize: Size(MediaQuery.of(context).size.width,MediaQuery.of(context).size.height*0.07));
+      ); 
+  }
+  
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
