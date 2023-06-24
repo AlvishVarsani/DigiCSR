@@ -40,7 +40,7 @@ class _CompanySignUp extends State<CompanySignUp> {
             'email': company.company_email
           });
       print(resSend.body);
-      otpverify = true;
+      otpsent = true;
     } catch (e) {
       print(e);
     }

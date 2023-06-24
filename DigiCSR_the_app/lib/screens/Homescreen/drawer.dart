@@ -17,7 +17,7 @@ class DrawerScreen extends StatelessWidget {
     return Drawer(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
-        side: BorderSide(style: BorderStyle.solid,)
+        side: BorderSide(style: BorderStyle.solid,color: Colors.transparent)
       ),
       width: MediaQuery.of(context).size.width * 0.75,
       backgroundColor: Colors.white,

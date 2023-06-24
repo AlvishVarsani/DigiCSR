@@ -38,6 +38,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           // Use MediaQuery to get the screen size
           final screenSize = MediaQuery.of(context).size;
           if (snapshot.hasData) {
+            print('has data');
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (BuildContext context, int index) {

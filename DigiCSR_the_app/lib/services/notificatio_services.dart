@@ -9,7 +9,7 @@ Future<List<NotificationModel>> notifyNGO()async{
   final response = await get(Uri.parse(ipInfo +'/notifications'),
   headers: {
         'Content-Type': 'application/json;charSet=UTF-8',
-        'authorization': token!
+        'authorization': token.toString()
       }
   );
 
