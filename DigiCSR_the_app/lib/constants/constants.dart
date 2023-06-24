@@ -85,8 +85,13 @@ final Indianstates = [
 ];
 
 
+<<<<<<< HEAD
 // String ipInfo = "http://127.0.0.1:4000";
 String ipInfo = "http://192.168.155.94:4000";
+=======
+String ipInfo = "http://192.168.80.58:4000";
+// String ipInfo = "http://192.168.155.94:4000";
+>>>>>>> 2872cdcd374007a6e22005d95697ddb899b97930
 
 
 Future<String?> fetchCompanyToken() {

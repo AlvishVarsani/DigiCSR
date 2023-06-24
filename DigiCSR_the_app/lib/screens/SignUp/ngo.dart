@@ -73,6 +73,7 @@ class _NGOSignUp extends State<NGOSignUp> {
           print(res.body);
       if(res.statusCode == 200){
         otpverify = true;
+        
       btn = 'SignUP';
       await storage.write(key: "ngo", value: jsonDecode(res.body)['result']);
       }
@@ -316,6 +317,7 @@ class _NGOSignUp extends State<NGOSignUp> {
                           otp = value,
                           print(otp),
                           verifyOTP(),
+                          print("truedefrgt.................................................."),
                           setState((){})},
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
