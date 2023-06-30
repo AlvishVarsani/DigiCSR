@@ -24,11 +24,11 @@ request.headers["authorization"] = token.toString();
 request.fields['ngo_name'] = ngo.name!;
 request.fields['summary'] = ngo.summmary!;
 request.fields['city'] = ngo.city!;
-request.fields['state'] = ngo.states!;
+request.fields['state'] = ngo.state!;
 request.fields['pincode'] = company.pincode!;
 request.fields['establishment_year'] = company.establishment_year.toString();
 request.fields['phone'] = ngo.phone!;
-request.fields['csr_budget'] = ngo.csr_budget!;
+request.fields['csr_budget'] = ngo.csr_budget.toString();
 
 for (var index = 0; index < ngo.board_members!.length; index++) {
     var member = ngo.board_members![index];
@@ -75,7 +75,7 @@ Future<Ngo> fetchNgoProfile() async {
         'authorization': token
       }
   );
-
+  print(response.body);
   if (response.statusCode == 200) {
     return Ngo.fromJson(jsonDecode(response.body)['data']);
   } else {

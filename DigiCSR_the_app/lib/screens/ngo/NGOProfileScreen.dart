@@ -1,10 +1,9 @@
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/models/CompanyModel.dart';
 import 'package:digicsr/screens/Homescreen/HelpAndSupport.dart';
 import 'package:digicsr/screens/company/CompanyDetails.dart';
 import 'package:digicsr/screens/company/ContactPersonDetails.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/services/company_profile_services.dart';
+import 'package:digicsr/screens/ngo/NGODetails.dart';
 import 'package:flutter/material.dart';
 
 class NGOProfile extends StatefulWidget {
@@ -119,7 +118,7 @@ class _NGOProfileState extends State<NGOProfile> {
                   ),
                       TextButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CompanyDetails(companydata)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>NgoDetails()));
                         }, 
                       style: ButtonStyle(
                         padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8))

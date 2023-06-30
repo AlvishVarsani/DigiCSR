@@ -451,7 +451,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                 });
                               },
                               onStateChanged: (state) {
-                                ngo.states = state;
+                                ngo.state = state;
                                 setState(() {
                                   stateValue = state;
                                 });
@@ -489,9 +489,9 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                     LengthLimitingTextInputFormatter(100)
                                   ],
                                   controller: TextEditingController(
-                                      text: ngo.csr_budget),
+                                      text: ngo.csr_budget.toString()),
                                   onChanged: (value) {
-                                    ngo.csr_budget = value;
+                                    ngo.csr_budget = int.parse(value);
                                   },
                                   decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(

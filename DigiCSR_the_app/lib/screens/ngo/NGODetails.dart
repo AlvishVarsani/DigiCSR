@@ -48,7 +48,7 @@ class NgoDetails extends StatelessWidget {
                         ))),
                 Container(
                   width: w,
-                  height: h * 0.70,
+                  height: h * 0.88,
                   padding:
                       EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                   decoration: BoxDecoration(
@@ -116,7 +116,7 @@ class NgoDetails extends StatelessWidget {
                                     // Text('Summary',style: TextStyle(fontSize: 14),),
                                     Padding(
                                       padding: const EdgeInsets.all(6.0),
-                                      child: Text('${companydata.summary}',style: TextStyle(fontSize: 14),),
+                                      child: Text('${ngodata.summmary}',style: TextStyle(fontSize: 14),),
                                     ),
                                   ],
                                 ),
@@ -146,7 +146,7 @@ class NgoDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
-                                  text: 'sdefrgthyjui'),
+                                  text: '${ngodata.name}'),
                                   decoration: InputDecoration(
                                     contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                     enabledBorder: OutlineInputBorder(
@@ -185,7 +185,7 @@ class NgoDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
-                                  text: 'alvish'),
+                                  text: '${ngodata.email}'),
                                   decoration: InputDecoration(
                                      contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                     //contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
@@ -251,7 +251,7 @@ class NgoDetails extends StatelessWidget {
                             TextField(
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
-                              controller: TextEditingController(text:'2003'),
+                              controller: TextEditingController(text:'${ngodata.establishment_year}'),
                               decoration: InputDecoration(
                                  contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                // contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
@@ -291,7 +291,7 @@ class NgoDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller:
-                                  TextEditingController(text: 'states'),
+                                  TextEditingController(text: '${ngodata.state}'),
                                   decoration: InputDecoration(
                                      contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                    // contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
@@ -331,7 +331,7 @@ class NgoDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller:
-                                  TextEditingController(text: 'city'),
+                                  TextEditingController(text: '${ngodata.city}'),
                                   decoration: InputDecoration(
                                      contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                    // contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
@@ -370,7 +370,7 @@ class NgoDetails extends StatelessWidget {
                             TextField(
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
-                              controller: TextEditingController(text: 'pincode'),
+                              controller: TextEditingController(text: '${ngodata.pincode}'),
                               decoration: InputDecoration(
                                  contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                 //contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
@@ -419,7 +419,7 @@ class NgoDetails extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      'alvish',
+                                      '${ngodata.operation_areas![index]}',
                                       style: TextStyle(
                                           color: black,
                                           fontWeight: FontWeight.w400,
@@ -462,7 +462,7 @@ class NgoDetails extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                   'sdefrgt',
+                                   '${ngodata.sectors![index]}',
                                       style: TextStyle(
                                           color: black,
                                           fontWeight: FontWeight.w400,

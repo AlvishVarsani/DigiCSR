@@ -3,6 +3,7 @@ import 'package:digicsr/models/BoardMember.dart';
 import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
+import 'package:digicsr/screens/ngo/NGOProfileScreen.dart';
 import 'package:digicsr/screens/ngo/ngoprofile.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
 import 'package:digicsr/services/ngo_profile_services.dart';
@@ -63,7 +64,7 @@ String requested_amount = '';
 
 List<Widget> companynav = [HomeScreen(), RFP(), CompanyProfile()];
 
-List<Widget> ngonav = [HomeScreen(), PraposalScreen(), ProfileScreenForNGO()];
+List<Widget> ngonav = [HomeScreen(), PraposalScreen(), NGOProfile()];
 
 final Indianstates = [
   MultiSelectItem<String>('Option 1','Andhra Pradesh'),

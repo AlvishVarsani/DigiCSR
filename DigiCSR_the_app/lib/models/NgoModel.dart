@@ -1,69 +1,63 @@
+import 'dart:ffi';
+
 import 'BoardMember.dart';
 
 class Ngo {
-  String? id;
+  // String? id;
   String? name;
   String? csr;
-  String? csr_budget;
+  int? csr_budget;
   String? email;
   String? summmary;
   int? budget;
-  List<String>? sectors = [];
-  List<String>? operation_areas = [];
+  List<dynamic>? sectors = [];
+  List<dynamic>? operation_areas = [];
   int? establishment_year; 
   String? phone;
   String? city;
-  String? states;
+  String? state;
   String? pincode;
-  String? bm_name;
-  String? bm_gender;
-  String? bm_din;
-  String? bm_phone;
-  String? bm_designation;
-  List<BoardMember>? board_members = [];
+  List<dynamic>? board_members = [];
 
   Map<String, dynamic>? profile;
 
   Ngo({
-    this.id,
+    // this.id,
     this.name,
     this.csr,
     this.csr_budget,
     this.email,
     this.profile,
     this.city,
-    this.states,
+    this.state,
     this.phone,
     this.summmary,
     this.sectors,
     this.pincode,
     this.operation_areas,
-    this.budget,
+    // this.budget,
     this.establishment_year,
-    this.bm_phone,
-    this.bm_name,
-    this.bm_gender,
-    this.bm_din,
-    this.bm_designation,
     this.board_members
   });
 
   factory Ngo.fromJson(Map<String, dynamic> json) {
     return Ngo(
-      id: json['_id'],
+      // id: json['_id'],
       name: json['NGO_name'],
-      csr_budget: json['csr_budget'],
       email: json['email'],
-      summmary: json['summary'],
-      budget: json['budget'],
-      sectors: json['sectors'],
-      operation_areas: json['operation_areas'],
-      establishment_year: json['establishment_year'],
-      phone: json['phone'],
-      city: json['city'],
-      states: json['states'],
-      pincode: json['pincode'],
-      board_members: json['board_members']
+      //profile section
+      summmary: json['profile']['summary'],
+      csr_budget: json['profile']['csr_budget'],
+      sectors: json['profile']['sectors'],
+      operation_areas: json['profile']['operation_area'],
+      establishment_year: json['profile']['establishment_year'],
+      phone: json['profile']['phone'],
+      //profile->location
+      city: json['profile']['location']['city'],
+      state: json['profile']['location']['state'],
+      pincode: json['profile']['location']['pincode'],
+      //profile->board members list
+      board_members: json['profile']['board_members']
 );
 }
 }
