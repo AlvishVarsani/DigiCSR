@@ -80,8 +80,8 @@ Future<List<Rfp>> fetchCompanyRfp() async {
   final response =
       // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
       await http.get(Uri.parse(ipInfo + "/company/rfp"), headers: {
-    'Content-Type': 'application/json;charSet=UTF-8',
-    'authorization': token!
+    'Content-Type': 'application/json',
+    'authorization': token.toString()
   });
   print(jsonDecode(response.body));
 

@@ -37,18 +37,6 @@ class _NGOLogin extends State<NGOLogin> {
   void sendOTP() async {
     // final dio = Dio();
     try {
-      // var resSend = await dio.post('http://192.168.114.94:4000/company/login',
-      //   data: {
-      //     'email': company.company_email
-      //   },
-      //   options: Options(
-      //     headers: {}
-      //   )
-      // );
-      // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/login'),
-      // var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
-
-      // var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/login'),
       var resSend = await http.post(Uri.parse(ipInfo + '/NGO/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
@@ -77,10 +65,12 @@ class _NGOLogin extends State<NGOLogin> {
       print('Verified');
       print(jsonDecode(ress.body)['result']);
       // await storage.deleteAll();
-      otpverify = true;
+      if(ress.statusCode == 200){
+        otpverify = true;
       btn = 'Sign in';
       debugPrint(jsonDecode(ress.body)['result']);
       await storage.write(key: "ngo", value: jsonDecode(ress.body)['result']);
+      }
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -418,7 +408,8 @@ class _NGOLogin extends State<NGOLogin> {
                                             Radius.circular(10))))),
                             onPressed: () {
                               user = 'NGO';
-                              if (!otpverify) {
+                              if(services){
+                                if (!otpverify) {
                                 sendOTP();
                                 _showDialog();
                               } else {
@@ -427,7 +418,11 @@ class _NGOLogin extends State<NGOLogin> {
                                     MaterialPageRoute(
                                         builder: (context) => MainScreen()));
                               }
-                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                              }else{
+                                index = 0;
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                              }
+                              
                             },
                             child: Text(
                               btn,

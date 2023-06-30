@@ -73,16 +73,15 @@ void AddCompanayProfile()async{
   print(token.toString());
 
   var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/company/add-profile'),);
-  String sectors = jsonEncode(company.sectors);
-  String tax_comp = jsonEncode(company.tax_comp);
   print(company.tax_comp);
-  print(tax_comp);
+  // print(tax_comp);
   // int? establishment_year = company.establishment_year;
 
-request.headers["Content-Type"] = "multipart/form-data";
+// request.headers["Content-Type"] = "multipart/form-data";
 request.headers["authorization"] = token.toString();
 
 request.fields['company_name'] = company.company_name!;
+print('name done');
 request.fields['summary'] = company.summary!;
 request.fields['city'] = company.company_city!;
 request.fields['state'] = company.company_state!;
@@ -92,19 +91,16 @@ request.fields['cp_name'] = company.cp_name!;
 request.fields['cp_email'] = company.cp_email!;
 request.fields['cp_designation'] = company.cp_designation!;
 request.fields['cp_phone'] = company.cp_phone!;
-request.files.add(http.MultipartFile.fromString("tax_comp", tax_comp, contentType: MediaType("application", "json")));
-// request.fields['sectors'] = sectors;
-request.files.add(http.MultipartFile.fromString("sectors", sectors, contentType: MediaType("application", "json")));
 
+for (int i = 0; i < company.tax_comp!.length; i++) {
+  request.files.add(http.MultipartFile.fromString("tax_comp[$i]", company.tax_comp![i], contentType: MediaType("application", "json")));
+}
 
-// for (String item in tax_comp!) {
-//   request.files.add(http.MultipartFile.fromString("tax_comp", item));
-// }
-// for (String item in sectors!) {
-//   request.files.add(http.MultipartFile.fromString("sectors", item));
-// }
+for (int i = 0; i < company.sectors!.length; i++) {
+  request.files.add(http.MultipartFile.fromString("sectors[$i]", company.sectors![i], contentType: MediaType("application", "json")));
+}
 
-var registrationCertificateFile = await http.MultipartFile.fromPath('registration_certificate', company.certificate!.path);
+var registrationCertificateFile = await http.MultipartFile.fromPath('registration_certificate', company.registration_certificate!.path!);
 // var companyLogoFile = await http.MultipartFile.fromPath('company_logo', 'path/to/company_logo');
 
 request.files.add(registrationCertificateFile);

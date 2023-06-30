@@ -4,11 +4,11 @@ import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/NotificationModel.dart';
 import 'package:http/http.dart';
 
-Future<List<NotificationModel>> notifyNGO()async{
-  final token = await fetchNGOToken();
+Future<List<NotificationModel>> notify()async{
+  String? token = await fetchNGOToken();
   final response = await get(Uri.parse(ipInfo +'/notifications'),
   headers: {
-        'Content-Type': 'application/json;charSet=UTF-8',
+        'Context-Type': 'application/json;charSet=UTF-8',
         'authorization': token.toString()
       }
   );

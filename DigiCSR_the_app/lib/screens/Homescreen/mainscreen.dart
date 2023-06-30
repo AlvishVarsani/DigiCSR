@@ -22,8 +22,9 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    NGOnotifications = notifyNGO();
+    NGOnotifications = notify();
     print(unread_notification);
+    getCompanyDetails();
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();

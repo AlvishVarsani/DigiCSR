@@ -1,8 +1,11 @@
 
+import 'package:digicsr/models/BoardMember.dart';
+import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/ngo/ngoprofile.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
+import 'package:digicsr/services/ngo_profile_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -28,13 +31,18 @@ Color blueglass = Color(0x130CB6F0);
 final storage = FlutterSecureStorage();
 bool multilist = false;
 final CompanyUser company = CompanyUser();
-final NGOuser ngo = NGOuser();
+final Ngo ngo = Ngo();
+final BoardMember board_member = BoardMember();
+// final NGOuser ngo = NGOuser();
 final Rfp rfp = Rfp(title: '',timeline: '',states: [],sectors: [],amount: 0,remaining_amount: 0,company: '');
 Company companydata = Company();
+Ngo ngodata = Ngo();
 
 late Future<List<NotificationModel>> NGOnotifications;
 
 int index = 0;
+
+bool services = true;
 
 bool editmode = false;
 
@@ -44,6 +52,10 @@ String user = '';
 
 String btn = 'Send OTP';
 String auth = '';
+
+String male = 'unselected';
+String female = 'unselected';
+String other = 'unselected';
 
 String appbartitle = 'Home';
 
@@ -85,13 +97,8 @@ final Indianstates = [
 ];
 
 
-<<<<<<< HEAD
 // String ipInfo = "http://127.0.0.1:4000";
 String ipInfo = "http://192.168.155.94:4000";
-=======
-String ipInfo = "http://192.168.80.58:4000";
-// String ipInfo = "http://192.168.155.94:4000";
->>>>>>> 2872cdcd374007a6e22005d95697ddb899b97930
 
 
 Future<String?> fetchCompanyToken() {
@@ -105,6 +112,15 @@ Future<String?> fetchNGOToken() {
 Future<String?> fetchBenificiaryToken() {
   return storage.read(key: "benificiary");
 }
+
+void getCompanyDetails()async{
+    companydata = await fetchCompany();
+    print(companydata.company_name);
+  }
+void getNGODetails()async{
+    ngodata = await fetchNgoProfile();
+    print(companydata.company_name);
+  }
 
 // List<NotificationModel> addElement(List<NotificationModel> listFuture, Future<NotificationModel> elementsToAdd)async{
 //   final list = await listFuture;

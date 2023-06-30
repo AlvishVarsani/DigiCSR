@@ -7,19 +7,19 @@ import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/services/company_profile_services.dart';
 import 'package:flutter/material.dart';
 
-class CompanyProfile extends StatefulWidget {
+class NGOProfile extends StatefulWidget {
   @override
-  State<CompanyProfile> createState() => _CompanyProfileState();
+  State<NGOProfile> createState() => _NGOProfileState();
 }
 
-class _CompanyProfileState extends State<CompanyProfile> {
+class _NGOProfileState extends State<NGOProfile> {
   // Company _company = Company();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCompanyDetails();
+    getNGODetails();
   }
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,9 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                 SizedBox(height: 15,),
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
-                                  child: Text('${companydata.company_name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                                  child: Text('${ngodata.name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                                 ),
-                                Text('${companydata.summary}',style: TextStyle(fontSize: 14),),
+                                Text('${ngodata.summmary}',style: TextStyle(fontSize: 14),),
                               ],
                               ),
                             ),

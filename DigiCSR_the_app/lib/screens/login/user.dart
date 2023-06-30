@@ -1,5 +1,4 @@
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/SignUp/benificiary.dart';
 import 'package:digicsr/screens/SignUp/company.dart';
@@ -12,9 +11,10 @@ import 'companylogin.dart';
 
 
 class UserSelection extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
-
+  index = 0;
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 

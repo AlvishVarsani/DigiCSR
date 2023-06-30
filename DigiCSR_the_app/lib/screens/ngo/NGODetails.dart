@@ -2,9 +2,9 @@ import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/CompanyModel.dart';
 import 'package:flutter/material.dart';
 
-class CompanyDetails extends StatelessWidget {
-  Company _company;
-  CompanyDetails(this._company);
+class NgoDetails extends StatelessWidget {
+  //Company _company;
+  //CompanyDetails(this._company);
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -36,7 +36,7 @@ class CompanyDetails extends StatelessWidget {
                                 width: 20,
                               ),
                               Text(
-                                'Company Details',
+                                'Ngo Details',
                                 style: TextStyle(
                                     fontSize: 28,
                                     color: white,
@@ -48,7 +48,7 @@ class CompanyDetails extends StatelessWidget {
                         ))),
                 Container(
                   width: w,
-                  height: h * 0.88,
+                  height: h * 0.70,
                   padding:
                       EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                   decoration: BoxDecoration(
@@ -133,7 +133,7 @@ class CompanyDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Company Name',
+                              'Ngo Name',
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black54,
@@ -146,7 +146,7 @@ class CompanyDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
-                                  text: '${_company.company_name}'),
+                                  text: 'sdefrgthyjui'),
                                   decoration: InputDecoration(
                                     contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                     enabledBorder: OutlineInputBorder(
@@ -173,7 +173,7 @@ class CompanyDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Company Email',
+                              'Ngo Email',
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black54,
@@ -185,9 +185,10 @@ class CompanyDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
-                                  text: '${_company.email}'),
+                                  text: 'alvish'),
                                   decoration: InputDecoration(
-                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
+                                     contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
+                                    //contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: (editmode)?
                                       BorderSide(
@@ -250,9 +251,10 @@ class CompanyDetails extends StatelessWidget {
                             TextField(
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
-                              controller: TextEditingController(text: '${_company.establishment_year}'),
+                              controller: TextEditingController(text:'2003'),
                               decoration: InputDecoration(
-                                contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
+                                 contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
+                               // contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: (editmode)?
                                       BorderSide(
@@ -289,9 +291,10 @@ class CompanyDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller:
-                                  TextEditingController(text: '${_company.state}'),
+                                  TextEditingController(text: 'states'),
                                   decoration: InputDecoration(
-                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
+                                     contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
+                                   // contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: (editmode)?
                                       BorderSide(
@@ -328,9 +331,10 @@ class CompanyDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller:
-                                  TextEditingController(text: '${_company.city}'),
+                                  TextEditingController(text: 'city'),
                                   decoration: InputDecoration(
-                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
+                                     contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
+                                   // contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: (editmode)?
                                       BorderSide(
@@ -366,9 +370,10 @@ class CompanyDetails extends StatelessWidget {
                             TextField(
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
-                              controller: TextEditingController(text: '${_company.pincode}'),
+                              controller: TextEditingController(text: 'pincode'),
                               decoration: InputDecoration(
-                                contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
+                                 contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
+                                //contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: (editmode)?
                                       BorderSide(
@@ -393,7 +398,7 @@ class CompanyDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Taxes',
+                              'Area of Operation',
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black54,
@@ -409,12 +414,12 @@ class CompanyDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.all(Radius.circular(5))
                               ),
                               child: ListView.builder(
-                                itemCount: _company.tax_comp!.length,
+                                itemCount: 2,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      _company.tax_comp![index],
+                                      'alvish',
                                       style: TextStyle(
                                           color: black,
                                           fontWeight: FontWeight.w400,
@@ -452,12 +457,12 @@ class CompanyDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.all(Radius.circular(5))
                               ),
                               child: ListView.builder(
-                                itemCount: _company.sectors!.length,
+                                itemCount: 2,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      '${_company.sectors![index]}',
+                                   'sdefrgt',
                                       style: TextStyle(
                                           color: black,
                                           fontWeight: FontWeight.w400,

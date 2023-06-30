@@ -24,8 +24,8 @@ class DrawerScreen extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("Alvish varsani"),
-            accountEmail: Text("alvishvarsani@gmail.com"),
+            accountName: Text("Yashu Ranparia"),
+            accountEmail: Text("yashuranparia136@gmail.com"),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Image.asset(

@@ -374,7 +374,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                             onPressed: () {
                               if (!otpverify) {
                                 sendOTP();
-                              }
+                              }else
                               {
                                 Navigator.push(
                                     context,

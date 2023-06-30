@@ -77,9 +77,6 @@ class _CompanyLogin extends State<CompanyLogin> {
           });
           print(ress.body);
           print('Verified');
-          print(jsonDecode(ress.body)['result']);
-          await storage.deleteAll();
-         await storage.write(key: 'token', value: jsonDecode(ress.body)['result']);
          print('Finished');
       
       debugPrint(jsonDecode(ress.body)['result']);
@@ -317,20 +314,20 @@ class _CompanyLogin extends State<CompanyLogin> {
                                               Radius.circular(10))))),
                               onPressed: () {
                                 user = 'Company';
-                                // (btn == 'Send OTP')
-                                //     ? sendOTP()
-                                //     : Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) =>
-                                //                 Login_Screen()));
-                                
-                                if(!otpverify){
-                                  sendOTP();
-                                }else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
-                                }
-                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                                if(services){
+                                if (!otpverify) {
+                                sendOTP();
+                                // _showDialog();
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MainScreen()));
+                              }
+                              }else{
+                                index = 0;
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                              }
                               },
                               child: Text(
                                 btn,

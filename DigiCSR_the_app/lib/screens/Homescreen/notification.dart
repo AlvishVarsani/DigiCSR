@@ -19,7 +19,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    NGOnotifications = notifyNGO();
+    NGOnotifications = notify();
   }
 
   @override
@@ -84,7 +84,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                         style: ElevatedButton.styleFrom(
                                             shadowColor: Colors.black,
                                             backgroundColor: Colors.white,
-                                            elevation: 20,
+                                            elevation: 2,
                                             shape:
                                                 RoundedRectangleBorder(
                                               borderRadius:
@@ -105,8 +105,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                             shadowColor: Colors.black,
-                                            backgroundColor: Colors.white,
-                                            elevation: 20,
+                                            backgroundColor: Colors.green,
+                                            elevation: 2,
                                             shape:
                                                 RoundedRectangleBorder(
                                               borderRadius:

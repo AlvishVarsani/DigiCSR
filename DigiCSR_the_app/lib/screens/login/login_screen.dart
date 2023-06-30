@@ -38,7 +38,7 @@ class _Login_ScreenState extends State<Login_Screen> {
               Center(
                 child: Card(
                   // margin: EdgeInsets.only(top: 100, bottom: 20),
-                  elevation: 4,
+                  elevation: 1,
                   shadowColor: primary,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -52,7 +52,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                     padding: EdgeInsets.all(14),
                     child: Image.asset(
                       'assets/images/DigiCSR_Logo_Black_Tagline-1.png',
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
@@ -115,11 +115,12 @@ class _Login_ScreenState extends State<Login_Screen> {
                                   margin: EdgeInsets.only(right: 8),
                                   child: Text(
                                     'Login',
-                                    style: TextStyle(fontSize: 23, color: white),
+                                    style: TextStyle(fontSize: 20, color: primary),
                                   )),
                               style: ButtonStyle(
                                 // shadowColor: MaterialStatePropertyAll(primary),
-                                backgroundColor: MaterialStatePropertyAll(primary),
+                                shadowColor: MaterialStatePropertyAll(Colors.transparent),
+                                backgroundColor: MaterialStatePropertyAll(Colors.transparent),
                                   padding: MaterialStatePropertyAll(EdgeInsets.only(top: 8,bottom: 8,right: 10,left: 10)),
                                   elevation: MaterialStatePropertyAll(10),
                                   minimumSize: MaterialStatePropertyAll(Size(w*0.35, 50)),
@@ -148,13 +149,13 @@ class _Login_ScreenState extends State<Login_Screen> {
                                   margin: EdgeInsets.only(right: 8),
                                   child: Text(
                                     'SignUp',
-                                    style: TextStyle(fontSize: 23, color: white),
+                                    style: TextStyle(fontSize: 20, color: white),
                                   )),
                               style: ButtonStyle(
                                 // shadowColor: MaterialStatePropertyAll(primary),
                                 backgroundColor: MaterialStatePropertyAll(primary),
                                   // padding: MaterialStatePropertyAll(EdgeInsets.only(top: 8,bottom: 8,right: 10,left: 10)),
-                                  elevation: MaterialStatePropertyAll(10),
+                                  // elevation: MaterialStatePropertyAll(10),
                                   minimumSize: MaterialStatePropertyAll(Size(w*0.35, 50)),
                                   maximumSize:
                                       MaterialStatePropertyAll(Size(w * 0.43, 60)),
