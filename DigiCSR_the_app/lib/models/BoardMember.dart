@@ -13,14 +13,18 @@ class BoardMember{
     this.bm_phone
   });
 
-  factory BoardMember.fromJson(Map<String, dynamic> json){
-    return BoardMember(
-      bm_name: json['bm_name'],
-      bm_phone: json['bm_phone'],
-      bm_din: json['bm_din'],
-      bm_gender: json['bm_gender'],
-      bm_designation: json['bm_designation']
-    );
+  static List<BoardMember> givelist(List<dynamic>? list){
+    List<BoardMember> boardmemberlist = [];
+    for(int i = 0;i<list!.length;i++){
+      boardmemberlist.add(BoardMember(
+      bm_name: list[i]['bm_name'],
+      bm_phone: list[i]['bm_phone'],
+      bm_din: list[i]['bm_din'],
+      bm_gender: list[i]['bm_gender'],
+      bm_designation: list[i]['bm_designation']
+    ));
+    }
+    return boardmemberlist;
   }
 
 }

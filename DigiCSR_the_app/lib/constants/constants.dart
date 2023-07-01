@@ -9,6 +9,7 @@ import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
 import 'package:digicsr/services/ngo_profile_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../models/CompanyModel.dart';
@@ -16,6 +17,7 @@ import '../models/NotificationModel.dart';
 import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
 import '../services/company_profile_services.dart';
+import '../users/benificiaryuser.dart';
 import '../users/companyuser.dart';
 import '../users/ngouser.dart';
 
@@ -34,6 +36,7 @@ bool multilist = false;
 final CompanyUser company = CompanyUser();
 final Ngo ngo = Ngo();
 final BoardMember board_member = BoardMember();
+ final BenificiaryUser benificiary = BenificiaryUser();
 // final NGOuser ngo = NGOuser();
 final Rfp rfp = Rfp(title: '',timeline: '',states: [],sectors: [],amount: 0,remaining_amount: 0,company: '');
 Company companydata = Company();
@@ -118,10 +121,26 @@ void getCompanyDetails()async{
     companydata = await fetchCompany();
     print(companydata.company_name);
   }
-void getNGODetails()async{
-    ngodata = await fetchNgoProfile();
-    print(companydata.company_name);
+    
+    //Ngo details for user as NGO
+    void getNgoDetails()async{
+      String? token = await fetchNGOToken();
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  String ngoid = decodedToken['_id'];
+  ngodata = await getNGODetailsById(ngoid);
+  ngodata.boardmemberslist = BoardMember.givelist(ngodata.board_members);
+    }
+Future<Ngo> getNGODetailsById(String id)async{
+    return await fetchNgoProfile(id);
   }
+
+//Ngo details for user as Company or Benificiary
+  Future<Ngo> getNgoDetailsForOthers(String id)async{
+    Ngo ngoforother = await fetchNgoProfile(id);
+    ngoforother.boardmemberslist = BoardMember.givelist(ngoforother.board_members);
+    return ngoforother;
+  }
+
 
 // List<NotificationModel> addElement(List<NotificationModel> listFuture, Future<NotificationModel> elementsToAdd)async{
 //   final list = await listFuture;

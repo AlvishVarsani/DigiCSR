@@ -21,7 +21,7 @@ void AddNgoProfile()async{
 // request.headers["Content-Type"] = "multipart/form-data";
 request.headers["authorization"] = token.toString();
 
-request.fields['ngo_name'] = ngo.name!;
+request.fields['ngo_name'] = ngo.ngo_name!;
 request.fields['summary'] = ngo.summmary!;
 request.fields['city'] = ngo.city!;
 request.fields['state'] = ngo.state!;
@@ -63,16 +63,14 @@ if (response.statusCode == 200) {
 }
 }
 
-Future<Ngo> fetchNgoProfile() async {
+Future<Ngo> fetchNgoProfile(String id) async {
   String? token = await fetchNGOToken();
-  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-  String id = decodedToken['_id'];
 
   var response = await http.get(
     Uri.parse(ipInfo + "/NGO/profile/${id}"),
     headers: {
         'Content-Type': 'application/json;charSet=UTF-8',
-        'authorization': token
+        'authorization': token!
       }
   );
   print(response.body);

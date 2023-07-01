@@ -1,8 +1,10 @@
 import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/models/BoardMember.dart';
 import 'package:digicsr/screens/Homescreen/HelpAndSupport.dart';
 import 'package:digicsr/screens/company/CompanyDetails.dart';
 import 'package:digicsr/screens/company/ContactPersonDetails.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
+import 'package:digicsr/screens/ngo/BoardMembers.dart';
 import 'package:digicsr/screens/ngo/NGODetails.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,8 @@ class _NGOProfileState extends State<NGOProfile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getNGODetails();
+    
+    getNgoDetails();
   }
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,7 @@ class _NGOProfileState extends State<NGOProfile> {
                                 SizedBox(height: 15,),
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
-                                  child: Text('${ngodata.name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                                  child: Text('${ngodata.ngo_name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                                 ),
                                 Text('${ngodata.summmary}',style: TextStyle(fontSize: 14),),
                               ],
@@ -125,7 +128,7 @@ class _NGOProfileState extends State<NGOProfile> {
                       ),
                       child: Row(
                           children: [
-                            Text('Company Details',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
+                            Text('NGO Details',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
                             Expanded(child: Container()),
                             Icon(Icons.arrow_forward_ios,size: 20,color: primary,)
                           ],
@@ -138,14 +141,14 @@ class _NGOProfileState extends State<NGOProfile> {
                   ),
                       TextButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ContactPersonDetails(companydata)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BoradMembers()));
                         }, 
                       style: ButtonStyle(
                         padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8))
                       ),
                       child: Row(
                           children: [
-                            Text('Contact Person',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
+                            Text('Board Members',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
                             Expanded(child: Container()),
                             Icon(Icons.arrow_forward_ios,size: 20,color: primary,)
                           ],

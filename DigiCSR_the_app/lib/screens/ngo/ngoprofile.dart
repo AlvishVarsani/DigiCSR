@@ -106,9 +106,9 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
             textDirection: TextDirection.ltr,
             // keyboardType: widget.keyboardType,
             // inputFormatters: widget.inputFormatters,
-            controller: TextEditingController(text: ngo.name),
+            controller: TextEditingController(text: ngo.ngo_name),
             onChanged: (value) {
-              ngo.name = value;
+              ngo.ngo_name = value;
             },
             decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(

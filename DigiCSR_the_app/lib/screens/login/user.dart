@@ -6,6 +6,7 @@ import 'package:digicsr/screens/SignUp/ngo.dart';
 import 'package:digicsr/screens/login/ngologin.dart';
 import 'package:flutter/material.dart';
 
+import '../benificiary/benificiary_screen.dart';
 import 'benificiarylogin.dart';
 import 'companylogin.dart';
 
@@ -14,7 +15,6 @@ class UserSelection extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-  index = 0;
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
@@ -113,6 +113,7 @@ class UserSelection extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () async{
+                        index = 0;
                         user = 'Company';
                         final token = await fetchCompanyToken();
                           if (auth == 'signup') {
@@ -178,6 +179,7 @@ class UserSelection extends StatelessWidget {
                     SizedBox(width: w,height: 5,),
                     TextButton(
                       onPressed: () async{
+                        index = 0;
                         user = 'NGO';
                         final token = await fetchNGOToken();
                           if (auth == 'signup') {
@@ -239,6 +241,7 @@ class UserSelection extends StatelessWidget {
                     SizedBox(height: 5,),
                     TextButton(
                       onPressed: () async{
+                        index = 0;
                         user = 'Benificiary';
                         final token = await fetchBenificiaryToken();
                           if (auth == 'signup') {
@@ -253,7 +256,7 @@ class UserSelection extends StatelessWidget {
                                   builder: (context) => BenificiaryLogin()));
                         }
                         else{
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BeneficiaryHomeScreen()));
                         }
                       },
                       child: Container(

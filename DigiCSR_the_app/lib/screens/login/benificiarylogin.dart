@@ -10,6 +10,7 @@ import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
 import '../../constants/constants.dart';
+import '../Homescreen/mainscreen.dart';
 
 class BenificiaryLogin extends StatefulWidget {
   @override
@@ -295,11 +296,20 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))))),
                             onPressed: () {
-                              
-                              Navigator.push(
+                              if(services){
+                                if (!otpverify) {
+                                sendOTP();
+                                // _showDialog();
+                              } else {
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BeneficiaryHomeScreen()));
+                                        builder: (context) => MainScreen()));
+                              }
+                              }else{
+                                index = 0;
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BeneficiaryHomeScreen()));
+                              }
                             },
                             child: Text(
                               btn,

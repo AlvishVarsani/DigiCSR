@@ -146,7 +146,7 @@ class NgoDetails extends StatelessWidget {
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
-                                  text: '${ngodata.name}'),
+                                  text: '${ngodata.ngo_name}'),
                                   decoration: InputDecoration(
                                     contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                     enabledBorder: OutlineInputBorder(
