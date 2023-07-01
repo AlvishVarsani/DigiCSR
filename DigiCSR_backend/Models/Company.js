@@ -42,10 +42,10 @@ const CompanySchema = mongoose.Schema({
       },
     },
     registration_certificate: {
-      type: Buffer,
+      type: String,
     },
     company_logo: {
-      type: Buffer,
+      type: String,
     },
     tax_comp: [{ type: String }],
     sectors: [{ type: String }],

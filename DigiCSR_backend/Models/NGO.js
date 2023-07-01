@@ -21,7 +21,7 @@ const ngoSchema = new mongoose.Schema({
     },
     phone: {
       type: String,
-      // required: true,
+      required: true,
     },
     establishment_year: {
       type: Number,
@@ -71,7 +71,7 @@ const ngoSchema = new mongoose.Schema({
       },
     ],
     ngo_logo: {
-      type: Buffer,
+      type: String,
     },
   },
 });

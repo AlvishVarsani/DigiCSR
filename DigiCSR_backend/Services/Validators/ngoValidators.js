@@ -22,7 +22,7 @@ exports.NgoProfileValidator = Joi.object({
   csr_budget: Joi.number().required(),
   operation_area: Joi.array().items(Joi.string()).required(),
   sectors: Joi.array().items(Joi.string()).required(),
-  ngo_logo: Joi.binary(),
+  ngo_logo: Joi.string(),
   phone: Joi.string().required(),
   city: Joi.string().required(),
   state: Joi.string().required(),

@@ -1,362 +1,3 @@
-// import 'dart:convert';
-// import 'dart:io';
-
-// import 'package:digicsr/screens/company/CompanyProfile.dart';
-// import 'package:digicsr/services/company_profile_services.dart';
-// import 'package:digicsr/widgets/appbar.dart';
-// import 'package:digicsr/widgets/bottomnavigationbar.dart';
-// import 'package:digicsr/widgets/multiselect.dart';
-// import 'package:dio/dio.dart';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:multi_select_flutter/multi_select_flutter.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:path_provider/path_provider.dart';
-
-// import '../../constants/constants.dart';
-// import '../../widgets/textformfield.dart';
-
-// class ProfileScreenForCompany extends StatefulWidget {
-//   const ProfileScreenForCompany({super.key});
-
-//   @override
-//   State<ProfileScreenForCompany> createState() => _ProfileScreenState();
-// }
-
-// class _ProfileScreenState extends State<ProfileScreenForCompany> {
-//   @override
-//   void setState(VoidCallback fn) {
-//     // TODO: implement setState
-//     super.setState(fn);
-//   }
-
-//   void save() async {
-//     var formdata = FormData.fromMap(
-//       {
-//         'company_name': company.company_name,
-//         'summary': company.summary,
-//         'city': company.company_city,
-//         'state': company.company_state,
-//         'pincode': company.pincode,
-//         'establishment_year': company.establishment_year.toString(),
-//         'cp_name': company.cp_name,
-//         'cp_email': company.cp_email,
-//         'cp_designation': company.cp_designation,
-//         'cp_phone': company.cp_phone,
-//         'tax_comp': company.tax_comp,
-//         'sectors': company.sectors
-//       },
-//     );
-//     try {
-//       var token = await fetchCompanyToken();
-//       print(token.toString());
-//       // var resp = await http.post(Uri.parse('http://192.168.114.94:4000/company/add-profile/:id'),
-//       var dio = Dio();
-//       var response = await dio.post(ipInfo + '/company/add-profile',
-//           data: formdata,
-//           options: Options(
-//             headers: {
-//               'Context-Type': 'application/json;charSet=UTF-8',
-//               'authorization': token.toString()
-//             },
-//           ));
-//       if (response.statusCode == 200) {
-//         print('Upload successful');
-//       } else {
-//         print('Upload failed');
-//       }
-
-//       // var resp = await http.post(
-//       //   Uri.parse(ipInfo + '/company/add-profile'),
-//       //   headers: {
-//       //     'Context-Type': 'application/json;charSet=UTF-8',
-//       //     'authorization': token.toString()
-//       //   },
-//       //   body: {
-//       //     'company_name': company.company_name,
-//       //     'summary': company.summary,
-//       //     'city': company.company_city,
-//       //     'state': company.company_state,
-//       //     'pincode': company.pincode,
-//       //     'establishment_year': company.establishment_year.toString(),
-//       //     'cp_name': company.cp_name,
-//       //     'cp_email': company.cp_email,
-//       //     'cp_designation': company.cp_designation,
-//       //     'cp_phone': company.cp_phone,
-//       //     'tax_comp': jsonEncode(company.tax_comp!),
-//       //     'sectors': jsonEncode(company.sectors!)
-//       //   },
-//       // );
-//       // print(resp.body);
-//     } on Exception catch (e) {
-//       print(e);
-//     }
-//   }
-
-//   String countryValue = '';
-//   String? stateValue = '';
-//   String? cityValue = '';
-//   List<String> _selectedOptions = [];
-//   final _items = [
-//     MultiSelectItem<String>('Rural Development', "Rural Development"),
-//     MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
-//     MultiSelectItem<String>('Clean Ganga Fund', "Clean Ganga Fund"),
-//     MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
-//     MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
-//     MultiSelectItem<String>('Education, Differently Abled, Livelihood',
-//         "Education, Differently Abled, Livelihood"),
-//     MultiSelectItem<String>(
-//         'Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
-//         "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
-//     MultiSelectItem<String>(
-//         'Environment, Animal Welfare, Conservation of Resources',
-//         "Environment, Animal Welfare, Conservation of Resources"),
-//     MultiSelectItem<String>('Slum Development', "Slum Development"),
-//     MultiSelectItem<String>(
-//         'Heritage Art And Culture', "Heritage Art And Culture"),
-//     MultiSelectItem<String>('Prime Minister National Relief Funds',
-//         "Prime Minister National Relief Funds"),
-//     MultiSelectItem<String>('others', "others"),
-//   ];
-
-
-
-//   Future<void> _saveFile() async {
-//     // Check if a file is picked
-//     if (company.registration_certificate != null) {
-//       // Create a file object from picked file path
-//       File pickedFile = File(company.registration_certificate!.path!);
-
-//       // Get app's documents directory
-//       Directory directory = await getApplicationDocumentsDirectory();
-
-//       // Copy picked file to documents directory with a new name
-//       File savedFile =
-//           await pickedFile.copy('${directory.path}/${company.registration_certificate!.name}');
-
-//       // Update state with saved file
-//       setState(() {
-//         company.certificate = savedFile;
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       // appBar: CustomAppBar(context),
-//       body: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               TextButton(
-//                 onPressed: () {},
-//                 style: TextButton.styleFrom(
-//                     backgroundColor: Colors.blue, fixedSize: Size(300, 42)),
-//                 child: Text(
-//                   'COMPANY INFORMATION',
-//                   style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 16,
-//                       color: Colors.white),
-//                 ),
-//               ),
-//               TextFormFieldButton("Company Name",
-//                   Text2: "Enter Full Name Of Company",
-//                   controller: company.company_name),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               TextFormFieldButton(
-//                 "Year Of Establishment",
-//                 Text2: "yyyy",
-//                 controller: company.establishment_year,
-//                 keyboardType: TextInputType.number,
-//                 inputFormatters: [
-//                   LengthLimitingTextInputFormatter(4),
-//                   FilteringTextInputFormatter.digitsOnly
-//                 ],
-//               ),
-//               TextFormFieldButton(
-//                 "Pincode",
-//                 Text2: "Enter Pincode",
-//                 controller: company.pincode,
-//                 inputFormatters: [
-//                   // LengthLimitingTextInputFormatter(4),
-//                   FilteringTextInputFormatter.digitsOnly
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               TextFormFieldButton(
-//                 "Company Summery",
-//                 Text2: 'Enter text',
-//                 controller: company.summary,
-//                 inputFormatters: [
-//                   LengthLimitingTextInputFormatter(100),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 'Location of the Company',
-//                 style:
-//                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(
-//                 height: 5,
-//               ),
-//               // CSCPicker(
-//               //   onCountryChanged: (country) {
-//               //     company.company_country = country;
-//               //     setState(() {
-//               //       countryValue = country;
-//               //     });
-//               //   },
-//               //   onStateChanged: (state) {
-//               //     company.company_state = state;
-//               //     setState(() {
-//               //       stateValue = state;
-//               //     });
-//               //   },
-//               //   onCityChanged: (city) {
-//               //     company.company_city = city;
-//               //     setState(() {
-//               //       cityValue = city;
-//               //     });
-//               //   },
-//               // ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               TextButton(
-//                 onPressed: () {},
-//                 style: TextButton.styleFrom(
-//                     backgroundColor: Colors.blue, fixedSize: Size(550, 42)),
-//                 child: Text(
-//                   'Communication Person of the Company',
-//                   style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 16,
-//                       color: Colors.white),
-//                 ),
-//               ),
-//               TextFormFieldButton("Name",
-//                   Text2: 'Enter Name of the communication person',
-//                   controller: company.cp_name),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               TextFormFieldButton("Email",
-//                   Text2: 'Enter email of communicatoin person',
-//                   controller: company.cp_email),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               TextFormFieldButton(
-//                 'Phone No.',
-//                 Text2: 'Phone Number',
-//                 controller: company.cp_phone,
-//                 keyboardType: TextInputType.number,
-//                 inputFormatters: [
-//                   LengthLimitingTextInputFormatter(10),
-//                   FilteringTextInputFormatter.digitsOnly,
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               TextFormFieldButton('Designation of the communication person',
-//                   Text2: 'Enter Designation of the communication person',
-//                   controller: company.cp_designation),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 "Sector  to provide CSR",
-//                 style:
-//                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(
-//                 height: 5,
-//               ),
-
-//               Card(
-//                 child: Padding(
-//                   padding: EdgeInsets.all(1.0),
-//                   child: MultiSelect(_items,'sectors')
-//                 ),
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 "Taxes included for RFP",
-//                 style:
-//                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(
-//                 height: 5,
-//               ),
-//               Card(
-//                 child: Padding(
-//                   padding: EdgeInsets.all(1.0),
-//                   child: MultiSelect(_items,'tax_comp'),
-//                 ),
-//               ),
-
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 "Company Registration Certificate",
-//                 style:
-//                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               if (company.registration_certificate != null)
-//               ListTile(
-//                 title: Text(company.registration_certificate!.name),
-//                 subtitle:
-//                     Text('${company.registration_certificate!.size} bytes, ${company.registration_certificate!.extension} format'),
-//                 trailing: Icon(Icons.file_present),
-//                 onTap: () {
-//                   // Open or read the file using its path
-//                   // File pickedFile = File();
-//                   // Do something with pickedFile
-//                 },
-//               ),
-//               ElevatedButton(
-//                 child: Text('Upload file'),
-//                 onPressed: pick_company_certificate,
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Center(
-//                   child: ElevatedButton(
-//                       onPressed: () {
-//                         // print(company.sectors);
-//                         AddCompanayProfile();
-//                       },
-//                       child: Text("Save")))
-//             ],
-//           ),
-//         ),
-//       ),
-//       // bottomNavigationBar: CustomBottomNavBar(companynav),
-//     );
-//   }
-// }
-
 import 'package:csc_picker/csc_picker.dart';
 import 'package:digicsr/services/company_profile_services.dart';
 
@@ -364,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../constants/constants.dart';
@@ -381,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
   String countryValue = '';
   String? stateValue = '';
   String? cityValue = '';
-  // List<String> _selectedOptions = [];
+  List<dynamic> _sectors = [];
   final _items = [
     MultiSelectItem<String>('Option 1', "Rural Development"),
     MultiSelectItem<String>('Option 2', "Encouraging Sports"),
@@ -426,12 +66,35 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
     }
   }
 
+  Future<void> pick_company_logo() async {
+    // Clear previous files
+    setState(() {
+      company.company_logo = null;
+    });
+
+    // Pick files using file picker
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png'],
+      allowMultiple: false,
+    );
+
+    // If files are picked, update state
+    if (result != null) {
+      setState(() {
+        company.company_logo = result.files.first;
+      });
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: Colors.blue,
+          backgroundColor: primary,
           title: Text(
             "Profile",
             style: TextStyle(color: Colors.white),
@@ -444,6 +107,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
             children: [
               Column(
                 children: [
+                  
                   SizedBox(
                     height: 10,
                   ),
@@ -457,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         ),
                         Container(
                             decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: primary,
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15))),
@@ -470,6 +134,31 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                 ),
                               ),
                             )),
+                            SizedBox(height: 10,),
+                  Row(
+                    children: [
+                      Expanded(child: Container()),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: (){
+                              pick_company_logo();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black38,width: 1.1),
+                                borderRadius: BorderRadius.circular(100)
+                              ),
+                              child: Icon(Icons.person,color: Colors.black38,size: 60,)),
+                          ),
+                          Text('Profile Logo',style: TextStyle(fontSize: 20,fontFamily: 'Gotham',color: Colors.black54),),
+                        ],
+                      ),
+                      Expanded(child: Container()),
+                    ],
+                  ),
                         SizedBox(
                           height: 15,
                         ),
@@ -487,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         TextFormFieldButton(
                           " Email ",
                           Text2: 'Enter email of company',
-                          controller: company.company_email,
+                          controller: company.email,
                           prefixIcons: Icon(Icons.email),
                         ),
                         SizedBox(
@@ -524,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             'Location of the Company',
                             style: TextStyle(
-                                color: Colors.blue,
+                                color: primary,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -535,19 +224,19 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           padding: const EdgeInsets.only(right: 10, left: 10),
                           child: CSCPicker(
                             onCountryChanged: (country) {
-                              company.company_country = country;
+                              // company.company_country = country;
                               setState(() {
                                 countryValue = country;
                               });
                             },
                             onStateChanged: (state) {
-                              company.company_state = state;
+                              company.state = state;
                               setState(() {
                                 stateValue = state;
                               });
                             },
                             onCityChanged: (city) {
-                              company.company_city = city;
+                              company.city = city;
                               setState(() {
                                 cityValue = city;
                               });
@@ -574,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             "Sector  to provide CSR",
                             style: TextStyle(
-                                color: Colors.blue,
+                                color: primary,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -583,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10, right: 15),
-                          child: MultiSelectDialogField<String>(
+                          child: MultiSelectDialogField<dynamic>(
                             buttonText: Text(
                               'Select Sectors',
                               style: TextStyle(
@@ -601,9 +290,10 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                             title: Text('Select Options'),
                             items: _items,
                             checkColor: primary,
-                            initialValue: company.sectors!,
+                            initialValue: _sectors,
                             onConfirm: (values) {
                               setState(() {
+                                _sectors = values;
                                 company.sectors = values;
                               });
                             },
@@ -617,7 +307,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             " Tax Compliance Eligibility",
                             style: TextStyle(
-                                color: Colors.blue,
+                                color: primary,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -763,7 +453,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             "Company Registration Certificate",
                             style: TextStyle(
-                                color: Colors.blue,
+                                color: primary,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -785,6 +475,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: ElevatedButton(
+                            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(primary)),
                             child: Text('Upload file'),
                             onPressed: () async {
                               pick_company_certificate();
@@ -807,7 +498,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                       children: [
                         Container(
                             decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: primary,
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15))),
@@ -888,9 +579,12 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               ),
               Center(
                   child: ElevatedButton(
-                      onPressed: () {
+                    style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(primary)),
+                      onPressed: ()async {
                         print(company.company_name);
                         AddCompanayProfile();
+                        String cmpid = await getCompanyId();
+                        if(company.company_logo != null) postCompanyLogo(cmpid);
                       },
                       child: Text("Save"))),
             ],

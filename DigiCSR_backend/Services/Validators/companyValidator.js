@@ -18,8 +18,8 @@ exports.CompanyProfileValidator = Joi.object({
   cp_phone: Joi.string().required(),
   tax_comp: Joi.array().items(Joi.string()).required(),
   sectors: Joi.array().items(Joi.string()).required(),
-  registration_certificate: Joi.binary(),
-  company_logo: Joi.binary(),
+  registration_certificate: Joi.string(),
+  company_logo: Joi.string(),
 });
 
 exports.CompanyLoginValidator = Joi.object({

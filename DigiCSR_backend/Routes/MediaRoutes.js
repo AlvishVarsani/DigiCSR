@@ -8,6 +8,7 @@ const {
 } = require("../Controllers/MediaPostController");
 const AuthMiddleware = require("../Middlewares/AuthMiddleware");
 const fileUploaderMiddleware = require("../Middlewares/fileUploaderMiddleware");
+const mediaUploaderMiddleware = fileUploaderMiddleware('media');
 
 const MediaRoutes = (app) => {
 
@@ -19,7 +20,7 @@ const MediaRoutes = (app) => {
     app.delete("/media/delete/:id", AuthMiddleware, DeletePost); // ngo auth required
 
     // Helper route for uploading images for media posts
-    app.post("/media/upload", fileUploaderMiddleware, uploadFile);
+    app.post("/media/upload", AuthMiddleware, mediaUploaderMiddleware, uploadFile);
 }
 
 module.exports = MediaRoutes;

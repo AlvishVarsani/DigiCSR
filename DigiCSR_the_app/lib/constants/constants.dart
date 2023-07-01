@@ -4,7 +4,6 @@ import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/ngo/NGOProfileScreen.dart';
-import 'package:digicsr/screens/ngo/ngoprofile.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
 import 'package:digicsr/services/ngo_profile_services.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,6 @@ import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
 import '../services/company_profile_services.dart';
 import '../users/benificiaryuser.dart';
-import '../users/companyuser.dart';
-import '../users/ngouser.dart';
 
 Color blue = Color(0xFF1DA1F2);
 
@@ -32,13 +29,13 @@ Color black = Color(0xFF202020);
 Color blueglass = Color(0x130CB6F0);
 
 final storage = FlutterSecureStorage();
-bool multilist = false;
-final CompanyUser company = CompanyUser();
+final Company company = Company();
 final Ngo ngo = Ngo();
 final BoardMember board_member = BoardMember();
  final BenificiaryUser benificiary = BenificiaryUser();
+//  (user == 'NGO')? final User<Ngo> usertype = User(ngo):(user == 'Company')? final User<>;
 // final NGOuser ngo = NGOuser();
-final Rfp rfp = Rfp(title: '',timeline: '',states: [],sectors: [],amount: 0,remaining_amount: 0,company: '');
+final Rfp rfp = Rfp();
 Company companydata = Company();
 Ngo ngodata = Ngo();
 
@@ -47,9 +44,8 @@ late Future<List<NotificationModel>> NGOnotifications;
 int index = 0;
 
 bool services = true;
-
 bool editmode = false;
-
+bool multilist = false;
 bool unread_notification = false;
 
 String user = '';
@@ -104,6 +100,12 @@ final Indianstates = [
 // String ipInfo = "http://127.0.0.1:4000";
 String ipInfo = "http://192.168.155.94:4000";
 
+Future<String> getCompanyId()async{
+  String? token = await fetchCompanyToken();
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  String companyid = decodedToken['_id'];
+  return companyid;
+}
 
 Future<String?> fetchCompanyToken() {
   return storage.read(key: "company");
@@ -130,6 +132,7 @@ void getCompanyDetails()async{
   ngodata = await getNGODetailsById(ngoid);
   ngodata.boardmemberslist = BoardMember.givelist(ngodata.board_members);
     }
+
 Future<Ngo> getNGODetailsById(String id)async{
     return await fetchNgoProfile(id);
   }

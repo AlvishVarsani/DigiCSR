@@ -6,10 +6,7 @@ exports.GetPostById = async (req, res) => {
   const postId = req.params.id;
 
   try {
-    const post = await MediaPost.findById(postId).populate(
-      "author",
-      "ngo_name"
-    );
+    const post = await MediaPost.findById(postId).populate({ path: "author", select: "ngo_name profile.ngo_logo" });
 
     if (!post) {
       console.warn("here");
@@ -18,7 +15,7 @@ exports.GetPostById = async (req, res) => {
         .json({ success: false, message: "Post not found !!" });
     }
 
-    const postData = { ...post._doc, author: post.author.ngo_name };
+    const postData = { ...post._doc, author: post.author.ngo_name, ngoLogo: post.author.profile.ngo_logo };
 
     // console.log(postData);
 
@@ -35,11 +32,10 @@ exports.GetPosts = async (req, res) => {
   try {
     const posts =
       req.userType !== "ngo"
-        ? await MediaPost.find().populate("author", "ngo_name")
+        ? await MediaPost.find().populate({ path: "author", select: "ngo_name profile.ngo_logo" })
         : await MediaPost.find({ author: req.user._id }).populate(
-            "author",
-            "ngo_name"
-          );
+          { path: "author", select: "ngo_name profile.ngo_logo" }
+        );
 
     if (!posts) {
       return res
@@ -47,10 +43,14 @@ exports.GetPosts = async (req, res) => {
         .json({ success: false, message: "No posts found !!" });
     }
 
+    // console.log(posts[0].author);
+
     const postsData = posts.map((post) => {
-      const postData = { ...post._doc, author: post.author.ngo_name };
+      const postData = { ...post._doc, author: post.author.ngo_name, ngoLogo: post.author.profile.ngo_logo };
       return postData;
     });
+
+    console.log(postsData);
 
     return res.status(200).json({ success: true, postsData });
   } catch (err) {
@@ -185,8 +185,10 @@ exports.DeletePost = async (req, res) => {
 };
 
 exports.uploadFile = (req, res) => {
+
+  console.log(req.userType);
   if (req.userType !== "ngo") {
-    return res.status(401).send({ success: false, message: "Not Authorized." });
+    return res.status(401).json({ success: false, message: "Not Authorized." });
   }
 
   if (!req.fileUrl) {

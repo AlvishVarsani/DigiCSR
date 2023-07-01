@@ -10,7 +10,6 @@ const { BenfValidators } = require("../Services/Validators/BenfValidators");
 exports.BeneficiarySignup = async (req, res) => {
   try {
     const { name, email, mobile_no, aadhar_no } = req.body;
-    console.log(req.body);
     const { error } = BenfValidators.validate(req.body);
     if (error) {
       return res

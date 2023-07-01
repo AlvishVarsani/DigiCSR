@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .send({ success: false, message: "Not Authorized. Token not found !!!" });
+      .json({ success: false, message: "Not Authorized. Token not found !!!" });
   }
 
   try {
@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
         } catch (error) {
           return res
             .status(401)
-            .send({ success: false, message: "Not Authorized." });
+            .json({ success: false, message: "Not Authorized." });
         }
 
       case "NGO":
@@ -48,7 +48,7 @@ module.exports = async (req, res, next) => {
         } catch (error) {
           return res
             .status(401)
-            .send({ success: false, message: "Not Authorized." });
+            .json({ success: false, message: "Not Authorized." });
         }
 
       case "Beneficiary":
@@ -63,7 +63,7 @@ module.exports = async (req, res, next) => {
         } catch (error) {
           return res
             .status(401)
-            .send({ success: false, message: "Not Authorized." });
+            .json({ success: false, message: "Not Authorized." });
         }
 
       case "Admin":
@@ -80,13 +80,13 @@ module.exports = async (req, res, next) => {
         } catch (error) {
           return res
             .status(401)
-            .send({ success: false, message: "Not Authorized." });
+            .json({ success: false, message: "Not Authorized." });
         }
 
       default:
         return res
           .status(401)
-          .send({ success: false, message: "Not Authorized." });
+          .json({ success: false, message: "Not Authorized." });
     }
 
     next();
@@ -95,10 +95,10 @@ module.exports = async (req, res, next) => {
     if (error.name === "JsonWebTokenError") {
       return res
         .status(401)
-        .send({ success: false, message: "Invalid token. Not Authorized." });
+        .json({ success: false, message: "Invalid token. Not Authorized." });
     }
     return res
       .status(500)
-      .send({ success: false, message: "Server internal error" });
+      .json({ success: false, message: "Server internal error" });
   }
 };

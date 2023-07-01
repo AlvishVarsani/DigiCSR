@@ -3,19 +3,17 @@ require("dotenv").config({ path: "../.env" });
 const cors = require("cors");
 const express = require("express");
 const path = require("path");
-const bodyParser = require('body-parser');
-
 
 const logger = require("morgan"); // for logging requests , status codes and more.....
 
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.json({ limit: "10mb" }));
@@ -24,8 +22,6 @@ app.use(express.json({ limit: "10mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(logger("dev"));
-
-app.use(express.json());
 
 require("./Routes/AuthRoutes")(app);
 require("./Routes/ProfileRoutes")(app);

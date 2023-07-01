@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -70,6 +69,24 @@ Future<List<Rfp>> fetchAllRfp() async {
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     return data.map((e) => Rfp.fromJson(e)).toList();
+  } else {
+    throw Exception('Failed to load RFP data');
+  }
+}
+
+Future<Rfp>fetchRfpDetails(String rfpid)async{
+  final token = await fetchCompanyToken();
+  final response =
+      // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
+      await http.get(Uri.parse(ipInfo + "/rfp/:id"), headers: {
+    'Content-Type': 'application/json',
+    'authorization': token.toString()
+  });
+  print(jsonDecode(response.body));
+
+  if (response.statusCode == 200) {
+    print(response.body);
+    return Rfp.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load RFP data');
   }
