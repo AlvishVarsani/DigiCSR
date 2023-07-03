@@ -96,6 +96,7 @@ final Indianstates = [
   MultiSelectItem<String>('Option 28','West Bengal')
 ];
 
+
 String ipInfo = "http://192.168.155.94:4000";
 
 Future<String> getCompanyId()async{
@@ -168,9 +169,9 @@ Future<Ngo> getNGODetailsById(String id)async{
 
 //Ngo details for user as Company or Benificiary
   Future<Ngo> getNgoDetailsForOthers(String id)async{
-    Ngo ngoforother = await fetchNgoProfile(id);
+    Ngo ngoforother = await getNgoProfile(id);
     ngoforother.boardmemberslist = BoardMember.givelist(ngoforother.board_members);
-    // ngoforother.ngo_logo_path = await getNgoLogo(id);
+    ngoforother.ngo_logo_path = await getNgoLogoForBenificiary(id);
     return ngoforother;
   }
 

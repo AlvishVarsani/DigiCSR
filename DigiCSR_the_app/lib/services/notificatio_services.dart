@@ -5,7 +5,7 @@ import 'package:digicsr/models/NotificationModel.dart';
 import 'package:http/http.dart';
 
 Future<List<NotificationModel>> notify()async{
-  String? token = await fetchNGOToken();
+  String? token = await fetchCompanyToken();
   final response = await get(Uri.parse(ipInfo +'/notifications'),
   headers: {
         'Content-Type': 'application/json;charSet=UTF-8',

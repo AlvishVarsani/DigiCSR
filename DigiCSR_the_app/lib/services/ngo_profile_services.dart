@@ -150,3 +150,37 @@ Future<void> updateNgoProfile(
 
   await request.send();
 }
+
+
+Future<Ngo> getNgoProfile(String id) async {
+
+  var response = await http.get(
+    Uri.parse(ipInfo + "/NGO/profile/${id}"),
+    headers: {
+        'Content-Type': 'application/json;charSet=UTF-8',
+      }
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    return Ngo.fromJson(jsonDecode(response.body)['data']);
+  } else {
+    throw Exception("Something went wrong");
+  }
+}
+
+Future<String> getNgoLogoForBenificiary(String cmpid)async{
+
+  var response = await http.get(
+    Uri.parse(ipInfo + '/NGO/logo/${cmpid}'),
+    headers: {
+      'Content-Type': 'application/json;charSet=UTF-8',
+    }
+    );
+
+  print(response.body);
+  if(response.statusCode == 200){
+    return jsonDecode(response.body)['LogoURL'];
+  }else{
+    throw Exception('Can not load the Logo');
+  }
+}

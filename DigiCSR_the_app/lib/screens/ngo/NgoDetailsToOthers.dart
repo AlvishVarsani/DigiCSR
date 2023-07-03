@@ -5,7 +5,7 @@ import '../../models/NgoModel.dart';
 
 class NgoDetailsToOthers extends StatefulWidget {
   Ngo ngodetail;
-  NgoDetailsToOthers(this.ngodetail);
+  NgoDetailsToOthers(this.ngodetail,);
   @override
   State<NgoDetailsToOthers> createState() => _NgoDetailsToOthersState();
 }
@@ -123,11 +123,11 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    // CircleAvatar(
-                                                    //   backgroundImage:
-                                                    //    NetworkImage('${snapshot.data!.ngo_logo_path}'),
-                                                    //   radius: 45,
-                                                    // ),
+                                                    CircleAvatar(
+                                                      backgroundImage:
+                                                       NetworkImage('${snapshot.data!.ngo_logo_path}'),
+                                                      radius: 45,
+                                                    ),
                                                     SizedBox(
                                                       height: 15,
                                                     ),
