@@ -62,11 +62,7 @@ exports.getAllRfps = async (req, res) => {
 
     const rfps = await RFP.find(
       {},
-<<<<<<< HEAD
-      { title: 1, sectors: 1, states: 1, company: 1, amount: 1, timeline: 1, date: 1 }
-=======
-      { title: 1, sectors: 1, states: 1, company: 1 }
->>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
+      { title: 1, sectors: 1, states: 1, company: 1,amount: 1,remaining_amount: 1,timeline: 1 }
     )
       .populate({ path: "company", select: "company_name" })
       .sort({ date: -1 });
@@ -76,6 +72,9 @@ exports.getAllRfps = async (req, res) => {
       sectors: rfp.sectors,
       states: rfp.states,
       company_name: rfp.company.company_name,
+      amount: rfp.amount,
+      remaining_amount: rfp.remaining_amount,
+      timeline: rfp.timeline
     }));
 
     res.status(200).json(response);
@@ -287,7 +286,6 @@ exports.getRFP = async (req, res) => {
       "donations.ngo",
       "ngo_name"
     );
-    console.warn(rfp);
     if (!rfp) {
       return res
         .status(404)
@@ -334,16 +332,8 @@ exports.getRfpOfCompany = async (req, res) => {
     const companyId = req.user._id;
     const rfps = await RFP.find(
       { company: companyId },
-<<<<<<< HEAD
-      { _id: 1, title: 1, sectors: 1, states: 1, amount: 1, date: 1, timeline: 1 }
-    )
-      .sort({ date: -1 })
-    // .skip(skip)
-    // .limit(limit);
-=======
-      { _id: 1, title: 1, sectors: 1, states: 1, date: 1, amount: 1,timeline: 1 }
+      { _id: 1, title: 1, sectors: 1, states: 1, date: 1, amount: 1,timeline: 1, }
     ).sort({ date: -1 });
->>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
 
     res.status(200).json(rfps);
   } catch (error) {
@@ -381,38 +371,6 @@ exports.deleteRFP = async (req, res) => {
   }
 };
 
-exports.getRequests = async (req, res) => {
-  try {
-    if (req.userType !== "company" && req.userType !== "Admin") {
-      return res.status(401).json({ success: false, message: "Unauthorized." });
-    }
-
-    if (!req.user || !req.user._id) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid user information." });
-    }
-
-    const requests = await RFP.find({ company: req.user._id })
-      .populate({
-        path: "donations.ngo",
-        select: "ngo_name",
-      })
-      .select("title amount remaining_amount donations");
-
-    res.status(200).json({ success: true, data: requests });
-  } catch (error) {
-    console.error("Error in getRequests:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error." });
-  }
-};
-
-
-
-
-
-
-
 const NotifyNgo = async (sectors, states, rfp) => {
   try {
     const ngos = await NGO.find({
@@ -425,9 +383,11 @@ const NotifyNgo = async (sectors, states, rfp) => {
     CreateNotification(ngos, rfp);
 
     for (const ngo of ngos) {
-      const text = `Dear ${ngo.ngo_name
-        }, a new RFP is available in your operation area.\nTitle: ${rfp.title
-        }\nAmount: ${rfp.amount}\nSectors: ${rfp.sectors.join(",")} `;
+      const text = `Dear ${
+        ngo.ngo_name
+      }, a new RFP is available in your operation area.\nTitle: ${
+        rfp.title
+      }\nAmount: ${rfp.amount}\nSectors: ${rfp.sectors.join(",")} `;
       try {
         const mailRes = await sendMail(ngo.email, "New RFP Available", text);
       } catch (error) {
@@ -446,9 +406,11 @@ const CreateNotification = async (ngos, rfp) => {
       recipients.push({ recipient: ngo._id });
     }
     const newNotification = new Notification({
-      content: `A new RFP ${rfp.title
-        } is available in your operation area.Title: ${rfp.title}\nAmount: ${rfp.amount
-        }\nSectors: ${rfp.sectors.join(",")}`,
+      content: `A new RFP ${
+        rfp.title
+      } is available in your operation area.Title: ${rfp.title}\nAmount: ${
+        rfp.amount
+      }\nSectors: ${rfp.sectors.join(",")}`,
       recipients: recipients,
     });
 
@@ -462,7 +424,8 @@ const NotifyNGOAcceptedRFP = async (rfp, ngo, amount) => {
   try {
     const company = await Company.findById(rfp.company);
     const text = `Dear ${company.company_name},
-      An NGO ${ngo} has requested amount of ${amount}Rs in your RFP. 
+      An NGO ${ngo} has requested amount of ${amount}Rs
+      in your RFP. 
       Below are the details of the RFP:
       Title: ${rfp.title}
       Sectors: ${rfp.sectors.join(", ")}`;

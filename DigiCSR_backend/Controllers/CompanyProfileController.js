@@ -3,6 +3,7 @@ const fs = require("fs");
 const {
   CompanyProfileValidator,
 } = require("../Services/Validators/companyValidator");
+const { log } = require("console");
 
 // Route to fetch data from the Company schema
 exports.getCompanyProfile = async (req, res) => {
@@ -216,13 +217,16 @@ exports.AddCompanyProfile = async (req, res) => {
 
 
 exports.uploadLogo = async (req, res) => {
+  console.log("upload....");
+  // console.log(req.fileUrl);
 
-  console.log(req.userType);
+  // console.log(req.userType);
   if (req.userType !== "company") {
     return res.status(401).json({ success: false, message: "Not Authorized." });
   }
-
   if (!req.fileUrl) {
+    console.warn("in if............");
+    console.warn(req);
     return res
       .status(400)
       .json({ success: false, message: "No file uploaded" });
@@ -238,21 +242,22 @@ exports.uploadLogo = async (req, res) => {
     if (!company) {
       return res.status(404).json({ success: false, message: "Company not found" });
     }
-
+    console.log(1);
     // Check if the company already has an existing logo
     if (company.profile.company_logo) {
       // Delete the old logo file
 
       const oldLogoPath = company.profile.company_logo;
-      const filePath = oldLogoPath.replace('http://localhost:4000', '');
+      const filePath = oldLogoPath.replace('http://192.168.155.94:4000', '');
       // Construct the full file path on the server
       const fullPath = `D:\\digiCSR_backend${filePath}`;
-
+      console.log(1);
       fs.unlink(fullPath, (err) => {
         if (err) {
           console.error(err);
         }
       });
+      
     }
     // Update the logo path in the company's profile
     company.profile.company_logo = fileUrl;

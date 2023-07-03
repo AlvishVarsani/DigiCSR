@@ -140,7 +140,7 @@ exports.uploadNgoLogo = async (req, res) => {
       // Delete the old logo file
 
       const oldLogoPath = ngo.profile.ngo_logo;
-      const filePath = oldLogoPath.replace("http://localhost:4000", "");
+      const filePath = oldLogoPath.replace("http://192.168.155.94:4000", "");
       // Construct the full file path on the server
       const fullPath = `D:\\digiCSR_backend${filePath}`;
 
