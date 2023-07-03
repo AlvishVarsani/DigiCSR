@@ -8,9 +8,10 @@ class TextFormFieldButton extends StatefulWidget {
   TextInputType? keyboardType;
   List<TextInputFormatter>? inputFormatters;
   String? controller;
+  Icon? prefixIcons;
 
   TextFormFieldButton(this.Text1,
-      {Text2, keyboardType, inputFormatters, controller});
+      {Text2, keyboardType, inputFormatters, controller, prefixIcons});
 
   @override
   State<TextFormFieldButton> createState() => _TextFormFieldButtonState();
@@ -29,26 +30,40 @@ class _TextFormFieldButtonState extends State<TextFormFieldButton> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.Text1,
-          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        TextFormField(
-          textDirection: TextDirection.ltr,
-          keyboardType: widget.keyboardType,
-          inputFormatters: widget.inputFormatters,
-          controller: TextEditingController(text: widget.controller),
-          onChanged: (value) {
-            widget.controller = value;
-          },
-          decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: widget.Text2,
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue))),
+        Padding(
+          padding: const EdgeInsets.only(right: 15, left: 10),
+          child: TextFormField(
+            textDirection: TextDirection.ltr,
+            keyboardType: widget.keyboardType,
+            inputFormatters: widget.inputFormatters,
+            controller: TextEditingController(text: widget.controller),
+            onChanged: (value) {
+              widget.controller = value;
+            },
+            decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                        style: BorderStyle.solid,
+                        width: 0.9,
+                        color: Colors.black54)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.red)),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                        style: BorderStyle.solid,
+                        width: 0.9,
+                        color: Colors.black54)),
+                labelText: widget.Text1,
+                prefixIcon: widget.prefixIcons,
+                hintStyle: TextStyle(fontSize: 16),
+                hintText: widget.Text2,
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.blue))),
+          ),
         ),
       ],
     );

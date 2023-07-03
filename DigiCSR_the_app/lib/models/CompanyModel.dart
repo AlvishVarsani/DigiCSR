@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+
 class Company {
   // String? id;
   String? company_name;
@@ -13,7 +17,11 @@ class Company {
   String? cp_designation; 
   String? cp_phone; 
   List<dynamic>? tax_comp; 
-  List<dynamic>? sectors; 
+  List<dynamic>? sectors;
+  // File? 
+  PlatformFile? registration_certificate; 
+  PlatformFile? company_logo; 
+  File? certificate;
   // Map<String, dynamic>? profile;
   // List<Map<String, dynamic>>? initialData;
 

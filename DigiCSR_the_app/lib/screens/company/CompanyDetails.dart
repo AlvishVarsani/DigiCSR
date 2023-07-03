@@ -1,6 +1,5 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/CompanyModel.dart';
-import 'package:digicsr/widgets/multiselect.dart';
 import 'package:flutter/material.dart';
 
 class CompanyDetails extends StatelessWidget {
@@ -81,21 +80,35 @@ class CompanyDetails extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: AssetImage('assets/images/yashu.jpg'),
-                                    radius: 45,
-                                    backgroundColor: Color(0x11FFFFFF),
-                                    // foregroundColor: Color(0x12),
-                                    child: (editmode)?Icon(Icons.photo_camera,color: white,):null,
+                              Card(
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Colors.transparent
                                   ),
-                                ],
+                                  borderRadius: BorderRadius.all(Radius.circular(6))
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: (100 < w*0.35)?100:w*0.35,
+                                    height: (180 < h*0.15)?180:h*0.15,
+                                    // child: Image.asset('assets/images/yashu.jpg',fit: BoxFit.fill),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/images/yashu.jpg'),
+                                        alignment: Alignment.center
+                                        ),
+                                      border: Border.all(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(Radius.circular(6))
+                                    ),
+                                  ),
+                                ),
                               ),
                               SizedBox(width: 25,),
                               
                               Container(
-                                width: w*0.5,
+                                // width: w*0.5,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,27 +135,30 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'Company Name',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
-                            SizedBox(height: 6,),
+                            // SizedBox(height: 6,),
                             TextField(
+                              textAlignVertical: TextAlignVertical.top,
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
                                   text: '${_company.company_name}'),
                                   decoration: InputDecoration(
+                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.only(bottom: 0,left: 4,right: 4,top: 0),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: (editmode)?
+                                      BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black26
-                                      )
+                                      ):BorderSide(color: Colors.transparent),
                                     )
                                   ),
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: black,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
@@ -150,7 +166,8 @@ class CompanyDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
+                          child: (editmode)?null:Center(child: Divider(color: Colors.black45,thickness: 0.8,)),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,27 +175,29 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'Company Email',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
-                            SizedBox(height: 6,),
+                            // SizedBox(height: 6,),
                             TextField(
                               readOnly: !editmode,
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(
                                   text: '${_company.email}'),
                                   decoration: InputDecoration(
+                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: (editmode)?
+                                      BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black26
-                                      )
+                                      ):BorderSide(color: Colors.transparent),
                                     )
                                   ),
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: black,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
@@ -213,7 +232,8 @@ class CompanyDetails extends StatelessWidget {
                         //   ],
                         // ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
+                          child: (editmode)?null:Center(child: Divider(color: Colors.black45,thickness: 0.8,)),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,8 +241,8 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'Establichment Year',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
@@ -232,15 +252,17 @@ class CompanyDetails extends StatelessWidget {
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(text: '${_company.establishment_year}'),
                               decoration: InputDecoration(
+                                contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: (editmode)?
+                                      BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black26
-                                      )
+                                      ):BorderSide(color: Colors.transparent),
                                     )
                                   ),
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: black,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
@@ -248,7 +270,8 @@ class CompanyDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
+                          child: (editmode)?null:Divider(color: Colors.black45,thickness: 0.8,),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,8 +279,8 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'State',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
@@ -268,15 +291,17 @@ class CompanyDetails extends StatelessWidget {
                               controller:
                                   TextEditingController(text: '${_company.state}'),
                                   decoration: InputDecoration(
+                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: (editmode)?
+                                      BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black26
-                                      )
+                                      ):BorderSide(color: Colors.transparent),
                                     )
                                   ),
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: black,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
@@ -284,7 +309,8 @@ class CompanyDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
+                          child: (editmode)?null:Divider(color: Colors.black45,thickness: 0.8,),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,8 +318,8 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'City',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
@@ -304,15 +330,17 @@ class CompanyDetails extends StatelessWidget {
                               controller:
                                   TextEditingController(text: '${_company.city}'),
                                   decoration: InputDecoration(
+                                    contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: (editmode)?
+                                      BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black26
-                                      )
+                                      ):BorderSide(color: Colors.transparent),
                                     )
                                   ),
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: black,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
@@ -320,7 +348,8 @@ class CompanyDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
+                          child: (editmode)?null:Divider(color: Colors.black45,thickness: 0.8,),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,8 +357,8 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'Pincode',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
@@ -339,15 +368,17 @@ class CompanyDetails extends StatelessWidget {
                               scrollPadding: EdgeInsets.all(0),
                               controller: TextEditingController(text: '${_company.pincode}'),
                               decoration: InputDecoration(
+                                contentPadding: (editmode)?EdgeInsets.all(12):EdgeInsets.all(4),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: (editmode)?
+                                      BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black26
-                                      )
+                                      ):BorderSide(color: Colors.transparent),
                                     )
                                   ),
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: black,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
@@ -355,7 +386,8 @@ class CompanyDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
+                          child: (editmode)?null:Divider(color: Colors.black45,thickness: 0.8,),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,12 +395,12 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'Taxes',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(height: 6,),
                             Container(
                               // height: h * 0.5,
                               width: w,
@@ -386,7 +418,7 @@ class CompanyDetails extends StatelessWidget {
                                       style: TextStyle(
                                           color: black,
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 20,
+                                          fontSize: 22,
                                           fontFamily: 'Myriad Pro'),
                                     ),
                                   );
@@ -398,7 +430,7 @@ class CompanyDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -406,12 +438,12 @@ class CompanyDetails extends StatelessWidget {
                             Text(
                               'Sectors',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: black,
+                                  fontSize: 16,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Myriad Pro'),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(height: 6,),
                             Container(
                               // height: h * 0.5,
                               width: w,
@@ -429,7 +461,7 @@ class CompanyDetails extends StatelessWidget {
                                       style: TextStyle(
                                           color: black,
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 20,
+                                          fontSize: 22,
                                           fontFamily: 'Myriad Pro'),
                                     ),
                                   );

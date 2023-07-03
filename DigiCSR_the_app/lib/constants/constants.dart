@@ -1,10 +1,14 @@
 
+import 'package:digicsr/models/BoardMember.dart';
+import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
-import 'package:digicsr/screens/ngo/ngoprofile.dart';
+import 'package:digicsr/screens/ngo/NGOProfileScreen.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
+import 'package:digicsr/services/ngo_profile_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../models/CompanyModel.dart';
@@ -12,8 +16,7 @@ import '../models/NotificationModel.dart';
 import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
 import '../services/company_profile_services.dart';
-import '../users/companyuser.dart';
-import '../users/ngouser.dart';
+import '../users/benificiaryuser.dart';
 
 Color blue = Color(0xFF1DA1F2);
 
@@ -26,18 +29,23 @@ Color black = Color(0xFF202020);
 Color blueglass = Color(0x130CB6F0);
 
 final storage = FlutterSecureStorage();
-bool multilist = false;
-final CompanyUser company = CompanyUser();
-final NGOuser ngo = NGOuser();
-final Rfp rfp = Rfp(title: '',timeline: '',states: [],sectors: [],amount: 0,remaining_amount: 0,company: '');
+final Company company = Company();
+final Ngo ngo = Ngo();
+final BoardMember board_member = BoardMember();
+ final BenificiaryUser benificiary = BenificiaryUser();
+//  (user == 'NGO')? final User<Ngo> usertype = User(ngo):(user == 'Company')? final User<>;
+// final NGOuser ngo = NGOuser();
+final Rfp rfp = Rfp();
 Company companydata = Company();
+Ngo ngodata = Ngo();
 
 late Future<List<NotificationModel>> NGOnotifications;
 
 int index = 0;
 
+bool services = true;
 bool editmode = false;
-
+bool multilist = false;
 bool unread_notification = false;
 
 String user = '';
@@ -45,13 +53,17 @@ String user = '';
 String btn = 'Send OTP';
 String auth = '';
 
+String male = 'unselected';
+String female = 'unselected';
+String other = 'unselected';
+
 String appbartitle = 'Home';
 
 String requested_amount = '';
 
 List<Widget> companynav = [HomeScreen(), RFP(), CompanyProfile()];
 
-List<Widget> ngonav = [HomeScreen(), PraposalScreen(), ProfileScreenForNGO()];
+List<Widget> ngonav = [HomeScreen(), PraposalScreen(), NGOProfile()];
 
 final Indianstates = [
   MultiSelectItem<String>('Option 1','Andhra Pradesh'),
@@ -85,14 +97,15 @@ final Indianstates = [
 ];
 
 
-<<<<<<< HEAD
 // String ipInfo = "http://127.0.0.1:4000";
-String ipInfo = "http://192.168.155.94:4000";
-=======
 String ipInfo = "http://192.168.80.58:4000";
-// String ipInfo = "http://192.168.155.94:4000";
->>>>>>> 2872cdcd374007a6e22005d95697ddb899b97930
 
+Future<String> getCompanyId()async{
+  String? token = await fetchCompanyToken();
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  String companyid = decodedToken['_id'];
+  return companyid;
+}
 
 Future<String?> fetchCompanyToken() {
   return storage.read(key: "company");
@@ -105,6 +118,32 @@ Future<String?> fetchNGOToken() {
 Future<String?> fetchBenificiaryToken() {
   return storage.read(key: "benificiary");
 }
+
+void getCompanyDetails()async{
+    companydata = await fetchCompany();
+    print(companydata.company_name);
+  }
+    
+    //Ngo details for user as NGO
+    void getNgoDetails()async{
+      String? token = await fetchNGOToken();
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  String ngoid = decodedToken['_id'];
+  ngodata = await getNGODetailsById(ngoid);
+  ngodata.boardmemberslist = BoardMember.givelist(ngodata.board_members);
+    }
+
+Future<Ngo> getNGODetailsById(String id)async{
+    return await fetchNgoProfile(id);
+  }
+
+//Ngo details for user as Company or Benificiary
+  Future<Ngo> getNgoDetailsForOthers(String id)async{
+    Ngo ngoforother = await fetchNgoProfile(id);
+    ngoforother.boardmemberslist = BoardMember.givelist(ngoforother.board_members);
+    return ngoforother;
+  }
+
 
 // List<NotificationModel> addElement(List<NotificationModel> listFuture, Future<NotificationModel> elementsToAdd)async{
 //   final list = await listFuture;

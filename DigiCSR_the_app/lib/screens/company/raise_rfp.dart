@@ -1,5 +1,6 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/services/rfp_services.dart';
+import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/multiselect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,13 @@ class RaiseRfpRequest extends StatefulWidget {
 }
 
 class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    rfp.sectors = [];
+    rfp.states = [];
+  }
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -47,204 +55,241 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
   ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: Text(
-            "RFP",
-            style: TextStyle(color: Colors.white),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: TextButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          child: Row(
+            children: [
+              SizedBox(width: 10,),
+              Icon(Icons.arrow_back_ios_new,),
+              SizedBox(width: 10,),
+              Text(
+                        'Back to RFP page',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Gotham',
+                            fontWeight: FontWeight.w500,
+                            color: primary),
+                      ),
+            ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Card(
-              shadowColor: Colors.black,
-              elevation: 10,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+        foregroundColor: primary,
+        backgroundColor: white,
+        titleSpacing: 0,
+      ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        backgroundColor: primary,
+                        fixedSize: Size(400, 42)),
+                    child: Text(
+                      'Raise RFP Request',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            fixedSize: Size(400, 42)),
-                        child: Text(
-                          'Raise RFP Request',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'RFP Title',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            textDirection: TextDirection.ltr,
-                            controller: TextEditingController(text: rfp.title),
-                            onChanged: (value) {
-                              rfp.title = value;
-                            },
-                            
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter title',
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.blue))),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'RFP Amount',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            textDirection: TextDirection.ltr,
-                            controller: TextEditingController(),
-                            onChanged: (value) {
-                              rfp.amount = int.parse(value);
-                            },
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter amount of RFP',
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.blue))),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Text(
-                        "Sector to provide CSR",
+                        'RFP Title',
                         style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
-                      ),
-                      Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(1.0),
-                          child: MultiSelectDialogField<dynamic>(
-                            title: Text('Select Options'),
-                            items: _items,
-                            initialValue: rfp.sectors!,
-                            onConfirm: (values) {
-                              setState(() {
-                                rfp.sectors = values;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Timeline',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            textDirection: TextDirection.ltr,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(2),
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            controller:
-                                TextEditingController(text: rfp.timeline),
-                            onChanged: (value) {
-                              rfp.timeline = value;
-                            },
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText:
-                                    'Enter the timeline for amount utility.',
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.blue))),
-                          ),
-                        ],
+                            color: primary,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
+                      TextFormField(
+                        textDirection: TextDirection.ltr,
+                        controller: TextEditingController(text: rfp.title),
+                        onChanged: (value) {
+                          rfp.title = value;
+                        },
+                        
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter title',
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: primary))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        "States",
+                        'RFP Amount',
                         style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 5),
-                      Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(1.0),
-                          child: MultiSelectDialogField(
-                            title: Text('Select Options'),
-                            items: Indianstates,
-                            initialValue: rfp.states!,
-                            onConfirm: (values) {
-                              setState(() {
-                                rfp.states = values;
-                              });
-                            },
-                          ),
-                        ),
+                            color: primary,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
-                      Center(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                 Map<String, dynamic> rfpbody(){
-                                  return {
-                                    'title': rfp.title,
-                                  'amount': rfp.amount,
-                                  'timeline': rfp.timeline,
-                                  'sectors': rfp.sectors,
-                                  'states': rfp.states,
-                                  };
-                                 }
-                                // print(formdata['sectors']+formdata['states']);
-                                addRFP(rfpbody());
-                              },
-                              child: Text("Raise Request")))
-                    ]),
-              ),
-            ),
+                      TextFormField(
+                        scrollPadding: EdgeInsets.all(8),
+                        textDirection: TextDirection.ltr,
+                        controller: TextEditingController(text: rfp.amount.toString()),
+                        onChanged: (value) {
+                          rfp.amount = int.parse(value);
+                        },
+                        onEditingComplete: () {
+                          
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter amount of RFP',
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Timeline',
+                        style: TextStyle(
+                            color: primary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      TextFormField(
+                        textDirection: TextDirection.ltr,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(2),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        controller:
+                            TextEditingController(text: rfp.timeline),
+                        onChanged: (value) {
+                          rfp.timeline = value;
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(),
+                            hintText:
+                                'Enter the timeline for amount utility.',
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "Sector to provide CSR",
+                    style: TextStyle(
+                        color: primary, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  MultiSelectDialogField<dynamic>(
+                    buttonText: Text('Select Sectors',style: TextStyle(fontSize: 16,color: Colors.black54),),
+                    dialogHeight: MediaQuery.of(context).size.height * 0.6,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38,style: BorderStyle.solid),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    title: Text('Select Options'),
+                    items: _items,
+                    checkColor: primary,
+                    initialValue: rfp.sectors!,
+                    onConfirm: (values) {
+                      setState(() {
+                        rfp.sectors = values;
+                      });
+                    },
+                  ),
+                  
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "States",
+                    style: TextStyle(
+                        color: primary, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  MultiSelectDialogField(
+                    buttonText: Text('Select States',style: TextStyle(fontSize: 16,color: Colors.black54),),
+                    dialogHeight: MediaQuery.of(context).size.height * 0.6,
+                    title: Text('Select Options'),
+                    decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black38,style: BorderStyle.solid),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                    items: Indianstates,
+                    initialValue: rfp.states!,
+                    onConfirm: (values) {
+                      setState(() {
+                        rfp.states = values;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shadowColor: MaterialStatePropertyAll(primary),
+                          elevation: MaterialStatePropertyAll(4),
+                          backgroundColor: MaterialStatePropertyAll(primary)
+                        ),
+                          onPressed: () {
+                             Map<String, dynamic> rfpbody(){
+                              return {
+                                'title': rfp.title,
+                              'amount': rfp.amount,
+                              'timeline': rfp.timeline,
+                              'sectors': rfp.sectors,
+                              'states': rfp.states,
+                              };
+                             }
+                            // print(formdata['sectors']+formdata['states']);
+                            addRFP(rfpbody());
+                          },
+                          child: Text("Raise Request")))
+                ]),
           ),
         ),
       ),

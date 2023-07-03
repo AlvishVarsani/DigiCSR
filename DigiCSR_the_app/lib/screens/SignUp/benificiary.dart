@@ -25,7 +25,6 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
   String otp = '';
   bool otpverify = false;
 
-  final BenificiaryUser benificiary = BenificiaryUser();
 
   bool otpsent = false;
 
@@ -42,7 +41,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
             'name': benificiary.name,
             'email': benificiary.benificiary_email,
             'mobile_no': benificiary.mobile_no,
-            'addhar_no': benificiary.addhar_no
+            'aadhar_no': benificiary.addhar_no
           });
       print(res.body);
       otpsent = true;
@@ -61,7 +60,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
             'name': benificiary.name,
             'email': benificiary.benificiary_email,
             'mobile_no': benificiary.mobile_no,
-            'addhar_no': benificiary.addhar_no,
+            'aadhar_no': benificiary.addhar_no,
             'otp': otp
           });
 
@@ -289,6 +288,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                         ],
                       ),
                     ),
+                    
                     Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.paddingOf(context).top * 0.2),
@@ -318,12 +318,11 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                   onChanged: (value) {
                                     benificiary.mobile_no = value;
                                   },
-                                  keyboardType: TextInputType.number,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Enter mobile number';
+                                      return 'Enter addhar number';
                                     } else {
-                                      return 'Invalid mobile number';
+                                      return 'Invalid addhar number';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -335,7 +334,7 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                     //       fontFamily: 'Montserrat',
                                     //       fontWeight: FontWeight.w800),
                                     // ),
-                                    hintText: 'ex. 942-7245-632',
+                                    hintText: 'ex. 1234-5678-9012',
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide: BorderSide(color: primary)),
@@ -511,26 +510,19 @@ class _BenificiarySignUp extends State<BenificiarySignUp> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8))))),
                             onPressed: () {
-                              // (btn == 'Send OTP')
-                              //     ? sendOTP()
-                              //     : Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //                 Login_Screen()));
-                              // if (!otpverify) {
-                              //   sendOTP();
-                              // } else {
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) => BeneficiaryHomeScreen()));
-                              // }
-
-                              Navigator.push(
+                              if (!otpverify) {
+                                sendOTP();
+                              } else {
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => BeneficiaryHomeScreen()));
+                              }
+
+                              // Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) => BeneficiaryHomeScreen()));
                             },
                             child: Text(
                               btn,

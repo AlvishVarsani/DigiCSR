@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:digicsr/screens/benificiary/benificiary_screen.dart';
 import 'package:digicsr/users/benificiaryuser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
 import '../../constants/constants.dart';
+import '../Homescreen/mainscreen.dart';
 
 class BenificiaryLogin extends StatefulWidget {
   @override
@@ -59,7 +62,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
           });
       otpverify = true;
       btn = 'Sign in';
-      await storage.write(key: "token", value: jsonDecode(res.body)['result']);
+      await storage.write(key: "benificiary", value: jsonDecode(res.body)['result']);
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -74,16 +77,21 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.white,
-          ),
+          Positioned(
+              top: 0,
+              child: SvgPicture.asset(
+                'assets/images/background_2.svg',
+                width: w,
+                height: h,
+              )),
+          
           Column(
             children: [
               Expanded(child: Container()),
@@ -288,20 +296,19 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))))),
                             onPressed: () {
-                              // (btn == 'Send OTP')
-                              //     ? sendOTP()
-                              //     : Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //                 Login_Screen()));
-                              if (!otpverify) {
+                              if(services){
+                                if (!otpverify) {
                                 sendOTP();
+                                // _showDialog();
                               } else {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Container()));
+                                        builder: (context) => MainScreen()));
+                              }
+                              }else{
+                                index = 0;
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BeneficiaryHomeScreen()));
                               }
                             },
                             child: Text(

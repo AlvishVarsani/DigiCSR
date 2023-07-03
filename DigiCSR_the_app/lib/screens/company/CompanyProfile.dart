@@ -14,10 +14,7 @@ class CompanyProfile extends StatefulWidget {
 
 class _CompanyProfileState extends State<CompanyProfile> {
   // Company _company = Company();
-  void getCompanyDetails()async{
-    companydata = await fetchCompany();
-    print(companydata.company_name);
-  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -91,7 +88,10 @@ class _CompanyProfileState extends State<CompanyProfile> {
                             top: 10,
                             right: 10,
                             child: IconButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                // editmode = true;
+                                // setState(() {});
+                              },
                               icon: Icon(Icons.mode_edit_outline_outlined,color: primary,),
                               )
                             ),

@@ -1,9 +1,6 @@
-import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
-import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
-import 'package:digicsr/screens/company/rfp.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +21,15 @@ class DrawerScreen extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("Alvish varsani"),
-            accountEmail: Text("alvishvarsani@gmail.com"),
+            decoration: BoxDecoration(
+              color: primary
+            ),
+            accountName: 
+            (user == 'NGO')?Text("${ngodata.ngo_name}"):Text("${companydata.company_name}"),
+            // (user == 'Company')?Text("${companydata.company_name}"):
+            // Text("$benificiarydata.name"),
+            accountEmail: 
+            (user == 'NGO')?Text("${ngodata.email}"):Text("${companydata.email}"),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Image.asset(
