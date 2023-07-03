@@ -17,7 +17,7 @@ exports.getNGOProfile = async (req, res) => {
 
     // Prepare the response data
     const responseData = {
-      NGO_name: ngo.ngo_name,
+      ngo_name: ngo.ngo_name,
       email: ngo.email,
 
       profile: {
@@ -64,7 +64,6 @@ exports.AddNGOProfile = async (req, res) => {
       phone,
     } = req.body;
 
-    let fileData;
     let updatedFields = {
       ngo_name: ngo_name,
       "profile.summary": summary,
@@ -79,16 +78,12 @@ exports.AddNGOProfile = async (req, res) => {
       "profile.phone": phone,
     };
 
-    if (req.files && req.files.ngo_logo) {
-      fileData = fs.readFileSync(req.files.ngo_logo[0].path);
-      updatedFields["profile.ngo_logo"] = fileData;
-    }
     // console.warn(req.body);
     const { error } = NgoProfileValidator.validate({
       ...req.body,
-      ngo_logo: fileData,
     });
     if (error) {
+      console.warn(error.details);
       return res
         .status(400)
         .json({ success: false, message: error.details[0].message });
@@ -116,6 +111,64 @@ exports.AddNGOProfile = async (req, res) => {
   }
 };
 
+exports.uploadNgoLogo = async (req, res) => {
+  console.log(req.userType);
+  if (req.userType !== "ngo") {
+    return res.status(401).json({ success: false, message: "Not Authorized." });
+  }
+
+  if (!req.fileUrl) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No file uploaded" });
+  }
+
+  const fileUrl = req.fileUrl;
+
+  try {
+    const ngoId = req.user._id;
+    const ngo = await NGO.findById(ngoId);
+
+    if (!ngo) {
+      return res
+        .status(404)
+        .json({ success: false, message: "NGO not found!!" });
+    }
+
+    // Check if the ngo already has an existing logo
+    if (ngo.profile.ngo_logo) {
+      // Delete the old logo file
+
+      const oldLogoPath = ngo.profile.ngo_logo;
+      const filePath = oldLogoPath.replace("http://localhost:4000", "");
+      // Construct the full file path on the server
+      const fullPath = `D:\\digiCSR_backend${filePath}`;
+
+      fs.unlink(fullPath, (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+    // Update the logo path in the ngo's profile
+    ngo.profile.ngo_logo = fileUrl;
+    await ngo.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "NGO logo uploaded successfully",
+      LogoURL: fileUrl,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to upload NGO logo",
+      error: error.message,
+    });
+  }
+};
+
 exports.getNgoLogo = async (req, res) => {
   try {
     const { id } = req.params;
@@ -131,16 +184,19 @@ exports.getNgoLogo = async (req, res) => {
         .json({ success: false, message: "NGO not found." });
     }
 
-    const logoBuffer = ngo.profile.ngo_logo;
-    if (!logoBuffer) {
+    const LogoPath = ngo.profile.ngo_logo;
+    if (!LogoPath) {
       return res.status(404).json({
         success: false,
-        message: "Registration certificate not found.",
+        message: "NGO logo not found.",
       });
     }
 
-    res.set("Content-Type", "image");
-    res.send(logoBuffer);
+    res.status(200).json({
+      success: true,
+      message: "NGO logo found.",
+      LogoURL: LogoPath,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error." });
@@ -165,6 +221,9 @@ exports.getAllNgo = async (req, res) => {
         "profile.location": 1,
         "profile.operation_area": 1,
         "profile.sectors": 1,
+        "profile.ngo_logo": 1,
+        "profile.summary": 1,
+        "profile.establishment_year": 1,
       }
     );
     return res.status(200).send({ success: true, ngos });

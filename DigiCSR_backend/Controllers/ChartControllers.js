@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const RFP = require("../Models/RFP");
+const Company = require("../Models/Company");
+const NGO = require("../Models/NGO");
 // const Company = require("../Models/Company");
 
 exports.SectorsData = async (req, res) => {
@@ -303,5 +305,18 @@ exports.NgoYearData = async (req, res) => {
     return res
       .status(500)
       .send({ success: false, message: "An error occurred." });
+  }
+};
+
+exports.couroselData = async (req, res) => {
+  try {
+    const data = {};
+    data.companies = await Company.countDocuments({});
+    data.ngos = await NGO.countDocuments({});
+    data.rfps = await RFP.countDocuments({});
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error("Failed to retrieve carousel data:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };

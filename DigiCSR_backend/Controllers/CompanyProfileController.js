@@ -5,8 +5,7 @@ const {
 } = require("../Services/Validators/companyValidator");
 
 // Route to fetch data from the Company schema
-exports.
-getCompanyProfile = async (req, res) => {
+exports.getCompanyProfile = async (req, res) => {
   try {
     const companyId = req.params.id;
 
@@ -52,6 +51,65 @@ getCompanyProfile = async (req, res) => {
   }
 };
 
+
+exports.uploadCertificate = async (req, res) => {
+
+  console.log(req.userType);
+  if (req.userType !== "company") {
+    return res.status(401).json({ success: false, message: "Not Authorized." });
+  }
+
+  if (!req.fileUrl) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No file uploaded" });
+  }
+
+  const fileUrl = req.fileUrl;
+
+  try {
+
+    const companyId = req.user._id;
+    const company = await Company.findById(companyId);
+
+    if (!company) {
+      return res.status(404).json({ success: false, message: "Company not found" });
+    }
+
+    // Check if the company already has an existing certificate
+    if (company.profile.registration_certificate) {
+      // Delete the old certificate file
+
+      const oldCertificatePath = company.profile.registration_certificate;
+      const filePath = oldCertificatePath.replace('http://localhost:4000', '');
+      // Construct the full file path on the server
+      const fullPath = `D:\\digiCSR_backend${filePath}`;
+
+      fs.unlink(fullPath, (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+    // Update the certificate path in the company's profile
+    company.profile.registration_certificate = fileUrl;
+    await company.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Certificate uploaded successfully",
+      certificateURL: fileUrl,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to upload certificate",
+      error: error.message,
+    });
+  }
+}
+
 exports.getCertificate = async (req, res) => {
   try {
     const { id } = req.params;
@@ -61,17 +119,20 @@ exports.getCertificate = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Company not found." });
     }
-
-    const certificateBuffer = company.profile.registration_certificate;
-    if (!certificateBuffer) {
+    const certificatePath = company.profile.registration_certificate;
+    if (!certificatePath) {
       return res.status(404).json({
         success: false,
         message: "Registration certificate not found.",
       });
     }
 
-    res.set("Content-Type", "application/pdf");
-    res.send(certificateBuffer);
+    res.status(200).json({
+      success: true,
+      message: "Registration certificate found.",
+      certificateURL: certificatePath,
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error." });
@@ -100,9 +161,6 @@ exports.AddCompanyProfile = async (req, res) => {
       tax_comp,
       sectors,
     } = req.body;
-    console.log(req.body);
-    let fileData, imageData;
-    // console.warn(tax_comp);
     let updatedFields = {
       company_name,
       "profile.summary": summary,
@@ -118,22 +176,10 @@ exports.AddCompanyProfile = async (req, res) => {
       "profile.sectors": sectors,
     };
 
-    if (req.files) {
-      if (req.files.registration_certificate) {
-        fileData = fs.readFileSync(req.files.registration_certificate[0].path);
-        updatedFields["profile.registration_certificate"] = fileData;
-      }
-      if (req.files.company_logo) {
-        imageData = fs.readFileSync(req.files.company_logo[0].path);
-        updatedFields["profile.company_logo"] = imageData;
-      }
-    }
     const { error } = CompanyProfileValidator.validate({
       ...req.body,
       tax_comp: tax_comp,
       sectors: sectors,
-      registration_certificate: fileData,
-      company_logo: imageData,
     });
     console.warn({
       ...req.body,
@@ -168,6 +214,65 @@ exports.AddCompanyProfile = async (req, res) => {
   }
 };
 
+
+exports.uploadLogo = async (req, res) => {
+
+  console.log(req.userType);
+  if (req.userType !== "company") {
+    return res.status(401).json({ success: false, message: "Not Authorized." });
+  }
+
+  if (!req.fileUrl) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No file uploaded" });
+  }
+
+  const fileUrl = req.fileUrl;
+
+  try {
+
+    const companyId = req.user._id;
+    const company = await Company.findById(companyId);
+
+    if (!company) {
+      return res.status(404).json({ success: false, message: "Company not found" });
+    }
+
+    // Check if the company already has an existing logo
+    if (company.profile.company_logo) {
+      // Delete the old logo file
+
+      const oldLogoPath = company.profile.company_logo;
+      const filePath = oldLogoPath.replace('http://localhost:4000', '');
+      // Construct the full file path on the server
+      const fullPath = `D:\\digiCSR_backend${filePath}`;
+
+      fs.unlink(fullPath, (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+    // Update the logo path in the company's profile
+    company.profile.company_logo = fileUrl;
+    await company.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Company logo uploaded successfully",
+      LogoURL: fileUrl,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to upload Company logo",
+      error: error.message,
+    });
+  }
+}
+
 exports.getCompanyLogo = async (req, res) => {
   try {
     const { id } = req.params;
@@ -183,16 +288,21 @@ exports.getCompanyLogo = async (req, res) => {
         .json({ success: false, message: "Company not found." });
     }
 
-    const logoBuffer = company.profile.company_logo;
-    if (!logoBuffer) {
+    const LogoPath = company.profile.company_logo;
+    if (!LogoPath) {
       return res.status(404).json({
         success: false,
-        message: "Registration certificate not found.",
+        message: "Company logo not found.",
       });
     }
 
-    res.set("Content-Type", "image");
-    res.send(logoBuffer);
+
+    res.status(200).json({
+      success: true,
+      message: "Company logo found.",
+      LogoURL: LogoPath,
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error." });
@@ -209,10 +319,11 @@ exports.getAllCompany = async (req, res) => {
     }
     const companies = await Company.find(
       {},
-      { "profile.registration_certificate": 0, "profile.company_logo": 0 }
+      { "profile.registration_certificate": 0 }
     );
-    return res.status(200).send({ success: true, companies });
+    return res.status(200).json({ success: true, companies });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 };

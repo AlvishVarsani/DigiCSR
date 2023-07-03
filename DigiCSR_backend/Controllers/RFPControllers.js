@@ -5,12 +5,6 @@ const Notification = require("../Models/Notification");
 const Company = require("../Models/Company");
 const sendMail = require("../Services/mailService");
 const { RFPValidator } = require("../Services/Validators/RFPValidators");
-const express = require('express');
-const bodyParser = require('body-parser');
-
-const app = express();
-
-app.use(bodyParser.json());
 
 exports.AddRfp = async (req, res) => {
   try {
@@ -19,8 +13,6 @@ exports.AddRfp = async (req, res) => {
         .status(400)
         .send({ success: false, message: "Not Authorized." });
     }
-    console.log(req.body);
-    // console.log(express.json(req.body))
     const { title, amount, timeline, sectors, states } = req.body;
     const { error } = RFPValidator.validate(req.body);
     if (error) {
@@ -70,19 +62,20 @@ exports.getAllRfps = async (req, res) => {
 
     const rfps = await RFP.find(
       {},
+<<<<<<< HEAD
       { title: 1, sectors: 1, states: 1, company: 1, amount: 1, timeline: 1, date: 1 }
+=======
+      { title: 1, sectors: 1, states: 1, company: 1 }
+>>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
     )
       .populate({ path: "company", select: "company_name" })
       .sort({ date: -1 });
     let response = rfps.map((rfp) => ({
       _id: rfp._id,
       title: rfp.title,
-      amount: rfp.amount,
-      timeline: rfp.timeline,
       sectors: rfp.sectors,
       states: rfp.states,
       company_name: rfp.company.company_name,
-      date: rfp.date
     }));
 
     res.status(200).json(response);
@@ -144,7 +137,6 @@ exports.getRFPDetails = async (req, res) => {
 exports.acceptRFP = async (req, res) => {
   try {
     const { rfpID, amount } = req.body;
-    console.log(req.body);
     if (req.userType !== "ngo") {
       return res
         .status(400)
@@ -342,11 +334,16 @@ exports.getRfpOfCompany = async (req, res) => {
     const companyId = req.user._id;
     const rfps = await RFP.find(
       { company: companyId },
+<<<<<<< HEAD
       { _id: 1, title: 1, sectors: 1, states: 1, amount: 1, date: 1, timeline: 1 }
     )
       .sort({ date: -1 })
     // .skip(skip)
     // .limit(limit);
+=======
+      { _id: 1, title: 1, sectors: 1, states: 1, date: 1, amount: 1,timeline: 1 }
+    ).sort({ date: -1 });
+>>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
 
     res.status(200).json(rfps);
   } catch (error) {

@@ -70,6 +70,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             leading: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+<<<<<<< HEAD
                                 CircleAvatar(
                                     radius: 20,
                                     backgroundColor: Colors.blue,
@@ -78,6 +79,52 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                       width: 30,
                                       fit: BoxFit.fill,
                                     )),
+=======
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.black,
+                                            backgroundColor: Colors.white,
+                                            elevation: 2,
+                                            shape:
+                                                RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            )),
+                                        onPressed: () {},
+                                        child: Text('Delete',
+                                            style:
+                                                TextStyle(color: black)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.black,
+                                            backgroundColor: Colors.green,
+                                            elevation: 2,
+                                            shape:
+                                                RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            )),
+                                        onPressed: () {},
+                                        child: Text('Mark as Read',
+                                            style:
+                                                TextStyle(color: black)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+>>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
                               ],
                             ),
                               

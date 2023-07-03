@@ -5,6 +5,7 @@ const {
   NgoYearData,
   NgoStatesData,
   NgoSectorsData,
+  couroselData,
 } = require("../Controllers/ChartControllers");
 const AuthMiddleware = require("../Middlewares/AuthMiddleware");
 
@@ -15,6 +16,7 @@ const RFPRoutes = (app) => {
   app.get("/charts/ngo/year", AuthMiddleware, NgoYearData);
   app.get("/charts/ngo/state", AuthMiddleware, NgoStatesData);
   app.get("/charts/ngo/sector", AuthMiddleware, NgoSectorsData);
+  app.get("/charts/courosel", couroselData);
 };
 
 module.exports = RFPRoutes;

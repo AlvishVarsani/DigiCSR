@@ -61,8 +61,7 @@ exports.NGOSignup = async (req, res) => {
 exports.VerifyNGO = async (req, res) => {
   try {
     const { csr, email, otp } = req.body;
-    console.log(req.body);
-    const { error } = NgoSingupValidator.validate(req.body);
+    const { error } = NgoSingupValidator.validate({ csr, email });
     if (error) {
       return res
         .status(400)
@@ -147,7 +146,7 @@ exports.NGOLogin = async (req, res) => {
 exports.NGOLoginVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    const { error } = CompanyLoginValidator.validate({email}); // it has only email validator
+    const { error } = CompanyLoginValidator.validate({ email }); // it has only email validator
     if (error) {
       console.warn(error);
       return res
