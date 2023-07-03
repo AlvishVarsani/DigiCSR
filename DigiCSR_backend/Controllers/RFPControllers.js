@@ -371,6 +371,39 @@ exports.deleteRFP = async (req, res) => {
   }
 };
 
+exports.getRequests = async (req, res) => {
+  try {
+    if (req.userType !== "company" && req.userType !== "Admin") {
+      return res.status(401).json({ success: false, message: "Unauthorized." });
+    }
+
+    if (!req.user || !req.user._id) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid user information." });
+    }
+
+    const requests = await RFP.find({ company: req.user._id })
+      .populate({
+        path: "donations.ngo",
+        select: "ngo_name",
+      })
+      .select("title amount remaining_amount donations");
+
+    res.status(200).json({ success: true, data: requests });
+  } catch (error) {
+    console.error("Error in getRequests:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error." });
+  }
+};
+
+
+
+
+
+
+
+
 const NotifyNgo = async (sectors, states, rfp) => {
   try {
     const ngos = await NGO.find({
