@@ -18,7 +18,7 @@ void AddNgoProfile()async{
   // print(tax_comp);
   // int? establishment_year = company.establishment_year;
 
-// request.headers["Content-Type"] = "multipart/form-data";
+request.headers["Content-Type"] = "multipart/form-data";
 request.headers["authorization"] = token.toString();
 
 request.fields['ngo_name'] = ngo.ngo_name!;
@@ -63,8 +63,7 @@ if (response.statusCode == 200) {
 }
 }
 
-
-
+//fetch ngo profile
 Future<Ngo> fetchNgoProfile(String id) async {
   String? token = await fetchNGOToken();
 
@@ -83,9 +82,59 @@ Future<Ngo> fetchNgoProfile(String id) async {
   }
 }
 
+//post ngo logo
+void postNgoLogo()async{
+  String? token = await fetchNGOToken();
+
+  var request = await http.MultipartRequest('POST',Uri.parse(ipInfo + '/ngo/upload-logo'));
+
+  request.headers["Content-Type"] = "multipart/form-data";
+  request.headers["authorization"] = token.toString();
+
+
+  var fileStream = http.ByteStream(ngo.ngo_logo!.openRead());
+  var fileSize = await ngo.ngo_logo!.length();
+  var ngo_logo = await http.MultipartFile('file',fileStream,fileSize,filename: ngo.ngo_logo!.path.split('/').last );
+
+  request.files.add(ngo_logo);
+
+  var response = await request.send();
+
+  response.stream.transform(utf8.decoder).listen((data) {
+      print(data);
+    });
+
+  if(response.statusCode == 200){
+    print('Logo Uploaded Successfully!');
+  }else{
+    throw Exception('Unablt to upload the Logo');
+  }
+}
+
+//get ngo logo
+Future<String> getNgoLogo(String cmpid)async{
+  String? token = await fetchNGOToken();
+
+  var response = await http.get(
+    Uri.parse(ipInfo + '/NGO/logo/${cmpid}'),
+    headers: {
+      'Content-Type': 'application/json;charSet=UTF-8',
+      'authorization': token!
+    }
+    );
+
+  print(response.body);
+  if(response.statusCode == 200){
+    return jsonDecode(response.body)['LogoURL'];
+  }else{
+    throw Exception('Can not load the Logo');
+  }
+}
+
+//update ngo profile
 Future<void> updateNgoProfile(
     String id, Map<String, String> updatedData, File image) async {
-  String? token = await fetchCompanyToken();
+  String? token = await fetchNGOToken();
 
   var request = http.MultipartRequest(
     'POST',
@@ -100,4 +149,38 @@ Future<void> updateNgoProfile(
   );
 
   await request.send();
+}
+
+
+Future<Ngo> getNgoProfile(String id) async {
+
+  var response = await http.get(
+    Uri.parse(ipInfo + "/NGO/profile/${id}"),
+    headers: {
+        'Content-Type': 'application/json;charSet=UTF-8',
+      }
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    return Ngo.fromJson(jsonDecode(response.body)['data']);
+  } else {
+    throw Exception("Something went wrong");
+  }
+}
+
+Future<String> getNgoLogoForBenificiary(String cmpid)async{
+
+  var response = await http.get(
+    Uri.parse(ipInfo + '/NGO/logo/${cmpid}'),
+    headers: {
+      'Content-Type': 'application/json;charSet=UTF-8',
+    }
+    );
+
+  print(response.body);
+  if(response.statusCode == 200){
+    return jsonDecode(response.body)['LogoURL'];
+  }else{
+    throw Exception('Can not load the Logo');
+  }
 }

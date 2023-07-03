@@ -35,7 +35,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
   void sendOTP() async {
     try {
       var resSend = await http.post(
-          Uri.parse('http://192.168.101.58:4000/Beneficiary/login'),
+          Uri.parse(ipInfo + '/Beneficiary/login'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -52,7 +52,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
   void verifyOTP() async {
     try {
       final res = await http.post(
-          Uri.parse('http://localhost:4000/Beneficiary/login/verify'),
+          Uri.parse(ipInfo + '/Beneficiary/login/verify'),
           headers: <String, String>{
             'Context-Type': 'application/json;charSet=UTF-8'
           },
@@ -60,9 +60,12 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
             'email': benificiary.benificiary_email,
             'otp': otp
           });
-      otpverify = true;
-      btn = 'Sign in';
-      await storage.write(key: "benificiary", value: jsonDecode(res.body)['result']);
+          print(res.body);
+      if(res.statusCode == 200){
+        otpverify = true;
+        btn = 'Sign in';
+        await storage.write(key: "benificiary", value: jsonDecode(res.body)['result']);
+      }
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -228,7 +231,11 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
                         length: 6,
                         contentPadding: EdgeInsets.all(8.0),
                         onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {setState(verifyOTP)},
+                        onCompleted: (value) => {
+                          otp = value,
+                          verifyOTP(),
+                          setState(() { })
+                          },
                         // spaceBetween: 2,
                         outlineBorderRadius: 6,
                         style:
@@ -304,7 +311,7 @@ class _BenificiaryLogin extends State<BenificiaryLogin> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MainScreen()));
+                                        builder: (context) => BeneficiaryHomeScreen()));
                               }
                               }else{
                                 index = 0;

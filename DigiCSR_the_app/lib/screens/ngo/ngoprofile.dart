@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:csc_picker/csc_picker.dart';
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/BoardMember.dart';
 import 'package:digicsr/services/ngo_profile_services.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import '../../models/NgoModel.dart';
 import '../../widgets/radoi_button.dart';
 
 class ProfileScreenForNGO extends StatefulWidget {
@@ -16,6 +18,29 @@ class ProfileScreenForNGO extends StatefulWidget {
 }
 
 class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
+
+
+  Future<void> pick_ngo_logo() async {
+    // Clear previous files
+    setState(() {
+      ngo.ngo_logo = null;
+    });
+
+    // Pick files using file picker
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png'],
+      allowMultiple: false,
+    );
+
+    // If files are picked, update state
+    if (result != null) {
+      setState(() {
+        ngo.ngo_logo = File(result.files.single.path!);
+        print('Logo Picked');
+      });
+    }
+  }
 
   final _items1 = [
     MultiSelectItem<String>('Option 1', "Male"),
@@ -61,7 +86,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                 Column(
                   children: [
                     SizedBox(
-                      height: 10,
+                      height: 40,
                     ),
                     Card(
                       elevation: 0.5,
@@ -73,7 +98,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           ),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: primary,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(15),
                                       topRight: Radius.circular(15))),
@@ -89,14 +114,45 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 15,
                           ),
-                          // TextFormFieldButton(
-                          //   "Ngo Name",
-                          //   Text2: "Enter  Name Of Ngo",
-                          //   controller: ngo.name,
-                          //   prefixIcons: Icon(Icons.group_outlined),
-
-                          //   // icons: FaIcon(FontAwesomeIcons.buildingCircleCheck)),
-                          // ),
+                          Row(
+                          children: [
+                            Expanded(child: Container()),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    await pick_ngo_logo();
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.black38,
+                                              width: 1.1),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: Colors.black38,
+                                        size: 60,
+                                      )),
+                                ),
+                                Text(
+                                  'Profile Logo',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'Gotham',
+                                      color: Colors.black54),
+                                ),
+                              ],
+                            ),
+                            Expanded(child: Container()),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
                           Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -132,7 +188,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                 hintText: 'Enter  Name Of Ngo',
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.blue))),
+                    borderSide: BorderSide(color: primary))),
           ),
         ),
       ],
@@ -140,12 +196,6 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "Email",
-                          //   Text2: "Enter Email of the ngo",
-                          //   controller: ngo.email,
-                          //   prefixIcons: Icon(Icons.email),
-                          // ),
                           Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -181,7 +231,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                 hintText: 'Enter Email of the ngo',
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.blue))),
+                    borderSide: BorderSide(color: primary))),
           ),
         ),
       ],
@@ -189,15 +239,6 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "Ngo Summery",
-                          //   Text2: 'Enter text......',
-                          //   controller: ngo.summmary,
-                          //   prefixIcons: Icon(Icons.picture_in_picture_rounded),
-                          //   inputFormatters: [
-                          //     LengthLimitingTextInputFormatter(100),
-                          //   ],
-                          // ),
                           Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -235,7 +276,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                 hintText: 'Enter text......',
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.blue))),
+                    borderSide: BorderSide(color: primary))),
           ),
         ),
       ],
@@ -243,17 +284,6 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "Year Of Establishment",
-                          //   Text2: "yyyy",
-                          //   controller: ngo.establishment_year,
-                          //   prefixIcons: Icon(Icons.date_range),
-                          //   keyboardType: TextInputType.number,
-                          //   inputFormatters: [
-                          //     LengthLimitingTextInputFormatter(4),
-                          //     FilteringTextInputFormatter.digitsOnly
-                          //   ],
-                          // ),
                           Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -266,7 +296,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
               LengthLimitingTextInputFormatter(4),
               FilteringTextInputFormatter.digitsOnly
             ],
-            controller: TextEditingController(text: ngo.establishment_year.toString()),
+            controller: TextEditingController(text: (ngo.establishment_year == null)?'':ngo.establishment_year.toString()),
             onChanged: (value) {
               ngo.establishment_year = int.parse(value);
             },
@@ -292,7 +322,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                 hintText: 'YYYY',
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.blue))),
+                    borderSide: BorderSide(color: primary))),
           ),
         ),
       ],
@@ -300,17 +330,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "Phone no.",
-                          //   Text2: "Enter Phone no. of Ngo office",
-                          //   controller: ngo.phone,
-                          //   prefixIcons: Icon(Icons.phone),
-                          //   keyboardType: TextInputType.number,
-                          //   inputFormatters: [
-                          //     LengthLimitingTextInputFormatter(10),
-                          //     FilteringTextInputFormatter.digitsOnly
-                          //   ],
-                          // ),
+
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -357,7 +377,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -365,17 +385,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "Pincode",
-                          //   Text2: "Enter Pincode for NGO",
-                          //   controller: ngo.pincode,
-                          //   prefixIcons: Icon(Icons.location_pin),
-                          //   keyboardType: TextInputType.number,
-                          //   inputFormatters: [
-                          //     LengthLimitingTextInputFormatter(10),
-                          //     FilteringTextInputFormatter.digitsOnly
-                          //   ],
-                          // ),
+
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -422,7 +432,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -435,7 +445,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                             child: Text(
                               'Location of the Ngo',
                               style: TextStyle(
-                                  color: Colors.blue,
+                                  color: primary,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -489,7 +499,9 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                     LengthLimitingTextInputFormatter(100)
                                   ],
                                   controller: TextEditingController(
-                                      text: ngo.csr_budget.toString()),
+                                      text: 
+                                      (ngo.csr_budget == null)?'':ngo.csr_budget.toString()
+                                      ),
                                   onChanged: (value) {
                                     ngo.csr_budget = int.parse(value);
                                   },
@@ -522,7 +534,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -535,7 +547,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                             child: Text(
                               "Sector  to provide CSR",
                               style: TextStyle(
-                                  color: Colors.blue,
+                                  color: primary,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -565,7 +577,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                             child: Text(
                               "Area of operation",
                               style: TextStyle(
-                                  color: Colors.blue,
+                                  color: primary,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -614,7 +626,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           ),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: primary,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(15),
                                       topRight: Radius.circular(15))),
@@ -679,7 +691,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -743,7 +755,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -751,15 +763,6 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "Designation",
-                          //   Text2: 'Enter Designation',
-                          //   controller: board_member.bm_designation,
-                          //   prefixIcons: Icon(Icons.work),
-                          //   inputFormatters: [
-                          //     LengthLimitingTextInputFormatter(100),
-                          //   ],
-                          // ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -805,7 +808,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -870,7 +873,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           borderSide:
-                                              BorderSide(color: Colors.blue))),
+                                              BorderSide(color: primary))),
                                 ),
                               ),
                             ],
@@ -880,6 +883,9 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           ),
                           Center(
                               child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(primary)
+                                ),
                                   onPressed: () {
                                     // ngo.board_members!.add(board_member);
                                     List<BoardMember> temp = [];
@@ -895,8 +901,12 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                     ),
                     Center(
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(primary)
+                                ),
                             onPressed: () {
                               AddNgoProfile();
+                              if (ngo.ngo_logo != null) postNgoLogo();
                             },
                             child: Text("Save")))
                   ],

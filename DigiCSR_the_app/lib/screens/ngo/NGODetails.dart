@@ -96,7 +96,7 @@ class NgoDetails extends StatelessWidget {
                                     // child: Image.asset('assets/images/yashu.jpg',fit: BoxFit.fill),
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: AssetImage('assets/images/yashu.jpg'),
+                                        image: NetworkImage('${ngodata.ngo_logo_path}'),
                                         alignment: Alignment.center
                                         ),
                                       border: Border.all(color: Colors.transparent),

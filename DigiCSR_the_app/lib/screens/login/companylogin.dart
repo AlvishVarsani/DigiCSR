@@ -38,18 +38,6 @@ class _CompanyLogin extends State<CompanyLogin> {
   void sendOTP() async {
     // final dio = Dio();
     try {
-      // var resSend = await dio.post('http://192.168.114.94:4000/company/login',
-      //   data: {
-      //     'email': company.company_email
-      //   },
-      //   options: Options(
-      //     headers: {}
-      //   )
-      // );
-      // var resSend = await http.post(Uri.parse('http://192.168.114.94:4000/company/login'),
-      // var resSend = await http.post(Uri.parse('http://localhost:4000/company/login'),
-
-      // var resSend = await http.post(Uri.parse('http://192.168.101.58:4000/company/login'),
       var resSend = await http.post(Uri.parse(ipInfo + '/company/login'),
 
           headers: <String, String>{

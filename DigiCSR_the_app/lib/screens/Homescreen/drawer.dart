@@ -2,6 +2,7 @@ import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
 import 'package:digicsr/screens/company/company_profile.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
+import 'package:digicsr/screens/ngo/ngoprofile.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
@@ -31,11 +32,8 @@ class DrawerScreen extends StatelessWidget {
             accountEmail: 
             (user == 'NGO')?Text("${ngodata.email}"):Text("${companydata.email}"),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Image.asset(
-                "assets/images/ngologo.png",
-                width: 60,
-              ),
+              backgroundImage:
+              (user == 'NGO')?NetworkImage('${ngodata.ngo_logo_path}'):NetworkImage('${companydata.cmp_logo_path}'),
             ),
           ),
           ListTile(
@@ -55,6 +53,8 @@ class DrawerScreen extends StatelessWidget {
               //     context,
               //     MaterialPageRoute(
               //         builder: (context) => MainScreen()));
+              (user == 'NGO')?
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForNGO())):
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreenForCompany()));
             },
           ),

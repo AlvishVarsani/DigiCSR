@@ -106,6 +106,37 @@ Future<String> getCompanyId()async{
   String companyid = decodedToken['_id'];
   return companyid;
 }
+Future<String> getNgoId()async{
+  String? token = await fetchNGOToken();
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  String Ngoid = decodedToken['_id'];
+  return  Ngoid;
+}
+
+void loadCompanyData(){
+  getCmpLogo();
+  getCompanyDetails();
+  // getCmpCertificate();
+  print('Company data Loaded!');
+}
+
+void loadNGOData(){
+  getNgoDetails();
+}
+
+Future<String> getCmpLogo()async{
+  String cmpid = await getCompanyId();
+  return getCompanyLogo(cmpid);
+}
+Future<String> NgoLogo()async{
+  String cmpid = await getNgoId();
+  return getNgoLogo(cmpid);
+}
+
+Future<String> getCmpCertificate()async{
+  String cmpid = await getCompanyId();
+  return fetchCompanyCertificate(cmpid);
+}
 
 Future<String?> fetchCompanyToken() {
   return storage.read(key: "company");
@@ -121,16 +152,16 @@ Future<String?> fetchBenificiaryToken() {
 
 void getCompanyDetails()async{
     companydata = await fetchCompany();
+    companydata.cmp_logo_path = await getCmpLogo();
     print(companydata.company_name);
   }
     
     //Ngo details for user as NGO
     void getNgoDetails()async{
-      String? token = await fetchNGOToken();
-  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-  String ngoid = decodedToken['_id'];
+  String ngoid = await getNgoId();
   ngodata = await getNGODetailsById(ngoid);
   ngodata.boardmemberslist = BoardMember.givelist(ngodata.board_members);
+  ngodata.ngo_logo_path = await NgoLogo();
     }
 
 Future<Ngo> getNGODetailsById(String id)async{
@@ -139,16 +170,11 @@ Future<Ngo> getNGODetailsById(String id)async{
 
 //Ngo details for user as Company or Benificiary
   Future<Ngo> getNgoDetailsForOthers(String id)async{
-    Ngo ngoforother = await fetchNgoProfile(id);
+    Ngo ngoforother = await getNgoProfile(id);
     ngoforother.boardmemberslist = BoardMember.givelist(ngoforother.board_members);
+    ngoforother.ngo_logo_path = await getNgoLogoForBenificiary(id);
     return ngoforother;
   }
 
-
-// List<NotificationModel> addElement(List<NotificationModel> listFuture, Future<NotificationModel> elementsToAdd)async{
-//   final list = await listFuture;
-//   list.add(await elementsToAdd);
-//   return list;
-// }
 
 late final TextEditingController _controller;

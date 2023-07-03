@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'BoardMember.dart';
 
 class Ngo {
@@ -17,6 +19,8 @@ class Ngo {
   String? pincode;
   List<dynamic>? board_members = [];
   List<BoardMember>? boardmemberslist;
+  File? ngo_logo;
+  String? ngo_logo_path;
 
   Map<String, dynamic>? profile;
 
@@ -54,7 +58,8 @@ class Ngo {
     this.operation_areas,
     // this.budget,
     this.establishment_year,
-    this.board_members
+    this.board_members,
+    this.ngo_logo_path
   });
 
   factory Ngo.fromJson(Map<String, dynamic> json) {
@@ -74,7 +79,8 @@ class Ngo {
       state: json['profile']['location']['state'],
       pincode: json['profile']['location']['pincode'],
       //profile->board members list
-      board_members: json['profile']['board_members']
+      board_members: json['profile']['board_members'],
+      ngo_logo_path: json['profile']['ngo_logo']
 );
 }
 }

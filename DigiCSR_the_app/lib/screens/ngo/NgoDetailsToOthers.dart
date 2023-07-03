@@ -5,15 +5,16 @@ import '../../models/NgoModel.dart';
 
 class NgoDetailsToOthers extends StatefulWidget {
   Ngo ngodetail;
-  NgoDetailsToOthers(this.ngodetail);
+  NgoDetailsToOthers(this.ngodetail,);
   @override
   State<NgoDetailsToOthers> createState() => _NgoDetailsToOthersState();
 }
 
 class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
+  List<dynamic> selectedoptions = [];
   late Future<Ngo> singlengo;
   void loadngodetails() async {
-    singlengo = getNgoDetailsForOthers('${widget.ngodetail.id}');
+    singlengo = getNgoDetailsForOthers(widget.ngodetail.id!);
     print('Ngo Details Loaded');
   }
 
@@ -123,8 +124,8 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     CircleAvatar(
-                                                      backgroundImage: AssetImage(
-                                                          'assets/images/yashu.jpg'),
+                                                      backgroundImage:
+                                                       NetworkImage('${snapshot.data!.ngo_logo_path}'),
                                                       radius: 45,
                                                     ),
                                                     SizedBox(

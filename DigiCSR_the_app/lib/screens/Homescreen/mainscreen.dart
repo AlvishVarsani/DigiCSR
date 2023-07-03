@@ -24,7 +24,8 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     NGOnotifications = notify();
     print(unread_notification);
-    getCompanyDetails();
+    loadCompanyData();
+    // getCompanyDetails();
     getNgoDetails();
   }
 

@@ -1,8 +1,5 @@
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/models/BoardMember.dart';
 import 'package:digicsr/screens/Homescreen/HelpAndSupport.dart';
-import 'package:digicsr/screens/company/CompanyDetails.dart';
-import 'package:digicsr/screens/company/ContactPersonDetails.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:digicsr/screens/ngo/BoardMembers.dart';
 import 'package:digicsr/screens/ngo/NGODetails.dart';
@@ -21,7 +18,8 @@ class _NGOProfileState extends State<NGOProfile> {
     // TODO: implement initState
     super.initState();
     
-    getNgoDetails();
+    // getNgoDetails();
+    loadNGOData();
   }
   @override
   Widget build(BuildContext context) {
@@ -74,7 +72,7 @@ class _NGOProfileState extends State<NGOProfile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: AssetImage('assets/images/yashu.jpg'),
+                                  backgroundImage: NetworkImage('${ngodata.ngo_logo_path}'),
                                   radius: 45,
                                 ),
                                 SizedBox(height: 15,),
