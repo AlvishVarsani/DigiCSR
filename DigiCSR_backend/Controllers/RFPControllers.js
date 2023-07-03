@@ -62,11 +62,7 @@ exports.getAllRfps = async (req, res) => {
 
     const rfps = await RFP.find(
       {},
-<<<<<<< HEAD
-      { title: 1, sectors: 1, states: 1, company: 1, amount: 1, timeline: 1, date: 1 }
-=======
       { title: 1, sectors: 1, states: 1, company: 1 }
->>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
     )
       .populate({ path: "company", select: "company_name" })
       .sort({ date: -1 });
@@ -334,16 +330,8 @@ exports.getRfpOfCompany = async (req, res) => {
     const companyId = req.user._id;
     const rfps = await RFP.find(
       { company: companyId },
-<<<<<<< HEAD
-      { _id: 1, title: 1, sectors: 1, states: 1, amount: 1, date: 1, timeline: 1 }
-    )
-      .sort({ date: -1 })
-    // .skip(skip)
-    // .limit(limit);
-=======
       { _id: 1, title: 1, sectors: 1, states: 1, date: 1, amount: 1,timeline: 1 }
     ).sort({ date: -1 });
->>>>>>> 1c8c9bb4b07b6024bcc5d439d589506b09b60af5
 
     res.status(200).json(rfps);
   } catch (error) {
@@ -406,6 +394,7 @@ exports.getRequests = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error." });
   }
 };
+
 
 
 
