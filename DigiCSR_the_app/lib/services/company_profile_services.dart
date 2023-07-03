@@ -35,8 +35,8 @@ print(response.body);
 }
 
 
-
-Future<PlatformFile> getCompanyLogo(String cmpid)async{
+//get company logo
+Future<String> getCompanyLogo(String cmpid)async{
   String? token = await fetchCompanyToken();
 
   var response = await http.get(
@@ -49,56 +49,84 @@ Future<PlatformFile> getCompanyLogo(String cmpid)async{
 
   print(response.body);
   if(response.statusCode == 200){
-    return jsonDecode(response.body);
+    return jsonDecode(response.body)['LogoURL'];
   }else{
     throw Exception('Can not load the Logo');
   }
 }
 
-void postCompanyLogo(String cmpid)async{
+//post company logo
+void postCompanyLogo()async{
   String? token = await fetchCompanyToken();
 
-  var request = await http.MultipartRequest(
-    'POST',Uri.parse(ipInfo + '/company/upload-logo'),
-  );
+  var request = await http.MultipartRequest('POST',Uri.parse(ipInfo + '/company/upload-logo'));
 
   request.headers["Content-Type"] = "multipart/form-data";
   request.headers["authorization"] = token.toString();
 
-  var company_logo = await http.MultipartFile.fromPath('company_logo', company.company_logo!.path!);
+
+  var fileStream = http.ByteStream(company.company_logo!.openRead());
+  var fileSize = await company.company_logo!.length();
+  var company_logo = await http.MultipartFile('file',fileStream,fileSize,filename: company.company_logo!.path.split('/').last );
 
   request.files.add(company_logo);
 
   var response = await request.send();
 
+  response.stream.transform(utf8.decoder).listen((data) {
+      print(data);
+    });
+
   if(response.statusCode == 200){
-    print('Logo Uploaded');
+    print('Logo Uploaded Successfully!');
   }else{
     throw Exception('Unablt to upload the Logo');
   }
-  // print(response);
-  // if(response.statusCode == 200){
-  //   print(jsonDecode(response.body));
-  // }else{
-  //   throw Exception('Unable to upload the Logo!');
-  // }
 }
 
-Future fetchCompanyCertificate(String id) async {
+//post company certificate
+void postCompanyCertificate()async{
   String? token = await fetchCompanyToken();
 
-  var response = await http.get(Uri.parse(ipInfo + "/company/certificate/$id"),
+  var request = await http.MultipartRequest(
+    'POST',Uri.parse(ipInfo + '/company/upload-certificate'),
+  );
+
+  request.headers["Content-Type"] = "multipart/form-data";
+  request.headers["authorization"] = token.toString();
+
+  var fileStream = http.ByteStream(company.registration_certificate!.openRead());
+  var fileSize = await company.registration_certificate!.length();
+  var registration_certificate = await http.MultipartFile('file', fileStream,fileSize,filename: company.registration_certificate!.path.split('/').last );
+  request.files.add(registration_certificate);
+
+  var response = await request.send();
+
+   response.stream.transform(utf8.decoder).listen((data) {
+      print(data);
+    });
+  if(response.statusCode == 200){
+    print('Certificate Uploaded Successfully!');
+  }else{
+    throw Exception('Unable to upload the Certificate');
+  }
+}
+
+Future<String> fetchCompanyCertificate(String cmpid) async {
+  String? token = await fetchCompanyToken();
+
+  var response = await http.get(Uri.parse(ipInfo + "/company/certificate/$cmpid"),
       headers: {HttpHeaders.authorizationHeader: 'Bearer  $token'});
 
   if (response.statusCode == 200) {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final savePath = '${directory.path}/$id.pdf';
+    // final Directory directory = await getApplicationDocumentsDirectory();
+    // final savePath = '${directory.path}/$cmpid.pdf';
 
-    final file = File(savePath);
+    // final file = File(savePath);
 
-    await file.writeAsBytes(response.bodyBytes);
-
-    debugPrint("file downloaded");
+    // await file.writeAsBytes(response.bodyBytes);
+    return jsonDecode(response.body);
+    // debugPrint("file downloaded");
   } else {
     throw Exception("Error while downloading pdf");
   }
@@ -127,14 +155,13 @@ void AddCompanayProfile()async{
 
   var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/company/add-profile'),);
   print(company.tax_comp);
-  // print(tax_comp);
-  // int? establishment_year = company.establishment_year;
 
-// request.headers["Content-Type"] = "multipart/form-data";
+//headers
+request.headers["Content-Type"] = "multipart/form-data";
 request.headers["authorization"] = token.toString();
 
+//f
 request.fields['company_name'] = company.company_name!;
-print('name done');
 request.fields['summary'] = company.summary!;
 request.fields['city'] = company.city!;
 request.fields['state'] = company.state!;
@@ -145,25 +172,21 @@ request.fields['cp_email'] = company.cp_email!;
 request.fields['cp_designation'] = company.cp_designation!;
 request.fields['cp_phone'] = company.cp_phone!;
 
+//list of taxes of company
 for (int i = 0; i < company.tax_comp!.length; i++) {
   request.files.add(http.MultipartFile.fromString("tax_comp[$i]", company.tax_comp![i], contentType: MediaType("application", "json")));
 }
 
+//list of sectors of company
 for (int i = 0; i < company.sectors!.length; i++) {
   request.files.add(http.MultipartFile.fromString("sectors[$i]", company.sectors![i], contentType: MediaType("application", "json")));
 }
 
-var registrationCertificateFile = await http.MultipartFile.fromPath('registration_certificate', company.registration_certificate!.path!);
-// var companyLogoFile = await http.MultipartFile.fromPath('company_logo', 'path/to/company_logo');
-
-request.files.add(registrationCertificateFile);
-// request.files.add(companyLogoFile);
-
 var response = await request.send();
- response.stream.transform(utf8.decoder).listen((data) {
-      print(data);
-      // Do something with data
-    });
+//  response.stream.transform(utf8.decoder).listen((data) {
+//       print(data);
+//       // Do something with data
+//     });
 
 if (response.statusCode == 200) {
   // The request was successful

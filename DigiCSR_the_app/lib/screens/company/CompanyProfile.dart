@@ -21,14 +21,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
     super.initState();
     getCompanyDetails();
   }
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     // TODO: implement build
     return Container(
-      child: Stack(
-        children: [
+      child: Stack(children: [
         Column(
           children: [
             Container(
@@ -44,7 +44,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
         Positioned(
           top: h * 0.05,
           child: Container(
-            height: h ,
+            height: h,
             width: w,
             child: Column(
               children: [
@@ -53,50 +53,84 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     Expanded(child: Container()),
                     Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        side: BorderSide(style: BorderStyle.solid,color: Colors.transparent)
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          side: BorderSide(
+                              style: BorderStyle.solid,
+                              color: Colors.transparent)),
                       elevation: 30,
                       child: Container(
                         height: h * 0.3,
                         width: w * 0.85,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.transparent,style: BorderStyle.solid),
-                          borderRadius: BorderRadius.all(Radius.circular(20))
-                        ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: w * 0.85,
-                              child: Column(
+                            border: Border.all(
+                                color: Colors.transparent,
+                                style: BorderStyle.solid),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Stack(children: [
+                          Container(
+                            width: w * 0.85,
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CircleAvatar(
-                                  backgroundImage: AssetImage('assets/images/yashu.jpg'),
-                                  radius: 45,
+                                FutureBuilder(
+                                  future: getCmpLogo(),
+                                  builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage('${snapshot.data}'),
+                                      radius: 45,
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text('${snapshot.error}');
+                                  }
+                                  return Center(
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.15,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.15,
+                                      child: const CircularProgressIndicator(
+                                        strokeWidth: 1,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                                SizedBox(
+                                  height: 15,
                                 ),
-                                SizedBox(height: 15,),
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
-                                  child: Text('${companydata.company_name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                                  child: Text(
+                                    '${companydata.company_name}',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                                Text('${companydata.summary}',style: TextStyle(fontSize: 14),),
+                                Text(
+                                  '${companydata.summary}',
+                                  style: TextStyle(fontSize: 14),
+                                ),
                               ],
-                              ),
                             ),
+                          ),
                           Positioned(
-                            top: 10,
-                            right: 10,
-                            child: IconButton(
-                              onPressed: (){
-                                // editmode = true;
-                                // setState(() {});
-                              },
-                              icon: Icon(Icons.mode_edit_outline_outlined,color: primary,),
-                              )
-                            ),
-                          ]
-                        ),
+                              top: 10,
+                              right: 10,
+                              child: IconButton(
+                                onPressed: () {
+                                  // editmode = true;
+                                  // setState(() {});
+                                },
+                                icon: Icon(
+                                  Icons.mode_edit_outline_outlined,
+                                  color: primary,
+                                ),
+                              )),
+                        ]),
                       ),
                     ),
                     Expanded(child: Container()),
@@ -113,91 +147,146 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Divider(
-                    // color: black, DividerThemeData.color
-                    // indent: 8,
-                    // endIndent: 8,
-                  ),
+                          // color: black, DividerThemeData.color
+                          // indent: 8,
+                          // endIndent: 8,
+                          ),
                       TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CompanyDetails(companydata)));
-                        }, 
-                      style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8))
-                      ),
-                      child: Row(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CompanyDetails(companydata)));
+                        },
+                        style: ButtonStyle(
+                            padding: MaterialStatePropertyAll(EdgeInsets.only(
+                                left: 12, right: 12, top: 8, bottom: 8))),
+                        child: Row(
                           children: [
-                            Text('Company Details',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
+                            Text(
+                              'Company Details',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: black,
+                                  fontWeight: FontWeight.w400),
+                            ),
                             Expanded(child: Container()),
-                            Icon(Icons.arrow_forward_ios,size: 20,color: primary,)
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: primary,
+                            )
                           ],
                         ),
                       ),
                       Divider(
-                    // color: black,
-                    // indent: 8,
-                    // endIndent: 8,
-                  ),
+                          // color: black,
+                          // indent: 8,
+                          // endIndent: 8,
+                          ),
                       TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ContactPersonDetails(companydata)));
-                        }, 
-                      style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8))
-                      ),
-                      child: Row(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ContactPersonDetails(companydata)));
+                        },
+                        style: ButtonStyle(
+                            padding: MaterialStatePropertyAll(EdgeInsets.only(
+                                left: 12, right: 12, top: 8, bottom: 8))),
+                        child: Row(
                           children: [
-                            Text('Contact Person',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
+                            Text(
+                              'Contact Person',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: black,
+                                  fontWeight: FontWeight.w400),
+                            ),
                             Expanded(child: Container()),
-                            Icon(Icons.arrow_forward_ios,size: 20,color: primary,)
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: primary,
+                            )
                           ],
                         ),
                       ),
                       Divider(
-                    // color: black,
-                    // indent: 8,
-                    // endIndent: 8,
-                  ),
-                  TextButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HelpScreen()));
-                  }, 
-                      style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8))
-                      ),
-                      child: Row(
+                          // color: black,
+                          // indent: 8,
+                          // endIndent: 8,
+                          ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HelpScreen()));
+                        },
+                        style: ButtonStyle(
+                            padding: MaterialStatePropertyAll(EdgeInsets.only(
+                                left: 12, right: 12, top: 8, bottom: 8))),
+                        child: Row(
                           children: [
-                            Text('Help & Support',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
+                            Text(
+                              'Help & Support',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: black,
+                                  fontWeight: FontWeight.w400),
+                            ),
                             Expanded(child: Container()),
-                            Icon(Icons.arrow_forward_ios,size: 20,color: primary,)
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: primary,
+                            )
                           ],
                         ),
                       ),
                       Divider(
-                    // color: black,
-                    // indent: 8,
-                    // endIndent: 8,
-                  ),
-                  TextButton(
-                    onPressed: (){
-                      storage.delete(key: 'ngo');
-                      Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
-                    }, 
-                      style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8))
-                      ),
-                      child: Row(
+                          // color: black,
+                          // indent: 8,
+                          // endIndent: 8,
+                          ),
+                      TextButton(
+                        onPressed: () {
+                          storage.delete(key: 'ngo');
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Login_Screen()));
+                        },
+                        style: ButtonStyle(
+                            padding: MaterialStatePropertyAll(EdgeInsets.only(
+                                left: 12, right: 12, top: 8, bottom: 8))),
+                        child: Row(
                           children: [
-                            Text('Logout',style: TextStyle(fontSize: 24,color: black,fontWeight: FontWeight.w400),),
+                            Text(
+                              'Logout',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: black,
+                                  fontWeight: FontWeight.w400),
+                            ),
                             Expanded(child: Container()),
-                            Icon(Icons.arrow_forward_ios,size: 20,color: primary,)
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: primary,
+                            )
                           ],
                         ),
                       ),
                       Divider(
-                    // color: black,
-                    // indent: 8,
-                    // endIndent: 8,
-                  ),
+                          // color: black,
+                          // indent: 8,
+                          // endIndent: 8,
+                          ),
                     ],
                   ),
                 )

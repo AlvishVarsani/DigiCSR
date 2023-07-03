@@ -11,9 +11,10 @@ class NgoDetailsToOthers extends StatefulWidget {
 }
 
 class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
+  List<dynamic> selectedoptions = [];
   late Future<Ngo> singlengo;
   void loadngodetails() async {
-    singlengo = getNgoDetailsForOthers('${widget.ngodetail.id}');
+    singlengo = getNgoDetailsForOthers(widget.ngodetail.id!);
     print('Ngo Details Loaded');
   }
 
@@ -122,11 +123,11 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    CircleAvatar(
-                                                      backgroundImage: AssetImage(
-                                                          'assets/images/yashu.jpg'),
-                                                      radius: 45,
-                                                    ),
+                                                    // CircleAvatar(
+                                                    //   backgroundImage:
+                                                    //    NetworkImage('${snapshot.data!.ngo_logo_path}'),
+                                                    //   radius: 45,
+                                                    // ),
                                                     SizedBox(
                                                       height: 15,
                                                     ),

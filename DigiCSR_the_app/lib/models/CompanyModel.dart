@@ -19,11 +19,12 @@ class Company {
   List<dynamic>? tax_comp; 
   List<dynamic>? sectors;
   // File? 
-  PlatformFile? registration_certificate; 
-  PlatformFile? company_logo; 
+  File? registration_certificate; 
+  File? company_logo;
   File? certificate;
-  // Map<String, dynamic>? profile;
-  // List<Map<String, dynamic>>? initialData;
+  String? cmp_logo_path; 
+  String? cmp_certificate_path; 
+
 
   Company({
   // this.id,

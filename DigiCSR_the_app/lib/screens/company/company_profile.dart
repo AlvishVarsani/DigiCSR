@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:csc_picker/csc_picker.dart';
 import 'package:digicsr/services/company_profile_services.dart';
 
@@ -61,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
     // If files are picked, update state
     if (result != null) {
       setState(() {
-        company.registration_certificate = result.files.first;
+        company.registration_certificate = File(result.files.single.path!);
       });
     }
   }
@@ -82,12 +84,11 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
     // If files are picked, update state
     if (result != null) {
       setState(() {
-        company.company_logo = result.files.first;
+        company.company_logo = File(result.files.single.path!);
+        print('Logo Picked');
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +108,6 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
             children: [
               Column(
                 children: [
-                  
                   SizedBox(
                     height: 10,
                   ),
@@ -134,75 +134,235 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                 ),
                               ),
                             )),
-                            SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Expanded(child: Container()),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: (){
-                              pick_company_logo();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black38,width: 1.1),
-                                borderRadius: BorderRadius.circular(100)
-                              ),
-                              child: Icon(Icons.person,color: Colors.black38,size: 60,)),
-                          ),
-                          Text('Profile Logo',style: TextStyle(fontSize: 20,fontFamily: 'Gotham',color: Colors.black54),),
-                        ],
-                      ),
-                      Expanded(child: Container()),
-                    ],
-                  ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Container()),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    await pick_company_logo();
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.black38,
+                                              width: 1.1),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: Colors.black38,
+                                        size: 60,
+                                      )),
+                                ),
+                                Text(
+                                  'Profile Logo',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'Gotham',
+                                      color: Colors.black54),
+                                ),
+                              ],
+                            ),
+                            Expanded(child: Container()),
+                          ],
+                        ),
                         SizedBox(
                           height: 15,
                         ),
-                        TextFormFieldButton(
-                          "Company Name",
-                          Text2: "Enter Full Name Of Company",
-                          controller: company.company_name,
-                          prefixIcons: Icon(Icons.group_outlined),
-
-                          // icons: FaIcon(FontAwesomeIcons.buildingCircleCheck)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldButton(
-                          " Email ",
-                          Text2: 'Enter email of company',
-                          controller: company.email,
-                          prefixIcons: Icon(Icons.email),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldButton(
-                          "Year Of Establishment",
-                          Text2: "yyyy",
-                          controller: company.establishment_year,
-                          prefixIcons: Icon(Icons.date_range),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(4),
-                            FilteringTextInputFormatter.digitsOnly
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                controller: TextEditingController(
+                                  text: company.company_name,
+                                ),
+                                onChanged: (value) {
+                                  company.company_name = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Company Name',
+                                    prefixIcon: Icon(Icons.group_outlined),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText: 'Enter the full name of Company',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        TextFormFieldButton(
-                          "Company Summery",
-                          Text2: 'Enter text',
-                          controller: company.summary,
-                          prefixIcons: Icon(Icons.picture_in_picture_rounded),
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(100),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                controller: TextEditingController(
+                                  text: company.email,
+                                ),
+                                onChanged: (value) {
+                                  company.email = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Email',
+                                    prefixIcon: Icon(Icons.email),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText: 'Enter the email of Company',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(4),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                controller: TextEditingController(
+                                  text: company.establishment_year.toString(),
+                                ),
+                                onChanged: (value) {
+                                  company.establishment_year = int.parse(value);
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Establistment Year',
+                                    prefixIcon: Icon(Icons.date_range),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText: 'yyyy',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(100),
+                                ],
+                                controller: TextEditingController(
+                                  text: company.summary,
+                                ),
+                                onChanged: (value) {
+                                  company.summary = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Company Summerry',
+                                    prefixIcon: Icon(Icons.picture_in_picture),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText: 'Enter text',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -213,8 +373,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             'Location of the Company',
                             style: TextStyle(
-                                color: primary,
-                                fontWeight: FontWeight.bold),
+                                color: primary, fontWeight: FontWeight.bold),
                           ),
                         ),
                         SizedBox(
@@ -246,13 +405,53 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         SizedBox(
                           height: 10,
                         ),
-                        TextFormFieldButton(
-                          "Pincode",
-                          Text2: 'Enter Pincode',
-                          controller: company.pincode,
-                          prefixIcons: Icon(Icons.picture_in_picture_rounded),
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(100),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(6),
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                controller: TextEditingController(
+                                  text: company.pincode,
+                                ),
+                                onChanged: (value) {
+                                  company.pincode = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Pincode',
+                                    prefixIcon:
+                                        Icon(Icons.picture_in_picture_rounded),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText: 'Enter Pincode',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -263,8 +462,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             "Sector  to provide CSR",
                             style: TextStyle(
-                                color: primary,
-                                fontWeight: FontWeight.bold),
+                                color: primary, fontWeight: FontWeight.bold),
                           ),
                         ),
                         SizedBox(
@@ -307,8 +505,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             " Tax Compliance Eligibility",
                             style: TextStyle(
-                                color: primary,
-                                fontWeight: FontWeight.bold),
+                                color: primary, fontWeight: FontWeight.bold),
                           ),
                         ),
                         SizedBox(
@@ -332,7 +529,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                     ),
                                     Checkbox(
                                         value: firstcheck,
-                                        onChanged: (bool? value) {
+                                        onChanged: (value) {
                                           if (value == true) {
                                             company.tax_comp!.add(
                                                 '80 G (for 50% tax benefits)');
@@ -358,7 +555,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                     ),
                                     Checkbox(
                                         value: secondcheck,
-                                        onChanged: (bool? value) {
+                                        onChanged: (value) {
                                           if (value == true) {
                                             company.tax_comp!.add(
                                                 '35 AC (for 100% tax benefits)');
@@ -384,7 +581,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                     ),
                                     Checkbox(
                                         value: thirdcheck,
-                                        onChanged: (bool? value) {
+                                        onChanged: (value) {
                                           if (value == true) {
                                             company.tax_comp!.add(
                                                 '12 AA (Tax exemption for Ngo income)');
@@ -416,7 +613,10 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                     ),
                                     Checkbox(
                                         value: fourthcheck,
-                                        onChanged: (bool? value) {
+                                        onChanged: (value) {
+                                          setState(() {
+                                            fourthcheck = value;
+                                          });
                                           if (value == true) {
                                             company.tax_comp!.add(
                                                 'FCRA(Eligible for international funding)');
@@ -425,9 +625,6 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                             company.tax_comp!.remove(
                                                 'FCRA(Eligible for international funding)');
                                           }
-                                          setState(() {
-                                            fourthcheck = value;
-                                          });
                                         }),
                                     Container(
                                       width: 250,
@@ -453,8 +650,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                           child: Text(
                             "Company Registration Certificate",
                             style: TextStyle(
-                                color: primary,
-                                fontWeight: FontWeight.bold),
+                                color: primary, fontWeight: FontWeight.bold),
                           ),
                         ),
                         SizedBox(
@@ -462,9 +658,10 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         ),
                         if (company.registration_certificate != null)
                           ListTile(
-                            title: Text(company.registration_certificate!.name),
+                            title: Text(
+                                '${company.registration_certificate!.path.split('/').last}'),
                             subtitle: Text(
-                                '${company.registration_certificate!.size} bytes, ${company.registration_certificate!.extension} format'),
+                                '${company.registration_certificate!.lengthSync()} bytes, ${company.registration_certificate!.path.split('/').last.split('.').last} format'),
                             trailing: Icon(Icons.file_present),
                             onTap: () {
                               // Open or read the file using its path
@@ -475,7 +672,9 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(primary)),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(primary)),
                             child: Text('Upload file'),
                             onPressed: () async {
                               pick_company_certificate();
@@ -514,44 +713,197 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                         SizedBox(
                           height: 15,
                         ),
-                        TextFormFieldButton(
-                          "Name",
-                          Text2: 'Enter Name of the communication person',
-                          controller: company.cp_name,
-                          prefixIcons: Icon(Icons.person),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldButton(
-                          "Email",
-                          Text2: 'Enter email of communicatoin person',
-                          controller: company.cp_email,
-                          prefixIcons: Icon(Icons.email),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldButton(
-                          'Phone No.',
-                          Text2: 'Phone Number',
-                          controller: company.cp_phone,
-                          prefixIcons: Icon(Icons.phone),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            FilteringTextInputFormatter.digitsOnly,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                controller: TextEditingController(
+                                  text: company.cp_name,
+                                ),
+                                onChanged: (value) {
+                                  company.cp_name = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Name',
+                                    prefixIcon: Icon(Icons.person),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText:
+                                        'Enter Name of the communication person',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        TextFormFieldButton(
-                          'Designation of the communication person',
-                          Text2:
-                              'Enter Designation of the communication person',
-                          controller: company.cp_designation,
-                          prefixIcons: Icon(Icons.picture_in_picture),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                controller: TextEditingController(
+                                  text: company.cp_email,
+                                ),
+                                onChanged: (value) {
+                                  company.cp_email = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Email ',
+                                    prefixIcon: Icon(Icons.email),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText:
+                                        'Enter email of communicatoin person',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(10),
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                controller: TextEditingController(
+                                  text: company.cp_phone,
+                                ),
+                                onChanged: (value) {
+                                  company.cp_phone = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText: 'Phone no.',
+                                    prefixIcon: Icon(Icons.phone),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText: 'Phone Number',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              child: TextFormField(
+                                textDirection: TextDirection.ltr,
+                                // keyboardType: widget.keyboardType,
+                                // inputFormatters: widget.inputFormatters,
+                                controller: TextEditingController(
+                                  text: company.cp_designation,
+                                ),
+                                onChanged: (value) {
+                                  company.cp_designation = value;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.red)),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: 0.9,
+                                            color: Colors.black54)),
+                                    labelText:
+                                        'Designation of the communication person',
+                                    prefixIcon: Icon(Icons.picture_in_picture),
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    hintText:
+                                        'Enter Designation of the communication person',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 10,
@@ -579,12 +931,13 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
               ),
               Center(
                   child: ElevatedButton(
-                    style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(primary)),
-                      onPressed: ()async {
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(primary)),
+                      onPressed: () {
                         print(company.company_name);
                         AddCompanayProfile();
-                        String cmpid = await getCompanyId();
-                        if(company.company_logo != null) postCompanyLogo(cmpid);
+                        if (company.company_logo != null) postCompanyLogo();
+                        if (company.registration_certificate != null) postCompanyCertificate();
                       },
                       child: Text("Save"))),
             ],

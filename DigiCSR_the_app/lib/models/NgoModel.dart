@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'BoardMember.dart';
 
 class Ngo {
@@ -17,6 +19,8 @@ class Ngo {
   String? pincode;
   List<dynamic>? board_members = [];
   List<BoardMember>? boardmemberslist;
+  File? ngo_logo;
+  String? ngo_logo_path;
 
   Map<String, dynamic>? profile;
 

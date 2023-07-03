@@ -243,7 +243,7 @@ class UserSelection extends StatelessWidget {
                       onPressed: () async{
                         index = 0;
                         user = 'Benificiary';
-                        final token = await fetchBenificiaryToken();
+                        String? token = await fetchBenificiaryToken();
                           if (auth == 'signup') {
                           Navigator.push(
                               context,

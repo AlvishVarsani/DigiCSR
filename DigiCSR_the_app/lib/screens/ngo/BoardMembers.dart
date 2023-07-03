@@ -151,7 +151,7 @@ class BoradMembers extends StatelessWidget {
                                     return Card(
                                       child: ListTile(
                                         leading: CircleAvatar(
-                                          child: Icon(Icons.person),
+                                          backgroundImage: NetworkImage('${ngodata.ngo_logo_path}'),
                                         ),
                                         title: Text(
                                             "${ngodata.boardmemberslist![index].bm_name}"),
@@ -482,17 +482,7 @@ class BoradMembers extends StatelessWidget {
                                                     SizedBox(
                                                       height: 10,
                                                     ),
-                                                    // TextFormFieldButton(
-                                                    //   "Phone no.",
-                                                    //   Text2: "Enter the Phone no.",
-                                                    //   controller: board_member.bm_phone,
-                                                    //   prefixIcons: Icon(Icons.phone),
-                                                    //   keyboardType: TextInputType.number,
-                                                    //   inputFormatters: [
-                                                    //     LengthLimitingTextInputFormatter(10),
-                                                    //     FilteringTextInputFormatter.digitsOnly
-                                                    //   ],
-                                                    // ),
+
                                                     Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -571,7 +561,8 @@ class BoradMembers extends StatelessWidget {
                                                             onPressed: () {
                                                               // ngo.board_members!.add(board_member);
                                                               List<BoardMember>
-                                                                  temp = ngo.boardmemberslist!;
+                                                                  temp =
+                                                                  ngo.boardmemberslist!;
                                                               temp.add(
                                                                   board_member);
                                                               ngo.board_members =
@@ -580,11 +571,11 @@ class BoradMembers extends StatelessWidget {
                                                                   null)
                                                                 print(
                                                                     'No boardmembers');
-                                                                  ngo.updatedata(ngodata);
+                                                              ngo.updatedata(
+                                                                  ngodata);
                                                               AddNgoProfile();
                                                             },
-                                                            child: Text(
-                                                                "Add")))
+                                                            child: Text("Add")))
                                                   ],
                                                 ),
                                               ),
