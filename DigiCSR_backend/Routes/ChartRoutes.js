@@ -9,7 +9,7 @@ const {
 } = require("../Controllers/ChartControllers");
 const AuthMiddleware = require("../Middlewares/AuthMiddleware");
 
-const RFPRoutes = (app) => {
+const ChartRoutes = (app) => {
   app.get("/charts/sector", AuthMiddleware, SectorsData);
   app.get("/charts/state", AuthMiddleware, StatesData);
   app.get("/charts/year", AuthMiddleware, YearData);
@@ -19,4 +19,4 @@ const RFPRoutes = (app) => {
   app.get("/charts/courosel", couroselData);
 };
 
-module.exports = RFPRoutes;
+module.exports = ChartRoutes;
