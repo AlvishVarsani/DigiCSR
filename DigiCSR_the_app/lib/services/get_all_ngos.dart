@@ -1,12 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/NgoModel.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:http_parser/src/media_type.dart';
 
 Future<List<Ngo>> getAllNgos()async{
   String? token = await fetchBenificiaryToken();

@@ -151,7 +151,8 @@ class BoradMembers extends StatelessWidget {
                                     return Card(
                                       child: ListTile(
                                         leading: CircleAvatar(
-                                          backgroundImage: NetworkImage('${ngodata.ngo_logo_path}'),
+                                          child: Icon(Icons.person),
+                                          radius: 15,
                                         ),
                                         title: Text(
                                             "${ngodata.boardmemberslist![index].bm_name}"),
@@ -562,7 +563,7 @@ class BoradMembers extends StatelessWidget {
                                                               // ngo.board_members!.add(board_member);
                                                               List<BoardMember>
                                                                   temp =
-                                                                  ngo.boardmemberslist!;
+                                                                  ngodata.boardmemberslist!;
                                                               temp.add(
                                                                   board_member);
                                                               ngo.board_members =
@@ -573,6 +574,8 @@ class BoradMembers extends StatelessWidget {
                                                                     'No boardmembers');
                                                               ngo.updatedata(
                                                                   ngodata);
+                                                                  print(ngo.ngo_name);
+                                                                  // print(ngo.boardmemberslist![0].bm_name);
                                                               AddNgoProfile();
                                                             },
                                                             child: Text("Add")))

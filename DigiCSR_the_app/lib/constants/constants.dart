@@ -98,7 +98,7 @@ final Indianstates = [
 
 
 // String ipInfo = "http://127.0.0.1:4000";
-String ipInfo = "http://192.168.80.58:4000";
+String ipInfo = "http://192.168.155.94:4000";
 
 Future<String> getCompanyId()async{
   String? token = await fetchCompanyToken();
@@ -122,12 +122,14 @@ void loadCompanyData(){
 
 void loadNGOData(){
   getNgoDetails();
+  NgoLogo();
 }
 
 Future<String> getCmpLogo()async{
   String cmpid = await getCompanyId();
   return getCompanyLogo(cmpid);
 }
+
 Future<String> NgoLogo()async{
   String cmpid = await getNgoId();
   return getNgoLogo(cmpid);

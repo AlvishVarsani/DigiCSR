@@ -5,7 +5,7 @@ import '../../models/NgoModel.dart';
 
 class NgoDetailsToOthers extends StatefulWidget {
   Ngo ngodetail;
-  NgoDetailsToOthers(this.ngodetail,);
+  NgoDetailsToOthers(this.ngodetail);
   @override
   State<NgoDetailsToOthers> createState() => _NgoDetailsToOthersState();
 }
@@ -409,11 +409,12 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                                       itemCount: snapshot.data!.sectors!.length,
                                                         itemBuilder: (context, index) =>
                                                             Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
                                                                 Text(
                                                                   "${snapshot.data!.sectors![index]}",
                                                                   style: TextStyle(
-                                                                      fontSize: 24),
+                                                                      fontSize: 20),
                                                                 ),
                                                                 SizedBox(
                                                                   height: 3,
@@ -428,7 +429,7 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                             Divider(),
                                             Container(
                                                 width: w * 0.90,
-                                                height: 120,
+                                                height: 110,
                                                 child: ListView.builder(
                                                   // shrinkWrap: true,
                                                   scrollDirection: Axis.horizontal,
@@ -448,26 +449,23 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                                             ),
                                                           ),
                                                           SizedBox(
-                                                            height: 10,
+                                                            height: 15,
                                                           ),
-                                                          Flexible(
-                                                            child: new Container(
-                                                              alignment: Alignment.center,
-                                                              padding:
-                                                                  new EdgeInsets.only(
-                                                                      right: 13.0),
-                                                              child: new Text(
-                                                                '${snapshot.data!.boardmemberslist![index].bm_name}',
-                                                                overflow:
-                                                                    TextOverflow.ellipsis,
-                                                                style: new TextStyle(
-                                                                  fontSize: 13.0,
-                                                                  fontFamily: 'Roboto',
-                                                                  color: new Color(
-                                                                      0xFF212121),
-                                                                  fontWeight:
-                                                                      FontWeight.bold,
-                                                                ),
+                                                           Container(
+                                                            width: 80,
+                                                            alignment: Alignment.center,
+                                                            child: new Text(
+                                                              '${snapshot.data!.boardmemberslist![index].bm_name}',
+                                                              overflow:
+                                                                  TextOverflow.ellipsis,
+                                                                  textAlign: TextAlign.center,
+                                                              style: new TextStyle(
+                                                                fontSize: 13.0,
+                                                                fontFamily: 'Roboto',
+                                                                color: new Color(
+                                                                    0xFF212121),
+                                                                fontWeight:
+                                                                    FontWeight.bold,
                                                               ),
                                                             ),
                                                           ),

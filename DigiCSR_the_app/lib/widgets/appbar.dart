@@ -1,7 +1,4 @@
-import 'package:digicsr/screens/Homescreen/drawer.dart';
 import 'package:digicsr/screens/Homescreen/notification.dart';
-import 'package:digicsr/screens/company/company_profile.dart';
-import 'package:digicsr/widgets/animated_notification_icon.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
@@ -60,7 +57,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
             },
             child: CircleAvatar(
               backgroundImage:
-                  AssetImage('assets/app_icon/digicsr_app_icon.png'),
+                  (user == 'NGO')?NetworkImage('${ngodata.ngo_logo_path}'):NetworkImage('${companydata.cmp_logo_path}'),
               backgroundColor: secondary,
               radius: 20,
             ),

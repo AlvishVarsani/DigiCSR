@@ -26,7 +26,8 @@ class _MainScreenState extends State<MainScreen> {
     print(unread_notification);
     loadCompanyData();
     // getCompanyDetails();
-    getNgoDetails();
+    // loadNGOData();
+    // getNgoDetails();
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();

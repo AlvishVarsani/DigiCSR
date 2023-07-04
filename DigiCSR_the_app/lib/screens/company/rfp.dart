@@ -1,11 +1,6 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/company/raise_rfp.dart';
-import 'package:digicsr/screens/company/request.dart';
 import 'package:digicsr/screens/company/rfpreqlist.dart';
-import 'package:digicsr/services/rfp_services.dart';
-import 'package:digicsr/widgets/appbar.dart';
-import 'package:digicsr/widgets/bottomnavigationbar.dart';
-
 import 'package:digicsr/models/RFPModel.dart';
 import 'package:flutter/material.dart';
 
@@ -74,35 +69,6 @@ class _RFPState extends State<RFP> {
                                           color: white,
                                           width: 1.2,
                                           style: BorderStyle.solid)))))),
-              Expanded(
-                  child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          index = 2;
-                        });
-                      },
-                      child: Text('Respnses',
-                          style: TextStyle(
-                              color: white,
-                              fontFamily: 'Montserrat',
-                              fontSize: 25)),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(primary),
-                          // padding: MaterialStatePropertyAll(
-                          //     EdgeInsets.fromLTRB(10, 20, 10, 20)),
-                          minimumSize:
-                              MaterialStatePropertyAll(Size(w * 0.5, h * 0.07)),
-                          maximumSize: MaterialStatePropertyAll(
-                              Size(w * 0.5, h * 0.095)),
-                          alignment: Alignment.center,
-                          // elevation: MaterialStatePropertyAll(20),
-                          shape:
-                              MaterialStatePropertyAll<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: white,
-                                          width: 1.2,
-                                          style: BorderStyle.solid)))))),
             ],
           ),
           Expanded(
@@ -112,9 +78,6 @@ class _RFPState extends State<RFP> {
               // reverse: true,
               children: [
                 RFPReqList(),
-                Container(
-                  color: blue,
-                ),
               ],
             ),
           ),

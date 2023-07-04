@@ -3,20 +3,14 @@ import 'dart:io';
 
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/NgoModel.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http_parser/src/media_type.dart';
-
 
 void AddNgoProfile()async{
   String? token = await fetchNGOToken();
   print(token);
-
+  print('Function called');
   var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/NGO/add-profile'),);
-  print(company.tax_comp);
-  // print(tax_comp);
-  // int? establishment_year = company.establishment_year;
 
 request.headers["Content-Type"] = "multipart/form-data";
 request.headers["authorization"] = token.toString();
@@ -29,6 +23,9 @@ request.fields['pincode'] = company.pincode!;
 request.fields['establishment_year'] = company.establishment_year.toString();
 request.fields['phone'] = ngo.phone!;
 request.fields['csr_budget'] = ngo.csr_budget.toString();
+
+print(ngo.board_members);
+print('boardmember');
 
 for (var index = 0; index < ngo.board_members!.length; index++) {
     var member = ngo.board_members![index];
@@ -47,7 +44,6 @@ for (int i = 0; i < ngo.operation_areas!.length; i++) {
 for (int i = 0; i < ngo.sectors!.length; i++) {
   request.files.add(http.MultipartFile.fromString("sectors[$i]", ngo.sectors![i], contentType: MediaType("application", "json")));
 }
-
 
 var response = await request.send();
  response.stream.transform(utf8.decoder).listen((data) {

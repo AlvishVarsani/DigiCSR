@@ -66,20 +66,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           ),
                           
                           child: ListTile(
-                            
-                            leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Colors.blue,
-                                    child: Image.asset(
-                                      "assets/app_icon/digicsr_app_icon.png",
-                                      width: 30,
-                                      fit: BoxFit.fill,
-                                    )),
-                              ],
-                            ),
                               
                             title: Container(
                               child: Column(

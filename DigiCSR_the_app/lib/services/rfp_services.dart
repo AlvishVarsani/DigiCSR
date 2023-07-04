@@ -57,7 +57,7 @@ if (response.statusCode == 200) {
 
 Future<List<Rfp>> fetchAllRfp() async {
   // fetch the token
-  final token = await storage.read(key: "ngo");
+  String? token = await fetchNGOToken();
 
   final response = await http.get(Uri.parse(ipInfo + "/rfps"), headers: {
     'Context-Type': 'application/json;charSet=UTF-8',
