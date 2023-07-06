@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -74,19 +75,20 @@ Future<List<Rfp>> fetchAllRfp() async {
   }
 }
 
-Future<Rfp>fetchRfpDetails(String rfpid)async{
+Future<Rfp> fetchRfpDetails(String rfpid)async{
   final token = await fetchCompanyToken();
   final response =
       // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
-      await http.get(Uri.parse(ipInfo + "/rfp/:id"), headers: {
+      await http.get(Uri.parse(ipInfo + "/rfp/${rfpid}"), headers: {
     'Content-Type': 'application/json',
     'authorization': token.toString()
   });
-  print(jsonDecode(response.body));
+  // print(jsonDecode(response.body));
 
   if (response.statusCode == 200) {
     print(response.body);
-    return Rfp.fromJson(jsonDecode(response.body));
+    final data = jsonDecode(response.body);
+    return Rfp.fromJson(data['rfp']);
   } else {
     throw Exception('Failed to load RFP data');
   }
@@ -150,4 +152,23 @@ Future<Rfp> donationReq() async {
   }else{
     throw Exception('Error in getting the donation requests from NGO.');
   }
+}
+
+Future<int> manage_donations(Map<String, dynamic> data)async{
+  String? token = await fetchCompanyToken();
+  final response = await http.put(
+    Uri.parse(ipInfo + '/rfp/manage'),
+    headers: {
+    'Content-Type': 'application/json',
+    'authorization': token!
+    },
+    body: jsonEncode(data)
+    );
+    print(jsonDecode(response.body));
+    return response.statusCode;
+    // if(response.statusCode == 200){
+    //   print('Action executed successfully!');
+    // }else{
+    //   throw Exception('Action executed unsuccessfully.');
+    // }
 }

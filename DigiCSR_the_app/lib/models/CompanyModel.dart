@@ -64,13 +64,4 @@ class Company {
     );
   }
 
-  // Map<String, dynamic> getMap() {
-  //   return {
-  //     "company_name": company_name,
-  //     "cin": cin,
-  //     "email": email,
-  //     "profile": profile,
-  //     "initialData": initialData
-  //   };
-  // }
 }

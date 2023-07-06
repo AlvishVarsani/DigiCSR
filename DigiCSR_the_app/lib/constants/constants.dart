@@ -1,11 +1,15 @@
 
 import 'package:digicsr/models/BoardMember.dart';
+import 'package:digicsr/models/Donations.dart';
 import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
+import 'package:digicsr/models/couroseldata.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/ngo/NGOProfileScreen.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
+import 'package:digicsr/services/courosel_services.dart';
 import 'package:digicsr/services/ngo_profile_services.dart';
+import 'package:digicsr/services/rfp_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -33,6 +37,7 @@ final Company company = Company();
 final Ngo ngo = Ngo();
 final BoardMember board_member = BoardMember();
  final BenificiaryUser benificiary = BenificiaryUser();
+late Future<CouroselData> couroselData;
 //  (user == 'NGO')? final User<Ngo> usertype = User(ngo):(user == 'Company')? final User<>;
 // final NGOuser ngo = NGOuser();
 final Rfp rfp = Rfp();
@@ -123,6 +128,12 @@ void loadCompanyData(){
 void loadNGOData(){
   getNgoDetails();
   NgoLogo();
+}
+
+Future<Rfp> loadCompanyRfp(String rfpid)async{
+  Rfp data = await fetchRfpDetails(rfpid);
+  data.donations = Donations.giveDonationslist(data.donation_requests);
+  return data;
 }
 
 Future<String> getCmpLogo()async{

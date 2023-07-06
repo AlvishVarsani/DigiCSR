@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  changeScreen() {
+  void changeScreen() {
     Future.delayed(Duration(seconds: 70), () {
       // Get.to(()=>ButtonToLoginAs());
       Navigator.pushNamed(context, '/auth');

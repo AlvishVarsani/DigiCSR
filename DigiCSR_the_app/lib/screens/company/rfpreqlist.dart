@@ -37,7 +37,7 @@ class _RFPReqListState extends State<RFPReqList> {
           itemBuilder: (context, index) {
             print('${snapshot.data![index].company}');
             return InkWell(
-              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>RfpDetailsForCompany(snapshot.data![index]))),
+              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>RfpDetailsForCompany(snapshot.data![index].id))),
               child: Card(
                 color: Color(0x130CB6F0),
                 shadowColor: Color(0x130CB6F0),
