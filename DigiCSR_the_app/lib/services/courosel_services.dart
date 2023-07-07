@@ -11,7 +11,7 @@ Future<CouroselData> getCouroselData()async{
         'Content-Type': 'application/json;charSet=UTF-8',
       }
   );
-
+  print(response.body);
   if(response.statusCode == 200){
     return CouroselData.fromJson(jsonDecode(response.body));
   }

@@ -37,40 +37,40 @@ class _RFPState extends State<RFP> {
       body: SafeArea(
           child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                  child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          index = 1;
-                        });
-                      },
-                      child: Text('Requests',
-                          style: TextStyle(
-                            color: white,
-                            fontFamily: 'Montserrat',
-                            fontSize: 25,
-                          )),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(primary),
-                          // padding: MaterialStatePropertyAll(
-                          //     EdgeInsets.only(top: h*)),
-                          alignment: Alignment.center,
-                          minimumSize:
-                              MaterialStatePropertyAll(Size(w * 0.5, h * 0.07)),
-                          maximumSize: MaterialStatePropertyAll(
-                              Size(w * 0.5, h * 0.095)),
-                          // elevation: MaterialStatePropertyAll(20),
-                          shape:
-                              MaterialStatePropertyAll<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: white,
-                                          width: 1.2,
-                                          style: BorderStyle.solid)))))),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //         child: TextButton(
+          //             onPressed: () {
+          //               setState(() {
+          //                 index = 1;
+          //               });
+          //             },
+          //             child: Text('Requests',
+          //                 style: TextStyle(
+          //                   color: white,
+          //                   fontFamily: 'Montserrat',
+          //                   fontSize: 25,
+          //                 )),
+          //             style: ButtonStyle(
+          //                 backgroundColor: MaterialStatePropertyAll(primary),
+          //                 // padding: MaterialStatePropertyAll(
+          //                 //     EdgeInsets.only(top: h*)),
+          //                 alignment: Alignment.center,
+          //                 minimumSize:
+          //                     MaterialStatePropertyAll(Size(w * 0.5, h * 0.07)),
+          //                 maximumSize: MaterialStatePropertyAll(
+          //                     Size(w * 0.5, h * 0.095)),
+          //                 // elevation: MaterialStatePropertyAll(20),
+          //                 shape:
+          //                     MaterialStatePropertyAll<RoundedRectangleBorder>(
+          //                         RoundedRectangleBorder(
+          //                             side: BorderSide(
+          //                                 color: white,
+          //                                 width: 1.2,
+          //                                 style: BorderStyle.solid)))))),
+          //   ],
+          // ),
           Expanded(
             child: PageView(
               onPageChanged: (value) => {},
@@ -87,7 +87,7 @@ class _RFPState extends State<RFP> {
                 minimumSize: MaterialStatePropertyAll(Size(
                     MediaQuery.of(context).size.width,
                     MediaQuery.of(context).size.height * 0.08)),
-                backgroundColor: MaterialStatePropertyAll(blue),
+                backgroundColor: MaterialStatePropertyAll(primary),
               ),
               onPressed: () {
                 Navigator.push(context,

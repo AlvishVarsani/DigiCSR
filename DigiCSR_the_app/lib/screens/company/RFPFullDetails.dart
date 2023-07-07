@@ -286,7 +286,7 @@ class _RfpDetailsForCompanyState extends State<RfpDetailsForCompany> {
                                                                                 14,
                                                                             color: (snapshot.data!.donations![index].status == 'Pending')
                                                                                 ? secondary
-                                                                                : (snapshot.data!.donations![index].status == 'approve')?Colors.green:Colors.redAccent.shade400),
+                                                                                : ((snapshot.data!.donations![index].status == 'approve') || (snapshot.data!.donations![index].status == 'approved'))?Colors.green:Colors.redAccent.shade400),
                                                                       )
                                                                     ],
                                                                   ),

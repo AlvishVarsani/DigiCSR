@@ -1,7 +1,7 @@
 class CouroselData{
-int totalngos = 0;
-int totalcompanies = 0;
-int totalrfps = 0;
+int totalngos;
+int totalcompanies;
+int totalrfps;
 
 CouroselData({
   this.totalcompanies = 0,

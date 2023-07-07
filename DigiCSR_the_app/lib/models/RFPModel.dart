@@ -36,7 +36,7 @@ class Rfp {
       sectors: json['sectors'],
       states: json['states'],
       timeline: json['timeline'],
-      company: json['company'],
+      company: json['company_name'],
       date: json['date'],
       donation_requests: json['donations']
     );

@@ -24,37 +24,8 @@ if (response.statusCode == 200) {
   throw Exception('Failed to put RFP data');
 }
 
-//   var client = new http.Client();
-// client.post(Uri.parse(ipInfo + "/add-rfp"), body: body,
-// headers: {
-//     'Context-Type': 'application/json;charSet=UTF-8',
-//     'authorization': token!
-//   },
-// ).then((response) {
-//   client.close();
-//   print(response.body);
-//   if (response.statusCode == 200) {
-//      //enter your code for change state
-//      print('Raised');
-//   }
-// }).catchError((onError) {
-//    client.close();
-//    print("Error: $onError");
-// });
 }
-// final response = await http.post(Uri.parse(ipInfo + "/add-rfp"),
-// headers: {
-//   'Context-Type': 'application/json;charSet=UTF-8',
-//   'authorization': token!
-// },
-// body: json.encoder.convert(body)
-// );
-// print(response.body);
-// if (response.statusCode == 200) {
-//   print(response.body);
-// } else {
-//   throw Exception('Failed to put RFP data');
-// }
+
 
 Future<List<Rfp>> fetchAllRfp() async {
   // fetch the token
@@ -171,4 +142,15 @@ Future<int> manage_donations(Map<String, dynamic> data)async{
     // }else{
     //   throw Exception('Action executed unsuccessfully.');
     // }
+}
+
+void deleteRfp(String rfpid)async{
+  String? token = await fetchCompanyToken();
+  final response =http.delete(
+    Uri.parse(ipInfo + '/rfp/delete/${rfpid}'),
+    headers: {
+    'Content-Type': 'application/json',
+    'authorization': token!
+    },
+    );
 }
