@@ -296,7 +296,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                             color: Colors.black54)),
                                     focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide:
+                                        borderSide: 
                                             BorderSide(color: Colors.red)),
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),

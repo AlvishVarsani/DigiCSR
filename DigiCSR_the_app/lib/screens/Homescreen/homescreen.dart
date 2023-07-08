@@ -1,20 +1,20 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/CouroselData.dart';
 import 'package:digicsr/screens/Homescreen/MediaPosts.dart';
+import 'package:digicsr/services/charts_services.dart';
 import 'package:digicsr/services/courosel_services.dart';
 import 'package:digicsr/services/media_services.dart';
-import 'package:digicsr/widgets/appbar.dart';
-import 'package:digicsr/widgets/bottomnavigationbar.dart';
-import 'package:flutter/gestures.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart' show parse;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:readmore/readmore.dart';
+import 'package:http/http.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../models/Charts.dart';
 import '../../models/Media.dart';
-import 'drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -37,12 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Future<List<Media>> posts;
   late Future<CouroselData> couroselData;
+  late Future<Chart> charts;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     couroselData = getCouroselData();
     posts = getMediaPosts();
+    charts = getCharts();
+  }
+  var imgsrc;
+  String postimage(String htmlcontent){
+    var document = parse(htmlcontent);
+    var imgElement = document.querySelector('img');
+    imgsrc = imgElement!.attributes['src'];
+    print(imgsrc);
+    return imgsrc;
   }
 
   @override
@@ -75,28 +85,146 @@ class _HomeScreenState extends State<HomeScreen> {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextButton(
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>MediaPosts()));
-          }, 
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => MediaPosts()));
+          },
           child: Row(
             children: [
-              SizedBox(width: 20,),
-              Text('Let\'s see the Blogs',style: TextStyle(fontSize: 22,color: black),),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Let\'s see the Blogs',
+                style: TextStyle(fontSize: 22, color: black),
+              ),
               Expanded(child: Container()),
-              Icon(Icons.arrow_forward_ios_sharp,color: primary,),
-              SizedBox(width: 10,)
+              Icon(
+                Icons.arrow_forward_ios_sharp,
+                color: primary,
+              ),
+              SizedBox(
+                width: 10,
+              )
             ],
           ),
           style: ButtonStyle(
             shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                side: BorderSide(style: BorderStyle.solid,color: primary,width: 0.6),
-                borderRadius: BorderRadius.all(Radius.circular(8))
-              ),
+                  side: BorderSide(
+                      style: BorderStyle.solid, color: primary, width: 0.6),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
           ),
-          ),
+        ),
       ),
+      SizedBox(
+        height: 10,
+      ),
+      Container(
+        height: MediaQuery.of(context).size.height * 0.4,
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.only(top: 10,bottom: 10),
+        child: 
+          FutureBuilder(
+            future: posts,
+            builder: (context,snapshot){
+              if(snapshot.hasData){
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context,index){
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (content)=>MediaPosts()));
+                        },
+                        child: Card(
+                          elevation: 16,
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Text(
+                                      "${snapshot.data![index].author_name}",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    Text(
+                                      "${snapshot.data![index].createdDate!.substring(0,10)}",
+                                      style: TextStyle(color: Colors.grey),
+                                    )
+                                  ],
+                                ),
+                              ),
+                                    Container(
+                                      height: 180,
+                                      child: SingleChildScrollView(
+                                        physics: NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                                        child: Html(
+                                          data: snapshot.data![index].content),
+                                      ),
+                                    )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  );
+              }else if(snapshot.hasError){
+                return Text('${snapshot.error}');
+              }
+              return Center(
+          child: Container(
+            height: MediaQuery.of(context).size.width * 0.15,
+            width: MediaQuery.of(context).size.width * 0.15,
+            child: const CircularProgressIndicator(
+              strokeWidth: 1,
+            ),
+          ),
+                );
+            }
+            )
+        ,
+      ),
+      SizedBox(
+        height: 10,
+      ),
+      Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height*0.4,
+                child: BarChart(
+                  BarChartData(
+                    maxY: 100,
+                  barGroups: [
+                  BarChartGroupData(
+                    x: 2000, barRods: [
+                    BarChartRodData(
+                      borderRadius: BorderRadius.all(Radius.zero),
+                      toY: 50,
+                      color: Colors.blue,
+                      width: 20,
+                    )
+                  ]),
+                  BarChartGroupData(
+                    barsSpace: 5,
+                    x: 2024, barRods: [
+                    BarChartRodData(
+                      borderRadius: BorderRadius.all(Radius.zero),
+                      toY: 70,
+                      color: Colors.blue,
+                      width: 20,
+                    )
+                  ]),
+                ])),
+              ),
       SizedBox(
         height: 20,
       ),
