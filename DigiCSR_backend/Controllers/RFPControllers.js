@@ -179,6 +179,7 @@ exports.acceptRFP = async (req, res) => {
 exports.manageDonation = async (req, res) => {
   try {
     const { rfpID, donationId, action } = req.body;
+    console.log(req.body);
     const { userType } = req;
 
     if (userType !== "company") {
@@ -332,7 +333,7 @@ exports.getRfpOfCompany = async (req, res) => {
     const companyId = req.user._id;
     const rfps = await RFP.find(
       { company: companyId },
-      { _id: 1, title: 1, sectors: 1, states: 1, date: 1, amount: 1,timeline: 1, }
+      { _id: 1, title: 1, sectors: 1, states: 1, date: 1, amount: 1,timeline: 1,remaining_amount: 1 }
     ).sort({ date: -1 });
 
     res.status(200).json(rfps);
