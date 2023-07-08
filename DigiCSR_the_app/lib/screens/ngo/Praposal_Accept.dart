@@ -183,32 +183,21 @@ class _PraposalAcceptState extends State<PraposalAccept> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return TextButton.icon(
+    return TextButton(
+      child: Text('Request',style: TextStyle(fontSize: 16,color: black),),
         style: ButtonStyle(
             shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(6)),
-                    side: BorderSide(color: Color(0xe500c300)))),
+                    side: BorderSide(color: primary))),
             // maximumSize:
             //     MaterialStatePropertyAll(
             //       Size(150,60)),
-            padding: MaterialStatePropertyAll(EdgeInsets.all(8)),
-            backgroundColor: MaterialStatePropertyAll(Color(0x5533d520))),
+            padding: MaterialStatePropertyAll(EdgeInsets.all(8)),),
         onPressed: () {
           _showDialog();
         },
-        icon: Icon(
-          Icons.done,
-          color: black,
-        ),
-        label: Text(
-          'Accept',
-          style: TextStyle(
-              color: black,
-              fontFamily: 'Montserrat',
-              letterSpacing: 1.2,
-              fontSize: 16),
-        ));
+        );
   }
 }
 

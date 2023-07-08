@@ -1,13 +1,9 @@
 import 'package:digicsr/screens/ngo/Praposal_Accept.dart';
-import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
-import '../../widgets/appbar.dart';
 import 'package:digicsr/models/RFPModel.dart';
-import 'package:flutter/material.dart';
 
-import '../../constants/constants.dart';
 import '../../services/rfp_services.dart';
 
 class PraposalScreen extends StatefulWidget {
@@ -64,94 +60,61 @@ class _PraposalScreenState extends State<PraposalScreen> {
                       return ListView.builder(
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            color: Color(0x130CB6F0),
-                            shadowColor: Color(0x130CB6F0),
-                            elevation: 20,
-                            margin: EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: primary,
-                                    width: 1.2,
-                                    style: BorderStyle.solid),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(17))),
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(10, 8, 10, 8),
-                                      child: Text(
-                                          '${snapshot.data![index].title}',style: TextStyle(fontSize: 25,color: black,letterSpacing: 1.1),),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                10, 8, 10, 8),
-                                            child: Text(
-                                                'Amount: ${snapshot.data![index].amount}')),
-                                        Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                10, 8, 10, 8),
-                                            child: Text(
-                                                'Timeline: ${snapshot.data![index].timeline}')),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.all(8),
-                                      child: Row(
+                          return Container(
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              children: [
+                                Card(
+                                  // color: Color(0x130CB6F0),
+                                  shadowColor: Color(0x130CB6F0),
+                                  elevation: 20,
+                                  // margin: EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: primary,
+                                          width: 1.2,
+                                          style: BorderStyle.solid),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6))),
+                                  child: Container(
+                                    // padding: EdgeInsets.all(0),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Expanded(child: Container()),
-                                          PraposalAccept(snapshot.data![index]),
-                                          Expanded(child: Container()),
-                                          TextButton.icon(
-                                              style: ButtonStyle(
-                                                shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(6)
-                                                    ),
-                                                    side: BorderSide(
-                                                      color: Color(0xa8e91010)
-                                                    )
-                                                  )
-                                                ),
-                                                  // maximumSize:
-                                                  //     MaterialStatePropertyAll(Size(150,
-                                                  //         MediaQuery.sizeOf(
-                                                  //                     context)
-                                                  //                 .height *
-                                                  //             0.08)
-                                                              // ),
-                                                  padding:
-                                                      MaterialStatePropertyAll(
-                                                          EdgeInsets.all(8)),
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll(
-                                                          Color(0x55e51020))),
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.close,
-                                                color: black,
-                                              ),
-                                              label: Text(
-                                                'Dismiss',
-                                                style: TextStyle(
-                                                    color: black,
-                                                    fontFamily: 'Montserrat',
-                                                    letterSpacing: 1.2,
-                                                    fontSize: 16),
-                                              )),
-                                          Expanded(child: Container()),
-                                        ],
-                                      ),
-                                    )
-                                  ]),
+                                          Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(10, 13, 10, 10),
+                                            child: Text(
+                                                '${snapshot.data![index].title}',style: TextStyle(fontSize: 25,color: black,letterSpacing: 1.1),),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      10, 8, 10, 8),
+                                                  child: Text(
+                                                      'Amount: ${snapshot.data![index].amount}')),
+                                              Container(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      10, 8, 10, 8),
+                                                  child: Text(
+                                                      'Timeline: ${snapshot.data![index].timeline}')),
+                                            ],
+                                          ),
+                                        ]),
+                                  ),
+                                ),
+                                Container(
+                                        width: w,
+                                        margin: EdgeInsets.all(0),
+                                        padding: EdgeInsets.only(right: 6,left: 6),
+                                        child: PraposalAccept(snapshot.data![index])),
+
+                                        SizedBox(
+                                          height: 25,
+                                        )
+                              ],
                             ),
                           );
                         },

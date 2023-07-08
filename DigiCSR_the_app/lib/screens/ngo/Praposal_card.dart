@@ -77,75 +77,35 @@ class _PraposalCardState extends State<PraposalCard> {
                     trailing: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.all(8),
-                      child: Row(
-                        children: [
-                          Expanded(child: Container()),
-                          TextButton.icon(
-                              style: ButtonStyle(
-                                  shape: MaterialStatePropertyAll<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)),
-                                          side: BorderSide(
-                                              color: Color(0xe500c300)))),
-                                  // maximumSize:
-                                  //     MaterialStatePropertyAll(
-                                  //       Size(150,60)),
-                                  padding: MaterialStatePropertyAll(
-                                      EdgeInsets.all(8)),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      Color(0x5533d520))),
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.done,
+                      child: TextButton.icon(
+                          style: ButtonStyle(
+                              shape: MaterialStatePropertyAll<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6)),
+                                      side: BorderSide(
+                                          color: Color(0xe500c300)))),
+                              // maximumSize:
+                              //     MaterialStatePropertyAll(
+                              //       Size(150,60)),
+                              padding: MaterialStatePropertyAll(
+                                  EdgeInsets.all(8)),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Color(0x5533d520))),
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.done,
+                            color: black,
+                          ),
+                          label: Text(
+                            'Accept',
+                            style: TextStyle(
                                 color: black,
-                              ),
-                              label: Text(
-                                'Accept',
-                                style: TextStyle(
-                                    color: black,
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 1.2,
-                                    fontSize: 16),
-                              )),
-                          Expanded(child: Container()),
-                          TextButton.icon(
-                              style: ButtonStyle(
-                                  shape: MaterialStatePropertyAll<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)),
-                                          side: BorderSide(
-                                              color: Color(0xa8e91010)))),
-                                  // maximumSize:
-                                  //     MaterialStatePropertyAll(Size(150,
-                                  //         MediaQuery.sizeOf(
-                                  //                     context)
-                                  //                 .height *
-                                  //             0.08)
-                                  // ),
-                                  padding: MaterialStatePropertyAll(
-                                      EdgeInsets.all(8)),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      Color(0x55e51020))),
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.close,
-                                color: black,
-                              ),
-                              label: Text(
-                                'Dismiss',
-                                style: TextStyle(
-                                    color: black,
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 1.2,
-                                    fontSize: 16),
-                              )),
-                          Expanded(child: Container()),
-                        ],
-                      ),
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 1.2,
+                                fontSize: 16),
+                          )),
                     ),
                   ),
                 ),

@@ -7,7 +7,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../constants/constants.dart';
 import '../models/RFPModel.dart';
 
-void addRFP(var data) async {
+Future addRFP(var data) async {
   final token = await fetchCompanyToken();
 
 final response = await http.post(Uri.parse(ipInfo + "/add-rfp"),
@@ -144,13 +144,19 @@ Future<int> manage_donations(Map<String, dynamic> data)async{
     // }
 }
 
-void deleteRfp(String rfpid)async{
+Future deleteRfp(String rfpid)async{
   String? token = await fetchCompanyToken();
-  final response =http.delete(
+  final response = await http.delete(
     Uri.parse(ipInfo + '/rfp/delete/${rfpid}'),
     headers: {
     'Content-Type': 'application/json',
     'authorization': token!
     },
     );
+
+    if(response.statusCode == 200){
+      print('Rfp deleted!');
+    }else{
+      throw Exception('Rfp can not be deleted!');
+    }
 }

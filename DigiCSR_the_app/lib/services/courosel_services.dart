@@ -13,7 +13,7 @@ Future<CouroselData> getCouroselData()async{
   );
   print(response.body);
   if(response.statusCode == 200){
-    return CouroselData.fromJson(jsonDecode(response.body));
+    return CouroselData.fromJson(jsonDecode(response.body)['data']);
   }
   else{
     throw Exception('Can not load courosel data');

@@ -24,6 +24,7 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
     super.setState(fn);
   }
 
+
   // String rfptitle = '';
   // String rfpamount = '';
   // String rfptimeline = '';
@@ -272,7 +273,7 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                           elevation: MaterialStatePropertyAll(4),
                           backgroundColor: MaterialStatePropertyAll(primary)
                         ),
-                          onPressed: () {
+                          onPressed: ()async {
                              Map<String, dynamic> rfpbody(){
                               return {
                                 'title': rfp.title,
@@ -283,7 +284,20 @@ class _RaiseRfpRequestState extends State<RaiseRfpRequest> {
                               };
                              }
                             // print(formdata['sectors']+formdata['states']);
-                            addRFP(rfpbody());
+                            try {
+                              await addRFP(rfpbody());
+                              var snackBar = SnackBar(
+                                backgroundColor: primary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Your Rfp has been raised',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               await ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                               Navigator.pop(context);
+                            } catch (e) {
+                              var snackBar = SnackBar(
+                                backgroundColor: secondary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('${e}',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                           
                           },
                           child: Text("Raise Request")))
                 ]),

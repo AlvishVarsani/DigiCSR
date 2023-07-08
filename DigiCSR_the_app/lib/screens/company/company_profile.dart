@@ -282,7 +282,7 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
                                 controller: TextEditingController(
-                                  text: company.establishment_year.toString(),
+                                  text: (company.establishment_year == null)? '' : company.establishment_year.toString(),
                                 ),
                                 onChanged: (value) {
                                   company.establishment_year = int.parse(value);
