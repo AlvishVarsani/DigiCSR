@@ -37,17 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Future<List<Media>> posts;
   late Future<CouroselData> couroselData;
-  late Future<Chart> charts;
+  late Future<List<Chart>> charts;
+  late Future<List<SectorsChart>> sectorschart;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     couroselData = getCouroselData();
     posts = getMediaPosts();
-    charts = getCharts();
+    (user == 'Company') ? (charts = getCharts()) : (charts = getNgoCharts());
+    (user == 'Company') ? (sectorschart = getCompanySectorsChart()) : (sectorschart = getNgoSectorsChart());
   }
+
   var imgsrc;
-  String postimage(String htmlcontent){
+  String postimage(String htmlcontent) {
     var document = parse(htmlcontent);
     var imgElement = document.querySelector('img');
     imgsrc = imgElement!.attributes['src'];
@@ -124,107 +127,155 @@ class _HomeScreenState extends State<HomeScreen> {
       Container(
         height: MediaQuery.of(context).size.height * 0.4,
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(top: 10,bottom: 10),
-        child: 
-          FutureBuilder(
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        child: FutureBuilder(
             future: posts,
-            builder: (context,snapshot){
-              if(snapshot.hasData){
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
                 return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context,index){
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (content)=>MediaPosts()));
-                        },
-                        child: Card(
-                          elevation: 16,
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-
-                                    Text(
-                                      "${snapshot.data![index].author_name}",
-                                      style: TextStyle(fontSize: 18),
-                                    ),
-                                    Text(
-                                      "${snapshot.data![index].createdDate!.substring(0,10)}",
-                                      style: TextStyle(color: Colors.grey),
-                                    )
-                                  ],
-                                ),
-                              ),
-                                    Container(
-                                      height: 180,
-                                      child: SingleChildScrollView(
-                                        physics: NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                                        child: Html(
-                                          data: snapshot.data![index].content),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (content) => MediaPosts()));
+                          },
+                          child: Card(
+                            elevation: 16,
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${snapshot.data![index].author_name}",
+                                        style: TextStyle(fontSize: 18),
                                       ),
-                                    )
-                            ],
+                                      Text(
+                                        "${snapshot.data![index].createdDate!.substring(0, 10)}",
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 180,
+                                  child: SingleChildScrollView(
+                                    physics: NeverScrollableScrollPhysics(
+                                        parent: BouncingScrollPhysics()),
+                                    child: Html(
+                                        data: snapshot.data![index].content),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }
-                  );
-              }else if(snapshot.hasError){
+                      );
+                    });
+              } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
               return Center(
-          child: Container(
-            height: MediaQuery.of(context).size.width * 0.15,
-            width: MediaQuery.of(context).size.width * 0.15,
-            child: const CircularProgressIndicator(
-              strokeWidth: 1,
-            ),
-          ),
-                );
-            }
-            )
-        ,
+                child: Container(
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              );
+            }),
       ),
       SizedBox(
         height: 10,
       ),
       Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height*0.4,
-                child: BarChart(
-                  BarChartData(
-                    maxY: 100,
-                  barGroups: [
-                  BarChartGroupData(
-                    x: 2000, barRods: [
-                    BarChartRodData(
-                      borderRadius: BorderRadius.all(Radius.zero),
-                      toY: 50,
-                      color: Colors.blue,
-                      width: 20,
-                    )
-                  ]),
-                  BarChartGroupData(
-                    barsSpace: 5,
-                    x: 2024, barRods: [
-                    BarChartRodData(
-                      borderRadius: BorderRadius.all(Radius.zero),
-                      toY: 70,
-                      color: Colors.blue,
-                      width: 20,
-                    )
-                  ]),
-                ])),
-              ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.4,
+          child: FutureBuilder(
+            future: charts,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return BarChart(BarChartData(
+                    // maxY: 100000000,
+                    barGroups: List.generate(
+                        snapshot.data!.length,
+                        (index) => BarChartGroupData(
+                                x: snapshot.data![index].id!,
+                                barRods: [
+                                  BarChartRodData(
+                                      color: primary,
+                                      toY: double.parse(snapshot
+                                          .data![index].totalamount!
+                                          .toString()))
+                                ]))));
+              } else if (snapshot.hasError) {
+                print(snapshot.error);
+              }
+              return Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              );
+            },
+          )),
+      SizedBox(
+        height: 20,
+      ),
+      Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: FutureBuilder(
+            future: sectorschart,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(
+      enabled: true,
+    ),
+                    sections: List.generate(
+                      snapshot.data!.length, 
+                      (index) => PieChartSectionData(
+                        color: primary,
+                        radius: 140,
+                        // titlePositionPercentageOffset: 0.0,
+                        value: double.parse((snapshot.data![index].totalamount).toString()),
+                        showTitle: false,
+                        title: snapshot.data![index].id
+                      ))
+                  ),
+                  swapAnimationCurve: Curves.bounceOut,
+                );
+              } else if (snapshot.hasError) {
+                print(snapshot.error);
+              }
+              return Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              );
+            },
+          )),
       SizedBox(
         height: 20,
       ),

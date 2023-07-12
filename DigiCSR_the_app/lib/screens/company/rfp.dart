@@ -90,8 +90,10 @@ class _RFPState extends State<RFP> {
                 backgroundColor: MaterialStatePropertyAll(primary),
               ),
               onPressed: () {
-                Navigator.push(context,
+                setState(() { 
+                  Navigator.push(context,
                     MaterialPageRoute(builder: (context) => RaiseRfpRequest()));
+                });
                 // addRFP('yashuranparia136@gmail.com', rfpbody);
               },
               child: Text(

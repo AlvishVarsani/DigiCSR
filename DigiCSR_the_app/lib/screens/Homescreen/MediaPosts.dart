@@ -1,3 +1,4 @@
+import 'package:digicsr/screens/Homescreen/Blog.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
@@ -60,86 +61,110 @@ class _MediaPostsState extends State<MediaPosts> {
                   itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 6,bottom: 6),
-                    child: Card(
-                      // shadowColor: blueglass,
-                      elevation: 20,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        child: SingleChildScrollView(
-                          physics: NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                CircleAvatar(
-                                    radius: 28,
-                                    backgroundColor: Colors.white,
-                                    child: 
-                                    Image.network(snapshot.data![index].author_logo!)
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (content)=>Blog(snapshot.data![index])));
+                      },
+                      child: Card(
+                        // shadowColor: blueglass,
+                        elevation: 20,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: SingleChildScrollView(
+                            physics: NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                Container(
+                                  CircleAvatar(
+                                      radius: 25,
+                                      // backgroundColor: Colors.white,
+                                      backgroundImage: AssetImage('assets/app_icon/digicsr_app_icon.png'),
+                                      // child: 
+                                      // Image.asset('assets/app_icondigicsr_app_icon.png'),
+                                      // Image.network(snapshot.data![index].author_logo!)
+                                      ),
+                                      SizedBox(
+                                      width: 20,
+                                    ),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${snapshot.data![index].author_name}",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          "${snapshot.data![index].createdDate!.substring(0,10)}",
+                                          style: TextStyle(color: Colors.grey),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Center(
+                                    child: 
+                                    Image.network(postimage(snapshot.data![index].content!),
+                                  width: MediaQuery.of(context).size.width * 0.5,
+                                  height: MediaQuery.of(context).size.height * 0.2,)
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    //crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${snapshot.data![index].author_name}",
-                                        style: TextStyle(fontSize: 18),
+                                        "${snapshot.data![index].title}",
+                                        style: TextStyle(
+                                            fontSize: 16, fontWeight: FontWeight.w500),
                                       ),
-                                      Text(
-                                        "${snapshot.data![index].createdDate!.substring(0,10)}",
-                                        style: TextStyle(color: Colors.grey),
-                                      )
                                     ],
                                   ),
                                 ),
-                              ]),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Center(child: Image.network(postimage(snapshot.data![index].content!),width: MediaQuery.of(context).size.width * 0.5,height: MediaQuery.of(context).size.height * 0.2,)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  //crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${snapshot.data![index].title}",
-                                      style: TextStyle(
-                                          fontSize: 16, fontWeight: FontWeight.w500),
+                                Container(
+                                  width: 280,
+                                  child: 
+                                  Html(
+                                    shrinkWrap: true,
+                                    data: snapshot.data![index].content,
+                                     customImageRenders: {
+                                     
+                                     },
                                     ),
-                                  ],
+                                  // ReadMoreText(
+                                  //   content,
+                                  //   trimLines: 3,
+                                  //   textAlign: TextAlign.justify,
+                                  //   trimMode: TrimMode.Line,
+                                  //   trimCollapsedText: "  read more",
+                                  //   trimExpandedText: "  show less",
+                                  //   lessStyle: TextStyle(
+                                  //       fontWeight: FontWeight.bold,
+                                  //       color: Colors.blue),
+                                  //   moreStyle: TextStyle(
+                                  //       fontWeight: FontWeight.bold,
+                                  //       color: Colors.blue),
+                                  // ),
                                 ),
-                              ),
-                              Container(
-                                width: 280,
-                                child: 
-                                Html(
-                                  shrinkWrap: true,
-                                  data: snapshot.data![index].content,
-                                   customImageRenders: {
-                                   
-                                   },
-                                  ),
-                                // ReadMoreText(
-                                //   content,
-                                //   trimLines: 3,
-                                //   textAlign: TextAlign.justify,
-                                //   trimMode: TrimMode.Line,
-                                //   trimCollapsedText: "  read more",
-                                //   trimExpandedText: "  show less",
-                                //   lessStyle: TextStyle(
-                                //       fontWeight: FontWeight.bold,
-                                //       color: Colors.blue),
-                                //   moreStyle: TextStyle(
-                                //       fontWeight: FontWeight.bold,
-                                //       color: Colors.blue),
-                                // ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

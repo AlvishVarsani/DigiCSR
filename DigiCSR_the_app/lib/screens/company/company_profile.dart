@@ -24,23 +24,23 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
   String? stateValue = '';
   String? cityValue = '';
   List<dynamic> _sectors = [];
-  final _items = [
-    MultiSelectItem<String>('Option 1', "Rural Development"),
-    MultiSelectItem<String>('Option 2', "Encouraging Sports"),
-    MultiSelectItem<String>('Option 3', "Clean Ganga Fund"),
-    MultiSelectItem<String>('Option 4', "Swachh Bharat"),
-    MultiSelectItem<String>('Option 5', "Health & Sanitation"),
+final _items = [
+    MultiSelectItem<String>('Rural Development', "Rural Development"),
+    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
+    MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
     MultiSelectItem<String>(
-        'Option 6', "Education, Differently Abled, Livelihood"),
-    MultiSelectItem<String>('Option 7',
+        'Education, Differently Abled, Livelihood', "Education, Differently Abled, Livelihood"),
+    MultiSelectItem<String>('Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
         "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
     MultiSelectItem<String>(
-        'Option 8', "Environment, Animal Welfare, Conservation of Resources"),
-    MultiSelectItem<String>('Option 9', "Slum Development"),
-    MultiSelectItem<String>('Option 10', "Heritage Art And Culture"),
+        'Environment, Animal Welfare, Conservation of Resources', "Environment, Animal Welfare, Conservation of Resources"),
+    MultiSelectItem<String>('Slum Development', "Slum Development"),
+    MultiSelectItem<String>('Heritage Art And Culture', "Heritage Art And Culture"),
     MultiSelectItem<String>(
-        'Option 11', "Prime Minister National Relief Funds"),
-    MultiSelectItem<String>('Option 12', "others"),
+        'Prime Minister National Relief Funds', "Prime Minister National Relief Funds"),
+    MultiSelectItem<String>('others', "others"),
   ];
   bool? firstcheck = false;
   bool? secondcheck = false;
