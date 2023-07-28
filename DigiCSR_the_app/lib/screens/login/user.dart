@@ -6,7 +6,7 @@ import 'package:digicsr/screens/SignUp/ngo.dart';
 import 'package:digicsr/screens/login/ngologin.dart';
 import 'package:flutter/material.dart';
 
-import '../benificiary/benificiary_screen.dart';
+import '../../constants/DataLoaders.dart';
 import 'benificiarylogin.dart';
 import 'companylogin.dart';
 
@@ -102,10 +102,7 @@ class UserSelection extends StatelessWidget {
                     color: primary,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: MediaQuery.of(context).size.width * 0.8,
-                // height: MediaQuery.of(context).size.height * 0.3,
                 padding: EdgeInsets.all(w * 0.05),
-            
-                // margin: EdgeInsets.only(top: 150,),
                 alignment: Alignment(0, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +112,7 @@ class UserSelection extends StatelessWidget {
                       onPressed: () async{
                         index = 0;
                         user = 'Company';
-                        final token = await fetchCompanyToken();
+                        final token = await Token();
                           if (auth == 'signup') {
                           Navigator.push(
                               context,
@@ -128,10 +125,10 @@ class UserSelection extends StatelessWidget {
                                   builder: (context) => CompanyLogin()));
                         }
                         else{
-                          print(token);
+                          await loadCompanyData();
+                          await loadHomeScreen();
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
-                        
                       },
                       child: Container(
                         child: Row(
@@ -181,7 +178,7 @@ class UserSelection extends StatelessWidget {
                       onPressed: () async{
                         index = 0;
                         user = 'NGO';
-                        final token = await fetchNGOToken();
+                        final token = await Token();
                           if (auth == 'signup') {
                           Navigator.push(
                               context,
@@ -195,6 +192,8 @@ class UserSelection extends StatelessWidget {
                         }
                         else{
                           print(token);
+                          await loadHomeScreen();
+                          await loadNGOData();
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
                       },
@@ -243,7 +242,7 @@ class UserSelection extends StatelessWidget {
                       onPressed: () async{
                         index = 0;
                         user = 'Benificiary';
-                        String? token = await fetchBenificiaryToken();
+                        String? token = await Token();
                           if (auth == 'signup') {
                           Navigator.push(
                               context,
@@ -256,7 +255,7 @@ class UserSelection extends StatelessWidget {
                                   builder: (context) => BenificiaryLogin()));
                         }
                         else{
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BeneficiaryHomeScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
                       },
                       child: Container(

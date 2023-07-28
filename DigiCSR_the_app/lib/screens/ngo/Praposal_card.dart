@@ -1,4 +1,3 @@
-import 'package:digicsr/screens/ngo/Praposal_Accept.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';

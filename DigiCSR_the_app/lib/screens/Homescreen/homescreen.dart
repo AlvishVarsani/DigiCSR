@@ -1,8 +1,5 @@
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/models/CouroselData.dart';
 import 'package:digicsr/screens/Homescreen/MediaPosts.dart';
-import 'package:digicsr/services/charts_services.dart';
-import 'package:digicsr/services/courosel_services.dart';
 import 'package:digicsr/services/media_services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 
 import 'package:velocity_x/velocity_x.dart';
-
-import '../../models/Charts.dart';
-import '../../models/Media.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -35,18 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
   String content =
       "In Flutter, if you are wondering is there any way to work with English words or where to find any library that works with English words the search ends here. There is a library named english_words that contains at most 5000 used English words with some utility functions. It’s useful in applications like dictionaries or teaching-related apps. In this article, we will be learning about it and seeing its usage. In the future, the author of this package might add more functionalities to it";
 
-  late Future<List<Media>> posts;
-  late Future<CouroselData> couroselData;
-  late Future<List<Chart>> charts;
-  late Future<List<SectorsChart>> sectorschart;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    couroselData = getCouroselData();
-    posts = getMediaPosts();
-    (user == 'Company') ? (charts = getCharts()) : (charts = getNgoCharts());
-    (user == 'Company') ? (sectorschart = getCompanySectorsChart()) : (sectorschart = getNgoSectorsChart());
+    // loadHomeScreen();
   }
 
   var imgsrc;
@@ -85,7 +72,11 @@ class _HomeScreenState extends State<HomeScreen> {
       SizedBox(
         height: 20,
       ),
-      Padding(
+
+      
+      Column(
+        children: [
+          Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextButton(
           onPressed: () {
@@ -126,83 +117,111 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       Container(
         height: MediaQuery.of(context).size.height * 0.4,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: FutureBuilder(
-            future: posts,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (content) => MediaPosts()));
-                          },
-                          child: Card(
-                            elevation: 16,
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
-                                  width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width*0.94,
+
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: primary,width: 0.6),
+          borderRadius: BorderRadius.all(Radius.circular(20))
+        ),
+        child: 
+        (posts!.length != 0)?
+        LayoutBuilder(
+          builder: (context, constraints) => 
+          FutureBuilder(
+              future: Future(() => posts),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Center(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 10,right: 10),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (content) => MediaPosts()));
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  side: BorderSide(color: black,width: 0.5)),
+                                // elevation: 16,
+                                // color: Color(0x60FF5733),
+                                shadowColor: Colors.transparent,
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  // color: Color(0xFFFF5733),
+                                  width: constraints.maxWidth*0.94,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        "${snapshot.data![index].author_name}",
-                                        style: TextStyle(fontSize: 18),
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                                        width: constraints.maxWidth*0.94,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${snapshot.data![index].author_name}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              "${snapshot.data![index].createdDate!.substring(0, 10)}",
+                                              style: TextStyle(color: Colors.grey),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      Text(
-                                        "${snapshot.data![index].createdDate!.substring(0, 10)}",
-                                        style: TextStyle(color: Colors.grey),
+                                      Container(
+                                        height: 180,
+                                        child: SingleChildScrollView(
+                                          physics: NeverScrollableScrollPhysics(
+                                              parent: BouncingScrollPhysics()),
+                                          child: Html(
+                                              data: snapshot.data![index].content),
+                                        ),
                                       )
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  height: 180,
-                                  child: SingleChildScrollView(
-                                    physics: NeverScrollableScrollPhysics(
-                                        parent: BouncingScrollPhysics()),
-                                    child: Html(
-                                        data: snapshot.data![index].content),
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    });
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return Center(
-                child: Container(
-                  height: MediaQuery.of(context).size.width * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  child: const CircularProgressIndicator(
-                    strokeWidth: 1,
+                          );
+                        }),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return Center(
+                  child: Container(
+                    height: MediaQuery.of(context).size.width * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: const CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+        ):
+            Center(child: Text('No Blogs Found!',style: TextStyle(color: Colors.black45,fontSize: 20),)),
       ),
+        ],
+      ),
+      
       SizedBox(
-        height: 10,
+        height: 30,
       ),
+      // Text('Charts'),
       Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.4,
+          width: MediaQuery.of(context).size.width*0.9,
+          height: MediaQuery.of(context).size.height * 0.36,
           child: FutureBuilder(
             future: charts,
             builder: (context, snapshot) {
@@ -246,20 +265,20 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.hasData) {
                 return PieChart(
                   PieChartData(
-                    pieTouchData: PieTouchData(
-      enabled: true,
-    ),
-                    sections: List.generate(
-                      snapshot.data!.length, 
-                      (index) => PieChartSectionData(
-                        color: primary,
-                        radius: 140,
-                        // titlePositionPercentageOffset: 0.0,
-                        value: double.parse((snapshot.data![index].totalamount).toString()),
-                        showTitle: false,
-                        title: snapshot.data![index].id
-                      ))
-                  ),
+                      pieTouchData: PieTouchData(
+                        enabled: true,
+                      ),
+                      sections: List.generate(
+                          snapshot.data!.length,
+                          (index) => PieChartSectionData(
+                              color: primary,
+                              radius: 140,
+                              // titlePositionPercentageOffset: 0.0,
+                              value: double.parse(
+                                  (snapshot.data![index].totalamount)
+                                      .toString()),
+                              showTitle: false,
+                              title: snapshot.data![index].id))),
                   swapAnimationCurve: Curves.bounceOut,
                 );
               } else if (snapshot.hasError) {
@@ -307,8 +326,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 10,
               ),
               Container(
-                child: FutureBuilder<CouroselData>(
-                    future: couroselData,
+                child: FutureBuilder(
+                    future: couroseldata,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Column(

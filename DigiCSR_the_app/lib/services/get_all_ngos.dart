@@ -4,8 +4,10 @@ import 'package:digicsr/models/NgoModel.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../constants/DataLoaders.dart';
+
 Future<List<Ngo>> getAllNgos()async{
-  String? token = await fetchBenificiaryToken();
+  String? token = await Token();
 
   final response = await http.get(
     Uri.parse(ipInfo + "/NGO"),

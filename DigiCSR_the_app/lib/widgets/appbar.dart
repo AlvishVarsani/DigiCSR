@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
     // TODO: implement build
     return AppBar(
         automaticallyImplyLeading: false,
-        elevation: 20,
+        elevation: 8,
         backgroundColor: white,
         title: Text(
           appbartitle,
@@ -28,11 +28,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsScreen()));
               },
-              // label: Text(
-              //   'Notification',
-              //   style: TextStyle(
-              //       color: black, fontFamily: 'Montserrat', fontSize: 17),
-              // ),
               child: (!unread_notification)
               ?
               Icon(
@@ -55,10 +50,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
               // drawer();
               // Navigator.push(context, MaterialPageRoute(builder: (context)=>DrawerScreen()));
             },
-            child: CircleAvatar(
+            child: 
+            (user == "Benificiary")?
+            Icon(Icons.person,color: black,):
+            CircleAvatar(
               backgroundImage:
                   (user == 'NGO')?NetworkImage('${ngodata.ngo_logo_path}'):NetworkImage('${companydata.cmp_logo_path}'),
-              backgroundColor: secondary,
+              backgroundColor: Colors.transparent,
               radius: 20,
             ),
           )

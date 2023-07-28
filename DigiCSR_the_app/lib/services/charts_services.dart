@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../constants/DataLoaders.dart';
 import '../constants/constants.dart';
 import '../models/Charts.dart';
 
 Future<List<Chart>> getCharts() async {
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
   final response = await http.get(
     Uri.parse(ipInfo + '/charts/year'),
     headers: {
@@ -24,7 +25,7 @@ Future<List<Chart>> getCharts() async {
 
 
 Future<List<Chart>> getNgoCharts()async{
-  String? token = await fetchNGOToken();
+  String? token = await Token();
   final response = await http.get(
     Uri.parse(ipInfo + '/charts/ngo/year'),
     headers: {
@@ -42,7 +43,7 @@ Future<List<Chart>> getNgoCharts()async{
   }
 }
 Future<List<SectorsChart>> getCompanySectorsChart()async{
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
   final response = await http.get(
     Uri.parse(ipInfo + '/charts/sector'),
     headers: {
@@ -60,7 +61,7 @@ Future<List<SectorsChart>> getCompanySectorsChart()async{
   }
 }
 Future<List<SectorsChart>> getNgoSectorsChart()async{
-  String? token = await fetchNGOToken();
+  String? token = await Token();
   final response = await http.get(
     Uri.parse(ipInfo + '/charts/ngo/sector'),
     headers: {

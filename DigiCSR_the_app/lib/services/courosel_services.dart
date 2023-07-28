@@ -3,7 +3,9 @@ import 'package:digicsr/constants/constants.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../models/CouroselData.dart';
+import '../models/Courosel_Data.dart';
+
+
 
 Future<CouroselData> getCouroselData()async{
   final response = await http.get(Uri.parse(ipInfo + '/charts/courosel'),

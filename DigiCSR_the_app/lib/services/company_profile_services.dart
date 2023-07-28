@@ -9,12 +9,14 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http_parser/src/media_type.dart';
+
+import '../constants/DataLoaders.dart';
 // import 'package:path_provider/path_provider.dart';
 
 
 //get company profile
 Future<Company> fetchCompany() async {
-  final token = await fetchCompanyToken();
+  final token = await Token();
   print(token);
   Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
   String id = decodedToken['_id'];
@@ -37,7 +39,7 @@ print(response.body);
 
 //get company logo
 Future<String> getCompanyLogo(String cmpid)async{
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
 
   var response = await http.get(
     Uri.parse(ipInfo + '/company/logo/${cmpid}'),
@@ -56,8 +58,8 @@ Future<String> getCompanyLogo(String cmpid)async{
 }
 
 //post company logo
-void postCompanyLogo()async{
-  String? token = await fetchCompanyToken();
+Future postCompanyLogo()async{
+  String? token = await Token();
 
   var request = await http.MultipartRequest('POST',Uri.parse(ipInfo + '/company/upload-logo'));
 
@@ -86,7 +88,7 @@ void postCompanyLogo()async{
 
 //post company certificate
 void postCompanyCertificate()async{
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
 
   var request = await http.MultipartRequest(
     'POST',Uri.parse(ipInfo + '/company/upload-certificate'),
@@ -113,7 +115,7 @@ void postCompanyCertificate()async{
 }
 
 Future<String> fetchCompanyCertificate(String cmpid) async {
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
 
   var response = await http.get(Uri.parse(ipInfo + "/company/certificate/$cmpid"),
       headers: {HttpHeaders.authorizationHeader: 'Bearer  $token'});
@@ -134,7 +136,7 @@ Future<String> fetchCompanyCertificate(String cmpid) async {
 
 Future updateCompanyProfile(
     String id, Map<String, String> updatedData, File image) async {
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
 
   var request = http.MultipartRequest(
       'POST', Uri.parse(ipInfo + "/company/add-profile/$id"));
@@ -149,8 +151,8 @@ Future updateCompanyProfile(
   await request.send();
 }
 
-void AddCompanayProfile()async{
-  String? token = await fetchCompanyToken();
+Future AddCompanayProfile()async{
+  String? token = await Token();
   print(token.toString());
 
   var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/company/add-profile'),);

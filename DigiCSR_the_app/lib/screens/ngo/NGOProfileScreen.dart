@@ -16,10 +16,8 @@ class _NGOProfileState extends State<NGOProfile> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    
-    // getNgoDetails();
-    loadNGOData();
+    super.initState();    
+    editmode = false;
   }
   @override
   Widget build(BuildContext context) {
@@ -72,6 +70,7 @@ class _NGOProfileState extends State<NGOProfile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircleAvatar(
+                                  backgroundColor: Colors.transparent,
                                   backgroundImage: NetworkImage('${ngodata.ngo_logo_path}'),
                                   radius: 45,
                                 ),
@@ -89,8 +88,9 @@ class _NGOProfileState extends State<NGOProfile> {
                             right: 10,
                             child: IconButton(
                               onPressed: (){
-                                // editmode = true;
-                                // setState(() {});
+                                editmode = true;
+                                Navigator.push(context,MaterialPageRoute(builder: (context)=>NgoDetails()));
+                                setState(() {});
                               },
                               icon: Icon(Icons.mode_edit_outline_outlined,color: primary,),
                               )

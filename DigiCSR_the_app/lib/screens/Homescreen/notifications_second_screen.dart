@@ -1,4 +1,5 @@
 import 'package:digicsr/models/NotificationModel.dart';
+import 'package:digicsr/services/notificatio_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
@@ -9,6 +10,13 @@ class NotificationsSecondScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    notification.read = true;
+
+    void readnotification()async{
+      await updateNotification(notification.notificationID!);
+    }
+
+    readnotification();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -22,7 +30,8 @@ class NotificationsSecondScreen extends StatelessWidget {
         shadowColor: black,
       ),
       backgroundColor: Colors.white,
-      body: Stack(children: [
+      body: Stack(
+        children: [
         Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -78,7 +87,24 @@ class NotificationsSecondScreen extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     )),
-                                onPressed: () {},
+                                onPressed: () async{
+                                  
+                                  try {
+                              await deleteNotification('${notification.notificationID}');
+                              var snackBar = SnackBar(
+                                backgroundColor: primary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Notification deleted!',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               await ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                               Allnotifications = await notify();
+                               Navigator.pop(context);
+                               
+                            } catch (e) {
+                              var snackBar = SnackBar(
+                                backgroundColor: secondary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('${e}',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                                },
                                 child: Text('Delete',
                                     style: TextStyle(color: black)),
                               ),
@@ -108,11 +134,10 @@ class NotificationsSecondScreen extends StatelessWidget {
                     );
                   }),
 
-                  Positioned(
-                      child: Text(
+                  Text(
                     "1 min ago",
                     style: TextStyle(color: Colors.grey, fontSize: 14),
-                  )),
+                  ),
                   SizedBox(
                     height: 5,
                   )

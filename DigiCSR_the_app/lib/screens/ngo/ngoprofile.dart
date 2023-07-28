@@ -904,8 +904,8 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           style: ButtonStyle(
                                   backgroundColor: MaterialStatePropertyAll(primary)
                                 ),
-                            onPressed: () {
-                              AddNgoProfile();
+                            onPressed: () async{
+                              await AddNgoProfile();
                               if (ngo.ngo_logo != null) postNgoLogo();
                             },
                             child: Text("Save")))

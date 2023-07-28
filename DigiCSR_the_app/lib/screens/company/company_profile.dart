@@ -24,28 +24,8 @@ class _ProfileScreenState extends State<ProfileScreenForCompany> {
   String? stateValue = '';
   String? cityValue = '';
   List<dynamic> _sectors = [];
-final _items = [
-    MultiSelectItem<String>('Rural Development', "Rural Development"),
-    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
-    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
-    MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
-    MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
-    MultiSelectItem<String>(
-        'Education, Differently Abled, Livelihood', "Education, Differently Abled, Livelihood"),
-    MultiSelectItem<String>('Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
-        "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
-    MultiSelectItem<String>(
-        'Environment, Animal Welfare, Conservation of Resources', "Environment, Animal Welfare, Conservation of Resources"),
-    MultiSelectItem<String>('Slum Development', "Slum Development"),
-    MultiSelectItem<String>('Heritage Art And Culture', "Heritage Art And Culture"),
-    MultiSelectItem<String>(
-        'Prime Minister National Relief Funds', "Prime Minister National Relief Funds"),
-    MultiSelectItem<String>('others', "others"),
-  ];
-  bool? firstcheck = false;
-  bool? secondcheck = false;
-  bool? thirdcheck = false;
-  bool? fourthcheck = false;
+
+
 
   Future<void> pick_company_certificate() async {
     // Clear previous files
@@ -486,7 +466,7 @@ final _items = [
                                   BorderRadius.all(Radius.circular(5)),
                             ),
                             title: Text('Select Options'),
-                            items: _items,
+                            items: sectoroptions,
                             checkColor: primary,
                             initialValue: _sectors,
                             onConfirm: (values) {

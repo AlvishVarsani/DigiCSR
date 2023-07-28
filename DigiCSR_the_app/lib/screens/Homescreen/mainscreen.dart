@@ -4,9 +4,6 @@ import 'package:digicsr/widgets/appbar.dart';
 import 'package:digicsr/widgets/bottomnavigationbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../services/notificatio_services.dart';
 
 Widget GivePage(List<Widget> pagelist){
   return pagelist[index];
@@ -20,29 +17,18 @@ class MainScreen extends StatefulWidget{
 class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    NGOnotifications = notify();
     print(unread_notification);
-    loadCompanyData();
-    // getCompanyDetails();
-    // loadNGOData();
-    // getNgoDetails();
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   
   @override
   void setState(VoidCallback fn) {
-    // TODO: implement setState
     super.setState(fn);
   }
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent,));
-    // TODO: implement build
-    ScaffoldState scaffoldState = ScaffoldState();
-    
     return Container(
       color: white,
       child: SafeArea(
@@ -53,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           // drawer: DrawerScreen(),
           drawerDragStartBehavior: DragStartBehavior.down,
           appBar: CustomAppBar(),
-          body: GivePage((user == 'NGO')?ngonav:companynav),
+          body: GivePage((user == 'NGO')?ngonav:(user == 'Company')?companynav:benificiarynav),
           bottomNavigationBar: CustomBottomNavBar(companynav,setState),
         ),
       ),

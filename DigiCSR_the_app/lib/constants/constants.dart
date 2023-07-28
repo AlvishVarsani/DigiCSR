@@ -1,25 +1,24 @@
 
+
 import 'package:digicsr/models/BoardMember.dart';
-import 'package:digicsr/models/Donations.dart';
 import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
-import 'package:digicsr/models/couroseldata.dart';
+import 'package:digicsr/screens/benificiary/benificiary_screen.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/ngo/NGOProfileScreen.dart';
 import 'package:digicsr/screens/ngo/Praposal_Screen.dart';
-import 'package:digicsr/services/courosel_services.dart';
 import 'package:digicsr/services/ngo_profile_services.dart';
-import 'package:digicsr/services/rfp_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
+import '../models/Charts.dart';
 import '../models/CompanyModel.dart';
+import '../models/Courosel_Data.dart';
+import '../models/Media.dart';
 import '../models/NotificationModel.dart';
 import '../screens/Homescreen/homescreen.dart';
 import '../screens/company/rfp.dart';
-import '../services/company_profile_services.dart';
 import '../users/benificiaryuser.dart';
 
 Color blue = Color(0xFF1DA1F2);
@@ -37,14 +36,18 @@ final Company company = Company();
 final Ngo ngo = Ngo();
 final BoardMember board_member = BoardMember();
  final BenificiaryUser benificiary = BenificiaryUser();
-late Future<CouroselData> couroselData;
+
+  late Future<CouroselData> couroseldata;
+  late List<Media>? posts;
+  late Future<List<Chart>> charts;
+  late Future<List<SectorsChart>> sectorschart;
 //  (user == 'NGO')? final User<Ngo> usertype = User(ngo):(user == 'Company')? final User<>;
 // final NGOuser ngo = NGOuser();
 final Rfp rfp = Rfp();
 Company companydata = Company();
 Ngo ngodata = Ngo();
 
-late Future<List<NotificationModel>> NGOnotifications;
+List<NotificationModel>? Allnotifications;
 
 int index = 0;
 
@@ -69,6 +72,8 @@ String requested_amount = '';
 List<Widget> companynav = [HomeScreen(), RFP(), CompanyProfile()];
 
 List<Widget> ngonav = [HomeScreen(), PraposalScreen(), NGOProfile()];
+
+List<Widget> benificiarynav= [HomeScreen(), BeneficiaryHomeScreen(), Container()];
 
 final Indianstates = [
   MultiSelectItem<String>('Andhra Pradesh','Andhra Pradesh'),
@@ -101,85 +106,34 @@ final Indianstates = [
   MultiSelectItem<String>('West Bengal','West Bengal')
 ];
 
+final sectoroptions = [
+    MultiSelectItem<String>('Rural Development', "Rural Development"),
+    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem<String>('Encouraging Sports', "Encouraging Sports"),
+    MultiSelectItem<String>('Swachh Bharat', "Swachh Bharat"),
+    MultiSelectItem<String>('Health & Sanitation', "Health & Sanitation"),
+    MultiSelectItem<String>(
+        'Education, Differently Abled, Livelihood', "Education, Differently Abled, Livelihood"),
+    MultiSelectItem<String>('Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities',
+        "Gender Equality, Women Empowerment, Old Age Homes, Reducing Inequalities"),
+    MultiSelectItem<String>(
+        'Environment, Animal Welfare, Conservation of Resources', "Environment, Animal Welfare, Conservation of Resources"),
+    MultiSelectItem<String>('Slum Development', "Slum Development"),
+    MultiSelectItem<String>('Heritage Art And Culture', "Heritage Art And Culture"),
+    MultiSelectItem<String>(
+        'Prime Minister National Relief Funds', "Prime Minister National Relief Funds"),
+    MultiSelectItem<String>('others', "others"),
+  ];
+
+//for the taxes selection in companies
+  bool? firstcheck = false;
+  bool? secondcheck = false;
+  bool? thirdcheck = false;
+  bool? fourthcheck = false;
 
 // String ipInfo = "http://127.0.0.1:4000";
-String ipInfo = "http://192.168.155.94:4000";
+String ipInfo = "http://192.168.74.94:4000";
 
-Future<String> getCompanyId()async{
-  String? token = await fetchCompanyToken();
-  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-  String companyid = decodedToken['_id'];
-  return companyid;
-}
-Future<String> getNgoId()async{
-  String? token = await fetchNGOToken();
-  Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-  String Ngoid = decodedToken['_id'];
-  return  Ngoid;
-}
-
-void loadCompanyData(){
-  getCmpLogo();
-  getCompanyDetails();
-  // getCmpCertificate();
-  print('Company data Loaded!');
-}
-
-void loadNGOData(){
-  getNgoDetails();
-  NgoLogo();
-}
-
-Future<Rfp> loadCompanyRfp(String rfpid)async{
-  Rfp data = await fetchRfpDetails(rfpid);
-  data.donations = Donations.giveDonationslist(data.donation_requests);
-  return data;
-}
-
-Future<String> getCmpLogo()async{
-  String cmpid = await getCompanyId();
-  return getCompanyLogo(cmpid);
-}
-
-Future<String> NgoLogo()async{
-  String cmpid = await getNgoId();
-  return getNgoLogo(cmpid);
-}
-
-Future<String> getCmpCertificate()async{
-  String cmpid = await getCompanyId();
-  return fetchCompanyCertificate(cmpid);
-}
-
-Future<String?> fetchCompanyToken() {
-  return storage.read(key: "company");
-}
-
-Future<String?> fetchNGOToken() {
-  return storage.read(key: "ngo");
-}
-
-Future<String?> fetchBenificiaryToken() {
-  return storage.read(key: "benificiary");
-}
-
-void getCompanyDetails()async{
-    companydata = await fetchCompany();
-    companydata.cmp_logo_path = await getCmpLogo();
-    print(companydata.company_name);
-  }
-    
-    //Ngo details for user as NGO
-    void getNgoDetails()async{
-  String ngoid = await getNgoId();
-  ngodata = await getNGODetailsById(ngoid);
-  ngodata.boardmemberslist = BoardMember.givelist(ngodata.board_members);
-  ngodata.ngo_logo_path = await NgoLogo();
-    }
-
-Future<Ngo> getNGODetailsById(String id)async{
-    return await fetchNgoProfile(id);
-  }
 
 //Ngo details for user as Company or Benificiary
   Future<Ngo> getNgoDetailsForOthers(String id)async{

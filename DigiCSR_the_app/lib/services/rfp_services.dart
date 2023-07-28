@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
+import '../constants/DataLoaders.dart';
 import '../constants/constants.dart';
 import '../models/RFPModel.dart';
 
 Future addRFP(var data) async {
-  final token = await fetchCompanyToken();
+  final token = await Token();
 
 final response = await http.post(Uri.parse(ipInfo + "/add-rfp"),
 headers: {
@@ -29,7 +29,7 @@ if (response.statusCode == 200) {
 
 Future<List<Rfp>> fetchAllRfp() async {
   // fetch the token
-  String? token = await fetchNGOToken();
+  String? token = await Token();
 
   final response = await http.get(Uri.parse(ipInfo + "/rfps"), headers: {
     'Context-Type': 'application/json;charSet=UTF-8',
@@ -47,7 +47,7 @@ Future<List<Rfp>> fetchAllRfp() async {
 }
 
 Future<Rfp> fetchRfpDetails(String rfpid)async{
-  final token = await fetchCompanyToken();
+  final token = await Token();
   final response =
       // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
       await http.get(Uri.parse(ipInfo + "/rfp/${rfpid}"), headers: {
@@ -66,7 +66,7 @@ Future<Rfp> fetchRfpDetails(String rfpid)async{
 }
 
 Future<List<Rfp>> fetchCompanyRfp() async {
-  final token = await fetchCompanyToken();
+  final token = await Token();
   final response =
       // await http.get(Uri.parse(ipInfo + "/company/rfp" + "?id=$id"));
       await http.get(Uri.parse(ipInfo + "/company/rfp"), headers: {
@@ -86,7 +86,7 @@ Future<List<Rfp>> fetchCompanyRfp() async {
 
 //NGO accept the praposal
 void acceptPraposal(Map<dynamic, dynamic> data) async {
-  final token = await fetchNGOToken();
+  final token = await Token();
   var client = new http.Client();
   client.put(
     Uri.parse(ipInfo + "/accept-rfp"),
@@ -106,7 +106,7 @@ void acceptPraposal(Map<dynamic, dynamic> data) async {
 }
 
 Future<Rfp> donationReq() async {
-  final token = await fetchCompanyToken();
+  final token = await Token();
   Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
   String id = decodedToken['_id'];
   final response = await http.get(Uri.parse(ipInfo + "/rfp/$id"), 
@@ -126,7 +126,7 @@ Future<Rfp> donationReq() async {
 }
 
 Future<int> manage_donations(Map<String, dynamic> data)async{
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
   final response = await http.put(
     Uri.parse(ipInfo + '/rfp/manage'),
     headers: {
@@ -145,7 +145,7 @@ Future<int> manage_donations(Map<String, dynamic> data)async{
 }
 
 Future deleteRfp(String rfpid)async{
-  String? token = await fetchCompanyToken();
+  String? token = await Token();
   final response = await http.delete(
     Uri.parse(ipInfo + '/rfp/delete/${rfpid}'),
     headers: {

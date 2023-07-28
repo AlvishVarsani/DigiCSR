@@ -1,11 +1,11 @@
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/models/CompanyModel.dart';
 import 'package:digicsr/screens/Homescreen/HelpAndSupport.dart';
 import 'package:digicsr/screens/company/CompanyDetails.dart';
 import 'package:digicsr/screens/company/ContactPersonDetails.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
-import 'package:digicsr/services/company_profile_services.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/DataLoaders.dart';
 
 class CompanyProfile extends StatefulWidget {
   @override
@@ -20,6 +20,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     // TODO: implement initState
     super.initState();
     getCompanyDetails();
+    editmode = false;
   }
 
   @override
@@ -74,10 +75,11 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FutureBuilder(
-                                  future: getCmpLogo(),
+                                  future: Future(() => companydata.cmp_logo_path),
                                   builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return CircleAvatar(
+                                      backgroundColor: Colors.transparent,
                                       backgroundImage:
                                           NetworkImage('${snapshot.data}'),
                                       radius: 45,
@@ -122,8 +124,9 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               right: 10,
                               child: IconButton(
                                 onPressed: () {
-                                  // editmode = true;
-                                  // setState(() {});
+                                  editmode = true;
+                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>CompanyDetails()));
+                                  setState(() {});
                                 },
                                 icon: Icon(
                                   Icons.mode_edit_outline_outlined,
@@ -157,7 +160,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      CompanyDetails(companydata)));
+                                      CompanyDetails()));
                         },
                         style: ButtonStyle(
                             padding: MaterialStatePropertyAll(EdgeInsets.only(

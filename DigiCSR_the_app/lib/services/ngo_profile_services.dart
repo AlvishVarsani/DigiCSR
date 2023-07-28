@@ -6,8 +6,10 @@ import 'package:digicsr/models/NgoModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/src/media_type.dart';
 
-void AddNgoProfile()async{
-  String? token = await fetchNGOToken();
+import '../constants/DataLoaders.dart';
+
+Future AddNgoProfile()async{
+  String? token = await Token();
   print(token);
   print('Function called');
   var request = http.MultipartRequest('POST', Uri.parse(ipInfo + '/NGO/add-profile'),);
@@ -19,13 +21,11 @@ request.fields['ngo_name'] = ngo.ngo_name!;
 request.fields['summary'] = ngo.summmary!;
 request.fields['city'] = ngo.city!;
 request.fields['state'] = ngo.state!;
-request.fields['pincode'] = company.pincode!;
-request.fields['establishment_year'] = company.establishment_year.toString();
+request.fields['pincode'] = ngo.pincode!;
+request.fields['establishment_year'] = ngo.establishment_year.toString();
 request.fields['phone'] = ngo.phone!;
 request.fields['csr_budget'] = ngo.csr_budget.toString();
 
-print(ngo.board_members);
-print('boardmember');
 
 for (var index = 0; index < ngo.board_members!.length; index++) {
     var member = ngo.board_members![index];
@@ -36,11 +36,11 @@ for (var index = 0; index < ngo.board_members!.length; index++) {
     request.fields['board_members[$index][bm_designation]'] =
         member.bm_designation!;
   }
-
+print('boardmember');
 for (int i = 0; i < ngo.operation_areas!.length; i++) {
   request.files.add(http.MultipartFile.fromString("operation_area[$i]", ngo.operation_areas![i], contentType: MediaType("application", "json")));
 }
-
+print('Operation Area');
 for (int i = 0; i < ngo.sectors!.length; i++) {
   request.files.add(http.MultipartFile.fromString("sectors[$i]", ngo.sectors![i], contentType: MediaType("application", "json")));
 }
@@ -61,7 +61,7 @@ if (response.statusCode == 200) {
 
 //fetch ngo profile
 Future<Ngo> fetchNgoProfile(String id) async {
-  String? token = await fetchNGOToken();
+  String? token = await Token();
 
   var response = await http.get(
     Uri.parse(ipInfo + "/NGO/profile/${id}"),
@@ -80,7 +80,7 @@ Future<Ngo> fetchNgoProfile(String id) async {
 
 //post ngo logo
 void postNgoLogo()async{
-  String? token = await fetchNGOToken();
+  String? token = await Token();
 
   var request = await http.MultipartRequest('POST',Uri.parse(ipInfo + '/ngo/upload-logo'));
 
@@ -109,7 +109,7 @@ void postNgoLogo()async{
 
 //get ngo logo
 Future<String> getNgoLogo(String cmpid)async{
-  String? token = await fetchNGOToken();
+  String? token = await Token();
 
   var response = await http.get(
     Uri.parse(ipInfo + '/NGO/logo/${cmpid}'),
@@ -130,7 +130,7 @@ Future<String> getNgoLogo(String cmpid)async{
 //update ngo profile
 Future<void> updateNgoProfile(
     String id, Map<String, String> updatedData, File image) async {
-  String? token = await fetchNGOToken();
+  String? token = await Token();
 
   var request = http.MultipartRequest(
     'POST',

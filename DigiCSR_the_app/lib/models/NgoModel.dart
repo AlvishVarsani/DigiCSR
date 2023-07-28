@@ -39,7 +39,7 @@ class Ngo {
     this.summmary = ngosample.summmary;
     this.sectors = ngosample.sectors;
     this.state = ngosample.state;
-    this.board_members = ngosample.board_members;
+    this.board_members = ngosample.boardmemberslist;
   }
 
   Ngo({
