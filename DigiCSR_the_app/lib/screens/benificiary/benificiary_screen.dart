@@ -134,21 +134,21 @@ class _BeneficiaryHomeScreenState extends State<BeneficiaryHomeScreen> {
                                 ListTile(
                                   leading: Icon(
                                     Icons.email,
-                                    color: Colors.black,
+                                    color: primary,
                                   ),
                                   title: Text("${displayedNgos[index].email}"),
                                 ),
                                 ListTile(
                                   leading: Icon(
                                     Icons.phone,
-                                    color: Colors.black,
+                                    color: primary,
                                   ),
                                   title: Text("${displayedNgos[index].phone}"),
                                 ),
                                 ListTile(
                                   leading: Icon(
                                     Icons.location_on,
-                                    color: Colors.black,
+                                    color: primary,
                                   ),
                                   title: Text(
                                       "${displayedNgos[index].city}, ${displayedNgos[index].state}, ${displayedNgos[index].pincode}"),

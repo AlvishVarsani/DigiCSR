@@ -44,7 +44,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         // selectedLabelStyle: TextStyle(color: primary),
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        iconSize: 30,
+        iconSize: 25,
         backgroundColor: white,
         onTap: (value)=>{
           index = value,

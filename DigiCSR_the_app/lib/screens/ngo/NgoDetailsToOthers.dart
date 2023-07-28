@@ -93,6 +93,7 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                               height: h,
                               width: w,
                               child: SingleChildScrollView(
+                                clipBehavior: Clip.antiAlias,
                                 child: Column(
                                   children: [
                                     Row(
@@ -124,6 +125,7 @@ class _NgoDetailsToOthersState extends State<NgoDetailsToOthers> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     CircleAvatar(
+                                                      
                                                       backgroundImage:
                                                        NetworkImage('${snapshot.data!.ngo_logo_path}'),
                                                       radius: 45,

@@ -255,6 +255,7 @@ class UserSelection extends StatelessWidget {
                                   builder: (context) => BenificiaryLogin()));
                         }
                         else{
+                          await loadHomeScreen();
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                         }
                       },
