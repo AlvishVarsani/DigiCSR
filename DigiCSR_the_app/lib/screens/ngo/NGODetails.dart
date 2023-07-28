@@ -614,8 +614,6 @@ class _NgoDetailsState extends State<NgoDetails> {
                                 onPressed: ()async{
                                   editmode = false;
                                   ngo.updatedata(ngodata);
-                                  ngo.operation_areas = ["Gujarat"];
-                                  ngo.sectors = ["Swachh Bharat"];
                                   try {
                                     await AddNgoProfile();
                                     if (ngo.ngo_logo != null) postNgoLogo();
