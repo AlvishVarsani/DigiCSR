@@ -102,6 +102,8 @@ Future<String> getNgoId() async {
 //--------------------------Home Screen---------------------------------------
 Future loadHomeScreen()async{
   posts = await getMediaPosts();
+  charts = getCharts();
+  sectorschart = getCompanySectorsChart();
   await loadCaurosal();
 }
 

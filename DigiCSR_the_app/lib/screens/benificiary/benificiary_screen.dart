@@ -80,116 +80,118 @@ class _BeneficiaryHomeScreenState extends State<BeneficiaryHomeScreen> {
                   ),
                 ),
               ),
-              Container(
-                height: constraints.maxHeight * 0.85,
-                child: FutureBuilder(
-                  future: ngos,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      // Save the fetched NGOs to the allNgos list
-                      allNgos = snapshot.data as List<Ngo>;
-                      // If search text is empty or null, show all NGOs, else show filtered NGOs
-                      final List<Ngo> displayedNgos =
-                          searchController.text.isEmpty
-                              ? allNgos
-                              : filteredNgos;
-        
-                      return ListView.builder(
-                        itemCount: displayedNgos.length,
-                        itemBuilder: (context, index) => 
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, bottom: 15),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            elevation: 0.5,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: primary,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
+              Expanded(
+                child: Container(
+                  height: constraints.maxHeight * 0.85,
+                  child: FutureBuilder(
+                    future: ngos,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        // Save the fetched NGOs to the allNgos list
+                        allNgos = snapshot.data as List<Ngo>;
+                        // If search text is empty or null, show all NGOs, else show filtered NGOs
+                        final List<Ngo> displayedNgos =
+                            searchController.text.isEmpty
+                                ? allNgos
+                                : filteredNgos;
+                      
+                        return ListView.builder(
+                          itemCount: displayedNgos.length,
+                          itemBuilder: (context, index) => 
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, bottom: 15),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 0.5,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: primary,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15),
+                                      ),
                                     ),
-                                  ),
-                                  child: Container(
-                                    // width: ,
-                                    height: 46,
-                                    child: Center(
-                                      child: Text(
-                                        "${displayedNgos[index].ngo_name}",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
+                                    child: Container(
+                                      // width: ,
+                                      height: 46,
+                                      child: Center(
+                                        child: Text(
+                                          "${displayedNgos[index].ngo_name}",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 10),
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.email,
-                                    color: primary,
+                                  SizedBox(height: 10),
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.email,
+                                      color: primary,
+                                    ),
+                                    title: Text("${displayedNgos[index].email}"),
                                   ),
-                                  title: Text("${displayedNgos[index].email}"),
-                                ),
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.phone,
-                                    color: primary,
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.phone,
+                                      color: primary,
+                                    ),
+                                    title: Text("${displayedNgos[index].phone}"),
                                   ),
-                                  title: Text("${displayedNgos[index].phone}"),
-                                ),
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.location_on,
-                                    color: primary,
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.location_on,
+                                      color: primary,
+                                    ),
+                                    title: Text(
+                                        "${displayedNgos[index].city}, ${displayedNgos[index].state}, ${displayedNgos[index].pincode}"),
                                   ),
-                                  title: Text(
-                                      "${displayedNgos[index].city}, ${displayedNgos[index].state}, ${displayedNgos[index].pincode}"),
-                                ),
-                                Center(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => NgoDetailsToOthers(
-                                            displayedNgos[index],
+                                  Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => NgoDetailsToOthers(
+                                              displayedNgos[index],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: Text("More details"),
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStatePropertyAll(primary)
+                                        );
+                                      },
+                                      child: Text("More details"),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStatePropertyAll(primary)
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      
+                      return Center(
+                        child: Container(
+                          height: constraints.maxWidth * 0.1,
+                          width: constraints.maxWidth * 0.1,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 1,
                           ),
                         ),
                       );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-        
-                    return Center(
-                      child: Container(
-                        height: constraints.maxWidth * 0.1,
-                        width: constraints.maxWidth * 0.1,
-                        child: const CircularProgressIndicator(
-                          strokeWidth: 1,
-                        ),
-                      ),
-                    );
-                  },
+                    },
+                  ),
                 ),
               ),
             ],

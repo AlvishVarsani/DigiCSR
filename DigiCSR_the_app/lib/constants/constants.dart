@@ -3,6 +3,7 @@
 import 'package:digicsr/models/BoardMember.dart';
 import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
+import 'package:digicsr/models/ReviewNGOModel.dart';
 import 'package:digicsr/screens/benificiary/benificiary_screen.dart';
 import 'package:digicsr/screens/company/CompanyProfile.dart';
 import 'package:digicsr/screens/ngo/NGOProfileScreen.dart';
@@ -36,9 +37,11 @@ final Company company = Company();
 final Ngo ngo = Ngo();
 final BoardMember board_member = BoardMember();
  final BenificiaryUser benificiary = BenificiaryUser();
+ final ReviewNgo reviewNgo = ReviewNgo();
 
   late Future<CouroselData> couroseldata;
   late List<Media>? posts;
+  late Future<List<ReviewNgo>> reviewngodata;
   late Future<List<Chart>> charts;
   late Future<List<SectorsChart>> sectorschart;
 //  (user == 'NGO')? final User<Ngo> usertype = User(ngo):(user == 'Company')? final User<>;

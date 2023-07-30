@@ -1,4 +1,6 @@
 import 'package:digicsr/constants/constants.dart';
+import 'package:digicsr/screens/Homescreen/HomeScreenForBenifi.dart';
+import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/SignUp/benificiary.dart';
 import 'package:digicsr/screens/SignUp/company.dart';
@@ -256,7 +258,7 @@ class UserSelection extends StatelessWidget {
                         }
                         else{
                           await loadHomeScreen();
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenForBenifi()));
                         }
                       },
                       child: Container(

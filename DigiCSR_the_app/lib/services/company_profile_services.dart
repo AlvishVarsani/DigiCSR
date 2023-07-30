@@ -3,10 +3,7 @@ import 'dart:io';
 
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/models/CompanyModel.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http_parser/src/media_type.dart';
 
