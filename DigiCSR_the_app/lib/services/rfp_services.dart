@@ -85,7 +85,7 @@ Future<List<Rfp>> fetchCompanyRfp() async {
 }
 
 //NGO accept the praposal
-void acceptPraposal(Map<dynamic, dynamic> data) async {
+Future acceptPraposal(Map<dynamic, dynamic> data) async {
   final token = await Token();
   var client = new http.Client();
   client.put(

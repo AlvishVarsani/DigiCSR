@@ -257,7 +257,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                           ),
                       TextButton(
                         onPressed: () {
-                          storage.delete(key: 'ngo');
+                          storage.delete(key: 'token');
                           Navigator.pop(context);
                           Navigator.push(
                               context,

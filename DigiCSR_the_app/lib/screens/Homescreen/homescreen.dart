@@ -223,8 +223,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
                 width: MediaQuery.of(context).size.width*0.9,
                 height: MediaQuery.of(context).size.height * 0.36,
-                child: FutureBuilder(
-                  future: charts,
+                child: 
+                (charts.length != 0)?
+                FutureBuilder(
+                  future: Future(() => charts),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return BarChart(BarChartData(
@@ -253,15 +255,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                )),
+                ):
+                  Center(child: Text('No Charts Found!',style: TextStyle(color: Colors.black45,fontSize: 20),)),
+
+                ),
             SizedBox(
               height: 20,
             ),
             Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.height * 0.5,
-                child: FutureBuilder(
-                  future: sectorschart,
+                child: 
+                (sectorschart.length != 0)?
+                FutureBuilder(
+                  future: Future(() => sectorschart),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return PieChart(
@@ -295,7 +302,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                )),
+                ):
+                  Center(child: Text('No Data Found!',style: TextStyle(color: Colors.black45,fontSize: 20),)),
+
+                ),
             SizedBox(
               height: 20,
             ),

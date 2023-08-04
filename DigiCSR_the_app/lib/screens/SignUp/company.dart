@@ -1,13 +1,13 @@
-import 'dart:convert';
-
-import 'package:digicsr/screens/login/companylogin.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import '../../constants/DataLoaders.dart';
 import '../../constants/constants.dart';
+import '../../services/authentication.dart';
 import '../../users/companyuser.dart';
+import '../Homescreen/HomeScreenForBenifi.dart';
+import '../Homescreen/mainscreen.dart';
 
 // final storage = new FlutterSecureStorage();
 
@@ -20,55 +20,24 @@ class CompanySignUp extends StatefulWidget {
 
 class _CompanySignUp extends State<CompanySignUp> {
   final _formkey = GlobalKey<FormState>();
+  String? code;
 
   OtpFieldController otpcontroller = OtpFieldController();
   String otp = '';
   bool otpverify = false;
-
+  String email='';
+  String cin='';
   CompanyUser company = CompanyUser();
+String dropdownvalue = 'Company';
 
+  // List of items in our dropdown menu
+  var items = [
+    'Company',
+    'NGO',
+    'Benificiary',
+  
+  ];
   bool otpsent = false;
-
-  void sendOTP() async {
-    try {
-      var resSend = await http.post(Uri.parse(ipInfo + '/company/signup'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'cin': company.cin,
-            'email': company.company_email
-          });
-      print(resSend.body);
-      otpsent = true;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future verifyOTP() async {
-    try {
-      var res = await http.post(Uri.parse(ipInfo + '/company/verify'),
-          headers: <String, String>{
-            'Context-Type': 'application/json;charSet=UTF-8'
-          },
-          body: {
-            'cin': company.cin,
-            'email': company.company_email,
-            'otp': otp
-          });
-      print(res.body);
-      await storage.write(key: "company", value: jsonDecode(res.body)['result']);
-      if (jsonDecode(res.body)['success']) {
-        otpverify = true;
-        btn = 'SignUp';
-      }
-    } on Exception catch (e) {
-      // TODO
-      print(e);
-    }
-  }
-
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -77,6 +46,175 @@ class _CompanySignUp extends State<CompanySignUp> {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+
+     Future<void> _showDialog() {
+      return showDialog<void>(
+          context: context,
+          builder: (context) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    side: BorderSide(
+                        style: BorderStyle.solid, color: Colors.transparent)),
+                title: Text(
+                  'OTP Verification',
+                  style: TextStyle(fontSize: 20),
+                ),
+                content: Container(
+                  // Use a fraction of the screen height for the container height
+                  height: h * 0.3,
+                  padding: EdgeInsets.only(top: 6, bottom: 6),
+                  child: Column(
+                    children: [
+                      Text(
+                          'The OTP is sent to your given email address. Check your email and verify it.'),
+                      Expanded(
+                        child: OTPTextField(
+                          // Use a fraction of the screen width for the text field width
+                          width: w * 0.8,
+                          controller: otpcontroller,
+                          length: 6,
+                          contentPadding:
+                              EdgeInsets.only(left: 8.0, right: 8.0),
+                          onChanged: (value) => {otp = value},
+                          onCompleted: (value) =>
+                              {otp = value, setState(() {})},
+                          // spaceBetween: 2,
+                          outlineBorderRadius: 6,
+                          style:
+                              TextStyle(fontFamily: 'Montserrat', fontSize: 20),
+                          // fieldWidth: 35,
+                          textFieldAlignment: MainAxisAlignment.spaceEvenly,
+                          fieldStyle: FieldStyle.box,
+                          otpFieldStyle: OtpFieldStyle(
+                            borderColor: primary,
+                            focusBorderColor: primary,
+                            errorBorderColor: Colors.red,
+                            enabledBorderColor: primary,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                
+                                try {
+                                  await sendOTPSignup(email,cin);
+                                  var snackBar = SnackBar(
+                                      backgroundColor: primary,
+                                      padding:
+                                          EdgeInsets.only(bottom: 20, top: 20),
+                                      content: Text(
+                                        'OTP resent to your email!',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ));
+                                  await ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                  Navigator.pop(context);
+                                } catch (e) {
+                                  var snackBar = SnackBar(
+                                      backgroundColor: Colors.red.shade800,
+                                      padding:
+                                          EdgeInsets.only(bottom: 20, top: 20),
+                                      content: Text(
+                                        'Unable to sent the otp again',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              },
+                              child: Text(
+                                'Resend',
+                                style: TextStyle(fontSize: 18, color: black),
+                              ),
+                              style: ButtonStyle(
+                                  // backgroundColor:
+                                  //     MaterialStateProperty.all(primary),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: primary,
+                                              style: BorderStyle.solid),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)))),
+                                  // Use a fraction of the screen width for the button size
+                                  minimumSize: MaterialStateProperty.all(
+                                      Size(w * 0.3, 20))),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                await verifyOTPSignup(otp,email,cin);
+                                setState(() {});
+                                if (user == 'Company') {
+                                            await loadCompanyData();
+                                            await loadHomeScreen();
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MainScreen()));
+                                          } else if (user == 'NGO') {
+                                            await loadHomeScreen();
+                                            // await loadNGOData();
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MainScreen()));
+                                          } else {
+                                            await loadHomeScreen();
+                                            print('beni');
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeScreenForBenifi()));
+                                          }
+                              },
+                              child: Text(
+                                'Verify',
+                                style: TextStyle(fontSize: 18, color: black),
+                              ),
+                              style: ButtonStyle(
+                                  // backgroundColor:
+                                  //     MaterialStateProperty.all(primary),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: primary,
+                                              style: BorderStyle.solid),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)))),
+                                  // Use a fraction of the screen width for the button size
+                                  minimumSize: MaterialStateProperty.all(
+                                      Size(w * 0.3, 20))),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+                insetPadding: EdgeInsets.all(20),
+                // actions: [
+                //   TextButton(onPressed: (){}, child: child)
+                // ],
+              ));
+    }
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -154,6 +292,58 @@ class _CompanySignUp extends State<CompanySignUp> {
                             // padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top * 0.5,left: MediaQuery.paddingOf(context).left * 0.4),
                             child: Column(
                               children: [
+                                Column(
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                          border: Border.all(
+                                            color: primary,
+                                          ),
+                                        ),
+                                        child: DropdownButton(
+                                          elevation: 0,
+                                          underline: SizedBox(),
+
+                                          // Initial Value
+                                          padding: EdgeInsets.only(left: 10,right: 10),
+                                          isExpanded: true,
+                                          isDense: false,
+                                          
+                                          value: dropdownvalue,
+
+                                          // Down Arrow Icon
+                                          icon: const Icon(
+                                              Icons.keyboard_arrow_down),
+
+                                          // Array list of items
+                                          items: items.map((String items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              user = newValue!;
+                                              if(user == 'NGO'){
+                                                code = 'csr';
+                                              }else if(user == 'Company'){
+                                                code = 'cin';
+                                              }
+                                              dropdownvalue = newValue;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 Container(
                                     margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
                                     alignment: Alignment.centerLeft,
@@ -166,9 +356,9 @@ class _CompanySignUp extends State<CompanySignUp> {
                                     )),
                                 TextFormField(
                                   controller: TextEditingController(
-                                      text: company.company_email),
+                                      text: email),
                                   onChanged: (value) {
-                                    company.company_email = value;
+                                    email = value;
                                   },
                                   style: TextStyle(fontFamily: 'Montserrat'),
                                   validator: (value) {
@@ -193,9 +383,10 @@ class _CompanySignUp extends State<CompanySignUp> {
                                     //       fontWeight: FontWeight.w800),
                                     // ),
                                     hintText: 'ex. digicsr@gmail.com',
+                                    hintStyle: TextStyle(color: primary),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide: BorderSide(color: grey)),
@@ -233,7 +424,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                                     margin: EdgeInsets.fromLTRB(5, 8, 5, 5),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      'CIN',
+                                      (user == 'NGO')?'CSR':'CIN',
                                       style: TextStyle(
                                           fontFamily: 'Montserrat',
                                           fontSize: 20,
@@ -243,15 +434,15 @@ class _CompanySignUp extends State<CompanySignUp> {
                                   // scrollPadding: EdgeInsets.all(5),
                                   style: TextStyle(fontFamily: 'Montserrat'),
                                   controller:
-                                      TextEditingController(text: company.cin),
+                                      TextEditingController(text: cin),
                                   onChanged: (value) {
-                                    company.cin = value;
+                                    cin = value;
                                   },
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Enter CIN';
+                                      return 'Enter valid credentials';
                                     } else {
-                                      return 'Invalid CIN';
+                                      return 'Invalid credentials';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -264,13 +455,14 @@ class _CompanySignUp extends State<CompanySignUp> {
                                     //       fontFamily: 'Montserrat',
                                     //       fontWeight: FontWeight.w800),
                                     // ),
-                                    hintText: 'Enter CIN here',
+                                    hintText: 'Enter ${code} here',
+                                    hintStyle: TextStyle(color: primary),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: grey)),
+                                        borderSide: BorderSide(color: primary)),
                                     errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide:
@@ -288,35 +480,7 @@ class _CompanySignUp extends State<CompanySignUp> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.paddingOf(context).top * 0.6,
-                          bottom: MediaQuery.paddingOf(context).top * 0.3),
-                      child: OTPTextField(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        controller: otpcontroller,
-                        length: 6,
-                        contentPadding: EdgeInsets.all(8.0),
-                        onChanged: (value) => {otp = value},
-                        onCompleted: (value) => {
-                          otp = value,
-                          if (verifyOTP() == true) {},
-                          setState(() {})
-                        },
-                        // spaceBetween: 2,
-                        outlineBorderRadius: 6,
-                        style:
-                            TextStyle(fontFamily: 'Montserrat', fontSize: 20),
-                        spaceBetween: 10, fieldWidth: 35,
-                        textFieldAlignment: MainAxisAlignment.center,
-                        fieldStyle: FieldStyle.box,
-                        otpFieldStyle: OtpFieldStyle(
-                            borderColor: Colors.blue,
-                            focusBorderColor: Colors.blue,
-                            errorBorderColor: Colors.red,
-                            enabledBorderColor: Colors.blue),
-                      ),
-                    ),
+                   
                     Container(
                       padding: EdgeInsets.only(
                           left: MediaQuery.paddingOf(context).top * 0.4,
@@ -371,15 +535,24 @@ class _CompanySignUp extends State<CompanySignUp> {
                                             style: BorderStyle.solid),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))))),
-                            onPressed: () {
-                              if (!otpverify) {
-                                sendOTP();
-                              }else
-                              {
+                            onPressed: () async{
+                              user = 'NGO';
+                              if (services) {
+                                if (!otpverify) {
+                                  await sendOTPSignup(email,cin);
+                                  _showDialog();
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MainScreen()));
+                                }
+                              } else {
+                                index = 0;
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => CompanyLogin()));
+                                        builder: (context) => MainScreen()));
                               }
                             },
                             child: Text(

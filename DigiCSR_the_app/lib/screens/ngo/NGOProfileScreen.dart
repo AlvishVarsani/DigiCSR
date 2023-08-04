@@ -178,7 +178,7 @@ class _NGOProfileState extends State<NGOProfile> {
                   ),
                   TextButton(
                     onPressed: (){
-                      storage.delete(key: 'ngo');
+                      storage.delete(key: 'token');
                       Navigator.pop(context);
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
                     }, 

@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           // drawer: DrawerScreen(),
           drawerDragStartBehavior: DragStartBehavior.down,
           appBar: CustomAppBar(),
-          body: GivePage((user == 'NGO')?ngonav:(user == 'Company')?companynav:benificiarynav),
+          body: GivePage((user == 'NGO')?ngonav:companynav),
           bottomNavigationBar: CustomBottomNavBar(companynav,setState),
         ),
       ),

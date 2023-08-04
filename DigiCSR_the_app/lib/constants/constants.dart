@@ -1,5 +1,6 @@
 
 
+import 'package:digicsr/constants/providers.dart';
 import 'package:digicsr/models/BoardMember.dart';
 import 'package:digicsr/models/NgoModel.dart';
 import 'package:digicsr/models/RFPModel.dart';
@@ -33,6 +34,8 @@ Color black = Color(0xFF202020);
 Color blueglass = Color(0x130CB6F0);
 
 final storage = FlutterSecureStorage();
+final storagefortype = FlutterSecureStorage();
+AuthProvider authProvider = AuthProvider();
 final Company company = Company();
 final Ngo ngo = Ngo();
 final BoardMember board_member = BoardMember();
@@ -42,8 +45,8 @@ final BoardMember board_member = BoardMember();
   late Future<CouroselData> couroseldata;
   late List<Media>? posts;
   late Future<List<ReviewNgo>> reviewngodata;
-  late Future<List<Chart>> charts;
-  late Future<List<SectorsChart>> sectorschart;
+  late List<Chart> charts;
+  late List<SectorsChart> sectorschart;
 //  (user == 'NGO')? final User<Ngo> usertype = User(ngo):(user == 'Company')? final User<>;
 // final NGOuser ngo = NGOuser();
 final Rfp rfp = Rfp();
@@ -135,7 +138,7 @@ final sectoroptions = [
   bool? fourthcheck = false;
 
 // String ipInfo = "http://127.0.0.1:4000";
-String ipInfo = "http://192.168.74.94:4000";
+String ipInfo = "http://192.168.198.94:4000";
 
 
 //Ngo details for user as Company or Benificiary

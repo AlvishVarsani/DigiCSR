@@ -156,9 +156,22 @@ class _PraposalAcceptState extends State<PraposalAccept> {
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async{
                     print(data());
-                    acceptPraposal(data());
+                    
+                     try {
+                              await acceptPraposal(data());
+                              var snackBar = SnackBar(
+                                backgroundColor: primary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Your request has been sent!',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               await ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                               Navigator.pop(context);
+                            } catch (e) {
+                              var snackBar = SnackBar(
+                                backgroundColor: secondary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Unable to sent request!',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
                   },
                   child: Text(
                     'Raise Request',

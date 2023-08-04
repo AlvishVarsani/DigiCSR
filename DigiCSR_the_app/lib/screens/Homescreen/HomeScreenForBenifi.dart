@@ -1,10 +1,10 @@
+import 'package:digicsr/constants/DataLoaders.dart';
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/Homescreen/MediaPosts.dart';
 import 'package:digicsr/screens/benificiary/benificiary_screen.dart';
-import 'package:digicsr/screens/ngo/NgoDetailsToOthers.dart';
+import 'package:digicsr/screens/login/login_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -29,6 +29,7 @@ class _HomeScreenForBenifiState extends State<HomeScreenForBenifi> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    LoadBenifi();
     // loadHomeScreen();
   }
 
@@ -82,8 +83,23 @@ class _HomeScreenForBenifiState extends State<HomeScreenForBenifi> {
                         child: Text("Logout"),
                         onTap: () async {
                           // await deleteAll(await Allnotifications!);
-                          await storage.delete(key: 'benificiary');
+                          
                           setState(() {});
+
+                          try {
+                              await storage.delete(key: 'token');
+                              var snackBar = SnackBar(
+                                backgroundColor: primary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Loged Out Successfully!',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               await ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              //  Navigator.pop(context);
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
+                            } catch (e) {
+                              var snackBar = SnackBar(
+                                backgroundColor: secondary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Unable to Logout!',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
                         },
                       ),
                       // PopupMenuItem(
@@ -123,47 +139,6 @@ class _HomeScreenForBenifiState extends State<HomeScreenForBenifi> {
 
               Column(
                 children: [
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: TextButton(
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => MediaPosts()));
-                  //     },
-                  //     child: Row(
-                  //       children: [
-                  //         SizedBox(
-                  //           width: 20,
-                  //         ),
-                  //         Text(
-                  //           'Let\'s see the Blogs',
-                  //           style: TextStyle(fontSize: 22, color: black),
-                  //         ),
-                  //         Expanded(child: Container()),
-                  //         Icon(
-                  //           Icons.arrow_forward_ios_sharp,
-                  //           color: primary,
-                  //         ),
-                  //         SizedBox(
-                  //           width: 10,
-                  //         )
-                  //       ],
-                  //     ),
-                  //     style: ButtonStyle(
-                  //       shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                  //         RoundedRectangleBorder(
-                  //             side: BorderSide(
-                  //                 style: BorderStyle.solid,
-                  //                 color: primary,
-                  //                 width: 0.6),
-                  //             borderRadius:
-                  //                 BorderRadius.all(Radius.circular(8))),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -364,7 +339,7 @@ class _HomeScreenForBenifiState extends State<HomeScreenForBenifi> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   height: MediaQuery.of(context).size.height * 0.36,
                   child: FutureBuilder(
-                    future: charts,
+                    future: Future(() => charts),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return BarChart(BarChartData(
@@ -394,48 +369,48 @@ class _HomeScreenForBenifiState extends State<HomeScreenForBenifi> {
                       );
                     },
                   )),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: FutureBuilder(
-                    future: sectorschart,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return PieChart(
-                          PieChartData(
-                              pieTouchData: PieTouchData(
-                                enabled: true,
-                              ),
-                              sections: List.generate(
-                                  snapshot.data!.length,
-                                  (index) => PieChartSectionData(
-                                      color: primary,
-                                      radius: 140,
-                                      // titlePositionPercentageOffset: 0.0,
-                                      value: double.parse(
-                                          (snapshot.data![index].totalamount)
-                                              .toString()),
-                                      showTitle: false,
-                                      title: snapshot.data![index].id))),
-                          swapAnimationCurve: Curves.bounceOut,
-                        );
-                      } else if (snapshot.hasError) {
-                        print(snapshot.error);
-                      }
-                      return Center(
-                        child: Container(
-                          height: MediaQuery.of(context).size.width * 0.15,
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 1,
-                          ),
-                        ),
-                      );
-                    },
-                  )),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width * 0.8,
+              //     height: MediaQuery.of(context).size.height * 0.5,
+              //     child: FutureBuilder(
+              //       future: sectorschart,
+              //       builder: (context, snapshot) {
+              //         if (snapshot.hasData) {
+              //           return PieChart(
+              //             PieChartData(
+              //                 pieTouchData: PieTouchData(
+              //                   enabled: true,
+              //                 ),
+              //                 sections: List.generate(
+              //                     snapshot.data!.length,
+              //                     (index) => PieChartSectionData(
+              //                         color: primary,
+              //                         radius: 140,
+              //                         // titlePositionPercentageOffset: 0.0,
+              //                         value: double.parse(
+              //                             (snapshot.data![index].totalamount)
+              //                                 .toString()),
+              //                         showTitle: false,
+              //                         title: snapshot.data![index].id))),
+              //             swapAnimationCurve: Curves.bounceOut,
+              //           );
+              //         } else if (snapshot.hasError) {
+              //           print(snapshot.error);
+              //         }
+              //         return Center(
+              //           child: Container(
+              //             height: MediaQuery.of(context).size.width * 0.15,
+              //             width: MediaQuery.of(context).size.width * 0.15,
+              //             child: const CircularProgressIndicator(
+              //               strokeWidth: 1,
+              //             ),
+              //           ),
+              //         );
+              //       },
+              //     )),
               SizedBox(
                 height: 20,
               ),

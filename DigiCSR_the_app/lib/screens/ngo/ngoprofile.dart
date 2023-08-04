@@ -477,15 +477,7 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                           SizedBox(
                             height: 10,
                           ),
-                          // TextFormFieldButton(
-                          //   "CSR Budget of this year",
-                          //   Text2: 'Enter CSR Budget',
-                          //   controller: ngo.csr_budget,
-                          //   prefixIcons: Icon(Icons.picture_in_picture_rounded),
-                          //   inputFormatters: [
-                          //     LengthLimitingTextInputFormatter(100),
-                          //   ],
-                          // ),
+
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -905,8 +897,21 @@ class _ProfileScreenForNGOState extends State<ProfileScreenForNGO> {
                                   backgroundColor: MaterialStatePropertyAll(primary)
                                 ),
                             onPressed: () async{
+
+                              try {
                               await AddNgoProfile();
                               if (ngo.ngo_logo != null) postNgoLogo();
+                              var snackBar = SnackBar(
+                                backgroundColor: primary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('Your Rfp has been raised',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               await ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                               Navigator.pop(context);
+                            } catch (e) {
+                              var snackBar = SnackBar(
+                                backgroundColor: secondary,
+                                padding: EdgeInsets.only(bottom: 20,top: 20),content: Text('${e}',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,),));
+                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
                             },
                             child: Text("Save")))
                   ],

@@ -1,10 +1,12 @@
+import 'package:digicsr/constants/DataLoaders.dart';
 import 'package:digicsr/constants/constants.dart';
-import 'package:digicsr/screens/Homescreen/drawer.dart';
 import 'package:digicsr/screens/login/login_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../Homescreen/HomeScreenForBenifi.dart';
+import '../Homescreen/mainscreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,28 +16,47 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  void checkUser()async{
+    String? token = await Token();
+    print("This is token: ${token}");
+      final type = await UserType();
+      if(token == null){
+        print("Going");
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login_Screen()));
+      }else{
+        if(type == 'company'){
+          await loadCompanyData();
+          await loadHomeScreen();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+        }else if(type == 'NGO'){
+          await loadHomeScreen();
+          await loadNGOData();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+        }else{
+          await loadHomeScreen();
+          print('beni');
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenForBenifi()));
+        }
+      }
+  }
   void changeScreen() {
     Future.delayed(Duration(seconds: 70), () {
       // Get.to(()=>ButtonToLoginAs());
-      Navigator.pushNamed(context, '/auth');
+      checkUser();
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-
     changeScreen();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Material(
-        //backgroundColor:  Color.fromRGBO(38, 191, 104, 1),
-        // backgroundColor: Color.fromARGB(255, 160, 229, 162),
         child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(

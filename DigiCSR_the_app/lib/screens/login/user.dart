@@ -1,16 +1,13 @@
 import 'package:digicsr/constants/constants.dart';
 import 'package:digicsr/screens/Homescreen/HomeScreenForBenifi.dart';
-import 'package:digicsr/screens/Homescreen/homescreen.dart';
 import 'package:digicsr/screens/Homescreen/mainscreen.dart';
 import 'package:digicsr/screens/SignUp/benificiary.dart';
 import 'package:digicsr/screens/SignUp/company.dart';
 import 'package:digicsr/screens/SignUp/ngo.dart';
-import 'package:digicsr/screens/login/ngologin.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/DataLoaders.dart';
-import 'benificiarylogin.dart';
-import 'companylogin.dart';
+import 'UserLogin.dart';
 
 
 class UserSelection extends StatelessWidget {
@@ -106,7 +103,8 @@ class UserSelection extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.8,
                 padding: EdgeInsets.all(w * 0.05),
                 alignment: Alignment(0, 0),
-                child: Column(
+                child: 
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -124,7 +122,7 @@ class UserSelection extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CompanyLogin()));
+                                  builder: (context) => UserLogin()));
                         }
                         else{
                           await loadCompanyData();
@@ -190,7 +188,7 @@ class UserSelection extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NGOLogin()));
+                                  builder: (context) => UserLogin()));
                         }
                         else{
                           print(token);
@@ -254,7 +252,7 @@ class UserSelection extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => BenificiaryLogin()));
+                                  builder: (context) => UserLogin()));
                         }
                         else{
                           await loadHomeScreen();
@@ -289,8 +287,6 @@ class UserSelection extends StatelessWidget {
                         ),
                       ),
                       style: ButtonStyle(
-                          // minimumSize: MaterialStatePropertyAll(Size(200, 40)),
-                          // maximumSize: MaterialStatePropertyAll(Size(250, 50)),
                           backgroundColor: MaterialStatePropertyAll(Color(0x85FFFFFF)),
                           padding: MaterialStatePropertyAll(EdgeInsets.only(
                               top: h*0.02, bottom: h*0.02, right: w*0.05, left: w*0.05)),

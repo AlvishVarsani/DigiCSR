@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../models/BoardMember.dart';
@@ -16,22 +15,21 @@ import 'constants.dart';
 
 //token
 Future<String?> Token() {
-  Future<String?> token;
-  if (user == "NGO") {
-    token = storage.read(key: "ngo");
-  } else if (user == "Company") {
-    token = storage.read(key: "company");
-  } else {
-    token = storage.read(key: "benificiary");
-  }
+  Future<String?> token = storage.read(key: 'token');
   return token;
+}
+//User Type
+Future<String?> UserType() async{
+  Future<String?> type = storage.read(key: 'type');
+  print(await type);
+  return type;
 }
 
 //--------------------------Company data load---------------------------
 Future loadCompanyData() async{
   await getCompanyDetails();
-  charts = getCharts();
-  sectorschart = getCompanySectorsChart();
+  charts = await getCharts();
+  sectorschart = await getCompanySectorsChart();
 
   print('Company data Loaded!');
 }
@@ -70,8 +68,8 @@ Future<String> getCmpCertificate() async {
 //--------------------------Ngo data load---------------------------
 Future loadNGOData() async{
   await getNgoDetails();
-  charts = getNgoCharts();
-  sectorschart = getNgoSectorsChart();
+  // charts = getNgoCharts();
+  // sectorschart = getNgoSectorsChart();
 }
 
 Future<Ngo> getNGODetailsById(String id) async {
@@ -83,7 +81,7 @@ Future getNgoDetails() async {
   String ngoid = await getNgoId();
   ngodata = await getNGODetailsById(ngoid);
   ngodata.boardmemberslist = BoardMember.givelist(ngodata.board_members);
-  ngodata.ngo_logo_path = await NgoLogo();
+  // ngodata.ngo_logo_path = await NgoLogo();
 }
 
 Future<String> NgoLogo() async {
@@ -98,12 +96,17 @@ Future<String> getNgoId() async {
   return Ngoid;
 }
 
+//--------------------------Benificiary Screen---------------------------------------
+void LoadBenifi()async{
+  await loadHomeScreen();
+}
+
 
 //--------------------------Home Screen---------------------------------------
 Future loadHomeScreen()async{
   posts = await getMediaPosts();
-  charts = getCharts();
-  sectorschart = getCompanySectorsChart();
+  // charts = getCharts();
+  // sectorschart = getCompanySectorsChart();
   await loadCaurosal();
 }
 

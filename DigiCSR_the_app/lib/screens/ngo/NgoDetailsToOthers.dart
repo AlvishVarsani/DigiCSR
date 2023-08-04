@@ -771,7 +771,7 @@ void show(BuildContext context) {
                   minRating: 0,
                   itemSize: 35,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  // allowHalfRating: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemBuilder: (context, _) => Icon(
@@ -779,7 +779,7 @@ void show(BuildContext context) {
                     color: Colors.amber,
                   ),
                   onRatingUpdate: (rating) {
-                    reviewNgo.rating = int.parse('${rating}');
+                    reviewNgo.rating = rating.round();
                     print(rating);
                   },
                 ),
